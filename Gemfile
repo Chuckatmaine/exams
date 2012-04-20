@@ -37,3 +37,4 @@ gem 'jquery-rails'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 gem 'devise'
+gem 'devise_cas_authenticatable'

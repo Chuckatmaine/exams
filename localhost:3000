@@ -1,0 +1,39 @@
+[?1049h[?1h=[1;44r[?12;25h[?12l[?25h[27m[m[H[2J[?25l[44;1H"config/environments/development.rb" 37L, 1372C7 files to edit
+[1;1H[1m[32mExams[m::[1m[32mApplication[m.configure [1m[33mdo[m
+  [1m[36m# Settings specified here will take precedence over those in config/application.rb
+
+[m  [1m[36m# In the development environment your application's code is reloaded on
+[m  [1m[36m# every request. This slows down response time but is perfect for development
+[m  [1m[36m# since you don't have to restart the web server when you make code changes.[m
+  config.cache_classes = [1m[35mfalse[m
+
+  [1m[36m# Log error messages when you accidentally call methods on nil.[m
+  config.whiny_nils = [1m[35mtrue[m
+
+  [1m[36m# Show full error reports and disable caching[m
+  config.consider_all_requests_local[7C= [1m[35mtrue[m
+  config.action_controller.perform_caching = [1m[35mfalse[m
+
+  [1m[36m# Don't care if the mailer can't send[m
+  config.action_mailer.raise_delivery_errors = [1m[35mfalse[m
+
+  [1m[36m# Print deprecation notices to the Rails logger[m
+  config.active_support.deprecation = [1m[35m:log[m
+
+  [1m[36m# Only use best-standards-support built into browsers[m
+  config.action_dispatch.best_standards_support = [1m[35m:builtin[m
+
+  [1m[36m# Raise exception on mass assignment protection for Active Record models[m
+  config.active_record.mass_assignment_sanitizer = [1m[35m:strict[m
+
+  [1m[36m# Log the query plan for queries taking more than this (works
+[m  [1m[36m# with SQLite, MySQL, and PostgreSQL)[m
+  config.active_record.auto_explain_threshold_in_seconds = [1m[35m0.5[m
+
+  [1m[36m# Do not compress assets[m
+  config.assets.compress = [1m[35mfalse[m
+
+  [1m[36m# Expands the lines which load the assets[m
+  config.assets.debug = [1m[35mtrue[m
+[1m[33mend[m
+[1m[34m~                                                                                                                                                [39;1H~                                                                                                                                                [40;1H~                                                                                                                                                [41;1H~                                                                                                                                                [42;1H~                                                                                                                                                [43;1H~                                                                                                                                                [1;1H[?12l[?25h[?25l[m[44;1HType  :quit<Enter>  to exit Vim[44;32H[K[1;1H[?12l[?25h[?25l[?12l[?25h[?25l[44;1H[K[44;1H:[?12l[?25hq![?25l[44;1H[K[44;1H[?1l>[?12l[?25h[?1049l7 files to edit
