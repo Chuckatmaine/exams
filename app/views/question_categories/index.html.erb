@@ -1,0 +1,25 @@
+<h1>Listing question_categories</h1>
+
+<table>
+  <tr>
+    <th>Category</th>
+    <th>Question</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @question_categories.each do |question_category| %>
+  <tr>
+    <td><%= question_category.category_id %></td>
+    <td><%= question_category.question_id %></td>
+    <td><%= link_to 'Show', question_category %></td>
+    <td><%= link_to 'Edit', edit_question_category_path(question_category) %></td>
+    <td><%= link_to 'Destroy', question_category, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Question category', new_question_category_path %>

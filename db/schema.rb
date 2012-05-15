@@ -11,7 +11,88 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120420153509) do
+ActiveRecord::Schema.define(:version => 20120514161528) do
+
+  create_table "answers", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "categories", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "courses", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "question_answers", :force => true do |t|
+    t.integer  "answer_id"
+    t.integer  "question_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.boolean  "is_correct"
+  end
+
+  create_table "question_categories", :force => true do |t|
+    t.integer  "category_id"
+    t.integer  "question_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "question_courses", :force => true do |t|
+    t.integer  "question_id"
+    t.integer  "course_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "questions", :force => true do |t|
+    t.string   "name"
+    t.integer  "level"
+    t.integer  "value"
+    t.integer  "creator_id"
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.boolean  "available",  :default => true
+    t.boolean  "locked",     :default => false
+  end
+
+  create_table "test_courses", :force => true do |t|
+    t.integer  "test_id"
+    t.integer  "course_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "test_questions", :force => true do |t|
+    t.integer  "test_id"
+    t.integer  "question_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "tests", :force => true do |t|
+    t.string   "title"
+    t.integer  "level"
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.integer  "course_id"
+    t.boolean  "available",  :default => false
+  end
+
+  create_table "user_answers", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "question_answer_id"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "username",                              :null => false
@@ -25,6 +106,7 @@ ActiveRecord::Schema.define(:version => 20120420153509) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                            :null => false
     t.datetime "updated_at",                            :null => false
+    t.boolean  "faculty",            :default => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

@@ -1,0 +1,848 @@
+class AnswersController < ApplicationController
+  # GET /answers
+  # GET /answers.json
+  def index
+    @answers = Answer.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @answers }
+    end
+  end
+
+  # GET /answers/1
+  # GET /answers/1.json
+  def show
+    @answer = Answer.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @answer }
+    end
+  end
+
+  # GET /answers/new
+  # GET /answers/new.json
+  def new
+    @answer = Answer.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @answer }
+    end
+  end
+
+  # GET /answers/1/edit
+  def edit
+    @answer = Answer.find(params[:id])
+  end
+
+  # POST /answers
+  # POST /answers.json
+  def create
+    @answer = Answer.new(params[:answer])
+
+    respond_to do |format|
+      if @answer.save
+        format.html { redirect_to @answer, notice: 'Answer was successfully created.' }
+        format.json { render json: @answer, status: :created, location: @answer }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @answer.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /answers/1
+  # PUT /answers/1.json
+  def update
+    @answer = Answer.find(params[:id])
+
+    respond_to do |format|
+      if @answer.update_attributes(params[:answer])
+        format.html { redirect_to @answer, notice: 'Answer was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @answer.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /answers/1
+  # DELETE /answers/1.json
+  def destroy
+    @answer = Answer.find(params[:id])
+    @answer.destroy
+
+    respond_to do |format|
+      format.html { redirect_to answers_url }
+      format.json { head :no_content }
+    end
+  end
+end
+class ApplicationController < ActionController::Base
+  protect_from_forgery
+  before_filter :authenticate_user!
+  #user_signed_in?
+  #current_user
+  #user_session
+end
+class CategoriesController < ApplicationController
+  # GET /categories
+  # GET /categories.json
+  def index
+    @categories = Category.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @categories }
+    end
+  end
+
+  # GET /categories/1
+  # GET /categories/1.json
+  def show
+    @category = Category.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @category }
+    end
+  end
+
+  # GET /categories/new
+  # GET /categories/new.json
+  def new
+    @category = Category.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @category }
+    end
+  end
+
+  # GET /categories/1/edit
+  def edit
+    @category = Category.find(params[:id])
+  end
+
+  # POST /categories
+  # POST /categories.json
+  def create
+    @category = Category.new(params[:category])
+
+    respond_to do |format|
+      if @category.save
+        format.html { redirect_to @category, notice: 'Category was successfully created.' }
+        format.json { render json: @category, status: :created, location: @category }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @category.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /categories/1
+  # PUT /categories/1.json
+  def update
+    @category = Category.find(params[:id])
+
+    respond_to do |format|
+      if @category.update_attributes(params[:category])
+        format.html { redirect_to @category, notice: 'Category was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @category.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /categories/1
+  # DELETE /categories/1.json
+  def destroy
+    @category = Category.find(params[:id])
+    @category.destroy
+
+    respond_to do |format|
+      format.html { redirect_to categories_url }
+      format.json { head :no_content }
+    end
+  end
+end
+class CoursesController < ApplicationController
+  # GET /courses
+  # GET /courses.json
+  def index
+    @courses = Course.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @courses }
+    end
+  end
+
+  # GET /courses/1
+  # GET /courses/1.json
+  def show
+    @course = Course.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @course }
+    end
+  end
+
+  # GET /courses/new
+  # GET /courses/new.json
+  def new
+    @course = Course.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @course }
+    end
+  end
+
+  # GET /courses/1/edit
+  def edit
+    @course = Course.find(params[:id])
+  end
+
+  # POST /courses
+  # POST /courses.json
+  def create
+    @course = Course.new(params[:course])
+
+    respond_to do |format|
+      if @course.save
+        format.html { redirect_to @course, notice: 'Course was successfully created.' }
+        format.json { render json: @course, status: :created, location: @course }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @course.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /courses/1
+  # PUT /courses/1.json
+  def update
+    @course = Course.find(params[:id])
+
+    respond_to do |format|
+      if @course.update_attributes(params[:course])
+        format.html { redirect_to @course, notice: 'Course was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @course.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /courses/1
+  # DELETE /courses/1.json
+  def destroy
+    @course = Course.find(params[:id])
+    @course.destroy
+
+    respond_to do |format|
+      format.html { redirect_to courses_url }
+      format.json { head :no_content }
+    end
+  end
+end
+class HomeController < ApplicationController
+  def index 
+  end
+end
+class QuestionAnswersController < ApplicationController
+  # GET /question_answers
+  # GET /question_answers.json
+  def index
+    @question_answers = QuestionAnswer.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @question_answers }
+    end
+  end
+
+  # GET /question_answers/1
+  # GET /question_answers/1.json
+  def show
+    @question_answer = QuestionAnswer.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @question_answer }
+    end
+  end
+
+  # GET /question_answers/new
+  # GET /question_answers/new.json
+  def new
+    @question_answer = QuestionAnswer.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @question_answer }
+    end
+  end
+
+  # GET /question_answers/1/edit
+  def edit
+    @question_answer = QuestionAnswer.find(params[:id])
+  end
+
+  # POST /question_answers
+  # POST /question_answers.json
+  def create
+    @question_answer = QuestionAnswer.new(params[:question_answer])
+
+    respond_to do |format|
+      if @question_answer.save
+        format.html { redirect_to @question_answer, notice: 'Question answer was successfully created.' }
+        format.json { render json: @question_answer, status: :created, location: @question_answer }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @question_answer.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /question_answers/1
+  # PUT /question_answers/1.json
+  def update
+    @question_answer = QuestionAnswer.find(params[:id])
+
+    respond_to do |format|
+      if @question_answer.update_attributes(params[:question_answer])
+        format.html { redirect_to @question_answer, notice: 'Question answer was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @question_answer.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /question_answers/1
+  # DELETE /question_answers/1.json
+  def destroy
+    @question_answer = QuestionAnswer.find(params[:id])
+    @question_answer.destroy
+
+    respond_to do |format|
+      format.html { redirect_to question_answers_url }
+      format.json { head :no_content }
+    end
+  end
+end
+class QuestionCategoriesController < ApplicationController
+  # GET /question_categories
+  # GET /question_categories.json
+  def index
+    @question_categories = QuestionCategory.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @question_categories }
+    end
+  end
+
+  # GET /question_categories/1
+  # GET /question_categories/1.json
+  def show
+    @question_category = QuestionCategory.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @question_category }
+    end
+  end
+
+  # GET /question_categories/new
+  # GET /question_categories/new.json
+  def new
+    @question_category = QuestionCategory.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @question_category }
+    end
+  end
+
+  # GET /question_categories/1/edit
+  def edit
+    @question_category = QuestionCategory.find(params[:id])
+  end
+
+  # POST /question_categories
+  # POST /question_categories.json
+  def create
+    @question_category = QuestionCategory.new(params[:question_category])
+
+    respond_to do |format|
+      if @question_category.save
+        format.html { redirect_to @question_category, notice: 'Question category was successfully created.' }
+        format.json { render json: @question_category, status: :created, location: @question_category }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @question_category.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /question_categories/1
+  # PUT /question_categories/1.json
+  def update
+    @question_category = QuestionCategory.find(params[:id])
+
+    respond_to do |format|
+      if @question_category.update_attributes(params[:question_category])
+        format.html { redirect_to @question_category, notice: 'Question category was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @question_category.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /question_categories/1
+  # DELETE /question_categories/1.json
+  def destroy
+    @question_category = QuestionCategory.find(params[:id])
+    @question_category.destroy
+
+    respond_to do |format|
+      format.html { redirect_to question_categories_url }
+      format.json { head :no_content }
+    end
+  end
+end
+class QuestionCoursesController < ApplicationController
+  # GET /question_courses
+  # GET /question_courses.json
+  def index
+    @question_courses = QuestionCourse.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @question_courses }
+    end
+  end
+
+  # GET /question_courses/1
+  # GET /question_courses/1.json
+  def show
+    @question_course = QuestionCourse.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @question_course }
+    end
+  end
+
+  # GET /question_courses/new
+  # GET /question_courses/new.json
+  def new
+    @question_course = QuestionCourse.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @question_course }
+    end
+  end
+
+  # GET /question_courses/1/edit
+  def edit
+    @question_course = QuestionCourse.find(params[:id])
+  end
+
+  # POST /question_courses
+  # POST /question_courses.json
+  def create
+    @question_course = QuestionCourse.new(params[:question_course])
+
+    respond_to do |format|
+      if @question_course.save
+        format.html { redirect_to @question_course, notice: 'Question course was successfully created.' }
+        format.json { render json: @question_course, status: :created, location: @question_course }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @question_course.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /question_courses/1
+  # PUT /question_courses/1.json
+  def update
+    @question_course = QuestionCourse.find(params[:id])
+
+    respond_to do |format|
+      if @question_course.update_attributes(params[:question_course])
+        format.html { redirect_to @question_course, notice: 'Question course was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @question_course.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /question_courses/1
+  # DELETE /question_courses/1.json
+  def destroy
+    @question_course = QuestionCourse.find(params[:id])
+    @question_course.destroy
+
+    respond_to do |format|
+      format.html { redirect_to question_courses_url }
+      format.json { head :no_content }
+    end
+  end
+end
+class QuestionsController < ApplicationController
+  # GET /questions
+  # GET /questions.json
+  def index
+    @questions = Question.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @questions }
+    end
+  end
+
+  # GET /questions/1
+  # GET /questions/1.json
+  def show
+    @question = Question.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @question }
+    end
+  end
+
+  # GET /questions/new
+  # GET /questions/new.json
+  def new
+    @question = Question.new
+    @question.creator = current_user
+    @courses = Course.all
+    @catagories = Category.all
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @question }
+    end
+  end
+
+  # GET /questions/1/edit
+  def edit
+    @question = Question.find(params[:id])
+    @courses = Course.all
+    @catagories = Category.all
+    if @question.locked 
+      redirect_to(@question, :notice => 'The question is locked and can not be edited.')
+    end    
+  end
+
+  # POST /questions
+  # POST /questions.json
+  def create
+    @question = Question.new(params[:question])
+    @question.creator = current_user
+    respond_to do |format|
+      if @question.save
+        format.html { redirect_to @question, notice: 'Question was successfully created.' }
+        format.json { render json: @question, status: :created, location: @question }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @question.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /questions/1
+  # PUT /questions/1.json
+  def update
+    @question = Question.find(params[:id])
+
+    respond_to do |format|
+      if @question.update_attributes(params[:question])
+        format.html { redirect_to @question, notice: 'Question was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @question.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /questions/1
+  # DELETE /questions/1.json
+  def destroy
+    @question = Question.find(params[:id])
+    @question.destroy
+
+    respond_to do |format|
+      format.html { redirect_to questions_url }
+      format.json { head :no_content }
+    end
+  end
+end
+class TestCoursesController < ApplicationController
+  # GET /test_courses
+  # GET /test_courses.json
+  def index
+    @test_courses = TestCourse.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @test_courses }
+    end
+  end
+
+  # GET /test_courses/1
+  # GET /test_courses/1.json
+  def show
+    @test_course = TestCourse.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @test_course }
+    end
+  end
+
+  # GET /test_courses/new
+  # GET /test_courses/new.json
+  def new
+    @test_course = TestCourse.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @test_course }
+    end
+  end
+
+  # GET /test_courses/1/edit
+  def edit
+    @test_course = TestCourse.find(params[:id])
+  end
+
+  # POST /test_courses
+  # POST /test_courses.json
+  def create
+    @test_course = TestCourse.new(params[:test_course])
+
+    respond_to do |format|
+      if @test_course.save
+        format.html { redirect_to @test_course, notice: 'Test course was successfully created.' }
+        format.json { render json: @test_course, status: :created, location: @test_course }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @test_course.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /test_courses/1
+  # PUT /test_courses/1.json
+  def update
+    @test_course = TestCourse.find(params[:id])
+
+    respond_to do |format|
+      if @test_course.update_attributes(params[:test_course])
+        format.html { redirect_to @test_course, notice: 'Test course was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @test_course.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /test_courses/1
+  # DELETE /test_courses/1.json
+  def destroy
+    @test_course = TestCourse.find(params[:id])
+    @test_course.destroy
+
+    respond_to do |format|
+      format.html { redirect_to test_courses_url }
+      format.json { head :no_content }
+    end
+  end
+end
+class TestQuestionsController < ApplicationController
+  # GET /test_questions
+  # GET /test_questions.json
+  def index
+    @test_questions = TestQuestion.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @test_questions }
+    end
+  end
+
+  # GET /test_questions/1
+  # GET /test_questions/1.json
+  def show
+    @test_question = TestQuestion.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @test_question }
+    end
+  end
+
+  # GET /test_questions/new
+  # GET /test_questions/new.json
+  def new
+    @test_question = TestQuestion.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @test_question }
+    end
+  end
+
+  # GET /test_questions/1/edit
+  def edit
+    @test_question = TestQuestion.find(params[:id])
+  end
+
+  # POST /test_questions
+  # POST /test_questions.json
+  def create
+    @test_question = TestQuestion.new(params[:test_question])
+
+    respond_to do |format|
+      if @test_question.save
+        format.html { redirect_to @test_question, notice: 'Test question was successfully created.' }
+        format.json { render json: @test_question, status: :created, location: @test_question }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @test_question.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /test_questions/1
+  # PUT /test_questions/1.json
+  def update
+    @test_question = TestQuestion.find(params[:id])
+
+    respond_to do |format|
+      if @test_question.update_attributes(params[:test_question])
+        format.html { redirect_to @test_question, notice: 'Test question was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @test_question.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /test_questions/1
+  # DELETE /test_questions/1.json
+  def destroy
+    @test_question = TestQuestion.find(params[:id])
+    @test_question.destroy
+
+    respond_to do |format|
+      format.html { redirect_to test_questions_url }
+      format.json { head :no_content }
+    end
+  end
+end
+class TestsController < ApplicationController
+  # GET /tests
+  # GET /tests.json
+  def index
+    @tests = Test.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @tests }
+    end
+  end
+
+  # GET /tests/1
+  # GET /tests/1.json
+  def show
+    @test = Test.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @test }
+    end
+  end
+
+  # GET /tests/new
+  # GET /tests/new.json
+  def new
+    @test = Test.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @test }
+    end
+  end
+
+  # GET /tests/1/edit
+  def edit
+    @test = Test.find(params[:id])
+  end
+
+  # POST /tests
+  # POST /tests.json
+  def create
+    @test = Test.new(params[:test])
+
+    respond_to do |format|
+      if @test.save
+        format.html { redirect_to @test, notice: 'Test was successfully created.' }
+        format.json { render json: @test, status: :created, location: @test }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @test.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /tests/1
+  # PUT /tests/1.json
+  def update
+    @test = Test.find(params[:id])
+
+    respond_to do |format|
+      if @test.update_attributes(params[:test])
+        format.html { redirect_to @test, notice: 'Test was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @test.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /tests/1
+  # DELETE /tests/1.json
+  def destroy
+    @test = Test.find(params[:id])
+    @test.destroy
+
+    respond_to do |format|
+      format.html { redirect_to tests_url }
+      format.json { head :no_content }
+    end
+  end
+end

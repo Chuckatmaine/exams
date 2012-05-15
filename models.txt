@@ -1,0 +1,62 @@
+class Answer < ActiveRecord::Base
+  attr_accessible :name
+  has_many :questions
+end
+class Category < ActiveRecord::Base
+  attr_accessible :name
+  belongs_to :question
+  
+end
+class Course < ActiveRecord::Base
+  attr_accessible :name
+  belongs_to :test
+  belongs_to :question
+end
+class QuestionAnswer < ActiveRecord::Base
+  attr_accessible :question_id, :answer_id
+  belongs_to :question
+  belongs_to :answer
+end
+class QuestionCategory < ActiveRecord::Base
+  attr_accessible :category_id, :question_id
+  belongs_to :question
+  has_many :categories
+end
+class QuestionCourse < ActiveRecord::Base
+ attr_accessible :course_id, :question_id
+ belongs_to :question
+ has_many :courses
+end
+class Question < ActiveRecord::Base
+  attr_accessible :creator_id, :course_id, :category_id, :level, :name, :value, :available, :locked
+  belongs_to :test
+  has_many :question_answers
+  has_many :question_categories
+  has_many :question_courses
+  belongs_to :creator, :class_name => "User"
+end
+class TestCourse < ActiveRecord::Base
+  attr_accessible :course_id, :test_id
+  belongs_to :test
+
+end
+class TestQuestion < ActiveRecord::Base
+  attr_accessible :question_id, :test_id
+end
+class Test < ActiveRecord::Base
+  attr_accessible :level, :title
+  has_many :test_questions
+  has_many :test_courses
+end
+class User < ActiveRecord::Base
+  # Include default devise modules. Others available are:
+  # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :cas_authenticatable, :trackable, :timeoutable
+
+  has_many :questions, :foreign_key => 'creator_id'
+
+  # Setup accessible (or protected) attributes for your model
+  attr_accessible :email, :username
+  # attr_accessible :title, :body
+end
+

@@ -1,0 +1,38 @@
+<p id="notice"><%= notice %></p>
+<table>
+<tr>
+  <td>
+
+<b>Name:</b>
+<%= @question.name %>
+</td>
+
+<td>
+<b>Level:</b>
+<%= @question.level %>
+</td>
+
+<td>
+<b>Value:</b>
+<%= @question.value %>
+</td>
+
+<td>
+<b>Creator:</b>
+<%= @question.creator.username%>
+</td>
+</tr>
+<% @question.question_answers.each do |question_answer| %>
+
+  <tr>
+    <td>Answer: <%= question_answer.answer.name %>
+      <% if question_answer.is_correct then %>
+         :Correct answer
+      <% end %>  
+    </td>
+  </tr>    
+  <% end %>     
+</table>
+
+<%= link_to 'Edit', edit_question_path(@question) %> 
+<%= link_to 'Back', questions_path %>

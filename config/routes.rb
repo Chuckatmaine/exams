@@ -1,4 +1,26 @@
 Exams::Application.routes.draw do
+  resources :user_answers
+
+  resources :question_courses
+
+  resources :test_courses
+
+  resources :courses
+
+  resources :question_categories
+
+  resources :question_answers
+
+  resources :test_questions
+
+  resources :answers
+
+  resources :categories
+
+  resources :questions
+
+  resources :tests
+
   devise_for :users
 
   # The priority is based upon order of creation:

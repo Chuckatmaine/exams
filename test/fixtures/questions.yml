@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  level: 1
+  value: 1
+  creator_id: 1
+
+two:
+  name: MyString
+  level: 1
+  value: 1
+  creator_id: 1

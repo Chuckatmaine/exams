@@ -1,0 +1,77 @@
+<%= form_for(@question) do |f| %>
+  <% if @question.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@question.errors.count, "error") %> prohibited this question from being saved:</h2>
+
+      <ul>
+      <% @question.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+ <div class="field">
+    <%= f.label "Question text: " %><br />
+    <%= f.text_area :name, :rows => 4, :cols => 60%>
+  </div>
+   <ul>
+     Select the course(s) that this question can be used for:
+  <% @courses.each do |cour| %>
+      <li> <%= check_box_tag "question[course_ids][]", cour.id, @question.courses.include?(cour) %> <%=cour.name%> </li>
+  <% end %>
+  </ul>
+ <p>Select a level: <%= f.select(:level, options_for_select([ "1", "2", "3", "4" ], "1")) %></p>
+  <ul>
+    Select all categories appropriate for this question:
+  <% @categories.each do |cat| %>
+      <li> <%= check_box_tag "question[category_ids][]", cat.id, @question.categories.include?(cat) %> <%=cat.name%> </li>
+  <% end %>
+  </ul>
+  <div class="field">
+    <%= f.label "Point Value" %><br />
+    <%= f.number_field :value %>
+  </div>
+  <div class="field">
+    <%= f.check_box :available %>
+    <%= f.label "Enable this question for use by the test creator"%><br />
+  </div>
+
+<table>
+  <tr>
+    <th>Answers</th>
+    <th>Correct answer?</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @answers.each do |answer| %>
+  <tr>
+    <td><%= answer.name %></td>
+    <td><%= link_to 'Show', answer %></td>
+    <td><%= link_to 'Edit', edit_answer_path(answer) %></td>
+    <td><%= link_to 'Destroy', answer, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+
+  <%= f.fields_for :question_answers do |qa| %> 
+    <%= qa.fields_for :answer do |fa| %>
+      <div class="field">
+        <%= fa.label "Enter a new answer for this question" %><br />
+        <%= fa.text_area :name, :rows => 4, :cols => 60 %>
+      </div>
+    <% end %>
+    <div class="field">
+      <%= qa.check_box :is_correct %>
+       <%= qa.label "Check if this is a correct answer for this question" %>
+    </div>
+  <% end %>
+  
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
