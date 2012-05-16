@@ -59,6 +59,7 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.new(params[:question])
     @question.creator = current_user
+    @question.department_id = current_user.department_id
     respond_to do |format|
       if @question.save
         format.html { redirect_to @question, notice: 'Question was successfully created.' }
@@ -74,6 +75,7 @@ class QuestionsController < ApplicationController
   # PUT /questions/1.json
   def update
     @question = Question.find(params[:id])
+    @question.department_id = current_user.department_id
 
     respond_to do |format|
       if @question.update_attributes(params[:question])

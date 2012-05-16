@@ -26,6 +26,7 @@ class TestsController < ApplicationController
   def new
     @test = Test.new
     @courses = Course.all
+    @categories = Category.all
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @test }
@@ -36,6 +37,7 @@ class TestsController < ApplicationController
   def edit
     @courses = Course.all
     @test = Test.find(params[:id])
+    @categories = Category.all
   end
 
   # POST /tests
@@ -43,6 +45,8 @@ class TestsController < ApplicationController
   def create
     @test = Test.new(params[:test])
     @courses = Course.all
+    @categories = Category.all
+    @test.department_id = current_user.department_id
     respond_to do |format|
       if @test.save
         format.html { redirect_to @test, notice: 'Test was successfully created.' }
@@ -59,6 +63,7 @@ class TestsController < ApplicationController
   def update
     @test = Test.find(params[:id])
 
+    @test.department_id = current_user.department_id
     respond_to do |format|
       if @test.update_attributes(params[:test])
         format.html { redirect_to @test, notice: 'Test was successfully updated.' }

@@ -41,6 +41,7 @@ class CategoriesController < ApplicationController
   # POST /categories.json
   def create
     @category = Category.new(params[:category])
+    @category.department_id = current_user.department_id
 
     respond_to do |format|
       if @category.save
@@ -57,6 +58,7 @@ class CategoriesController < ApplicationController
   # PUT /categories/1.json
   def update
     @category = Category.find(params[:id])
+    @category.department_id = current_user.department_id
 
     respond_to do |format|
       if @category.update_attributes(params[:category])

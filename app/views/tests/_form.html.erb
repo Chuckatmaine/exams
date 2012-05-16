@@ -17,7 +17,18 @@
   </div>
   <p>Select a course: <%= collection_select(:test, :course_id, @courses, :id, :name, :prompt => true) %></p>
   <p>Select a level: <%= f.select(:level, options_for_select([ "1", "2", "3", "4" ], "1")) %></p>
+   <ul>
+    Select all categories appropriate for this test:
+  <% @categories.each do |cat| %>
+      <li> <%= check_box_tag "test[category_ids][]", cat.id, @test.categories.include?(cat) %> <%=cat.name%> </li>
+  <% end %>
+  </ul>
  <div class="field">
+    <%= f.label "Number of questions to include in this test" %><br />
+    <%= f.number_field :question_count %>
+  </div>
+
+<div class="field">
     <%= f.label :available %><br />
     <%= f.check_box :available %>
   </div>

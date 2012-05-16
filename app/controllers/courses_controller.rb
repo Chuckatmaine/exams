@@ -41,6 +41,7 @@ class CoursesController < ApplicationController
   # POST /courses.json
   def create
     @course = Course.new(params[:course])
+    @course.department_id = current_user.department_id
 
     respond_to do |format|
       if @course.save
@@ -57,6 +58,7 @@ class CoursesController < ApplicationController
   # PUT /courses/1.json
   def update
     @course = Course.find(params[:id])
+    @course.department_id = current_user.department_id
 
     respond_to do |format|
       if @course.update_attributes(params[:course])

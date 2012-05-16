@@ -1,4 +1,8 @@
 Exams::Application.routes.draw do
+  resources :departments
+
+  resources :test_categories
+
   resources :user_answers
 
   resources :question_courses

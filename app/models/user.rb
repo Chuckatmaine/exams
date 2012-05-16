@@ -6,9 +6,10 @@ class User < ActiveRecord::Base
 
 
   has_many :questions, :foreign_key => 'creator_id'
+  belongs_to :departments
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :username
+  attr_accessible :email, :username, :department_id, :name, :code
   # attr_accessible :title, :body
   
 
@@ -25,13 +26,13 @@ class User < ActiveRecord::Base
               (mainePersonType=primary)
               (uid=' + self.username + ')
             )',
-            ['employeeNumber','mail']
+            ['employeeNumber','mail','departmentNumber']
           ) { |entry|
             # populate user attributes
             self.employee_number  = entry['employeeNumber'][0]
             self.email    = entry['mail'][0]
-
-            #logger.debug "\n\n\n\n\n#{self.roles.count}\n\n\n\n\n\n\n"
+           logger.debug "\n\n\n\n\n#{entry.inspect}\n\n\n\n\n\n\n"
+            @dept_code = entry['departmentNumber'][0]
           # fix employee_number anomalies
           case self.employee_number
             when Float    then self.employee_number = self.employee_number.to_int.to_s
@@ -42,7 +43,24 @@ class User < ActiveRecord::Base
             self.employee_number = '0' + self.employee_number
           end
         } # end |entry| block
-
+          umsconn.search2(
+             'ou=Department,dc=maine,dc=edu', LDAP::LDAP_SCOPE_SUBTREE,
+             '(&
+              (objectClass=organizationalUnit)
+              (ou='+ @dept_code +')
+              )',
+              ['description']
+              ){|entry|
+            if @department = Department.exists?(:code => @dept_code)
+            else
+                @department = Department.new
+                @department.code = @dept_code
+                @department.name = entry['description'][0]
+                @department.save
+            end  
+             self.department_id = @department.id
+              }
+ 
         self.save
         User.reset_column_information
 
