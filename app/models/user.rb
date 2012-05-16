@@ -51,14 +51,8 @@ class User < ActiveRecord::Base
               )',
               ['description']
               ){|entry|
-            if @department = Department.exists?(:code => @dept_code)
-            else
-                @department = Department.new
-                @department.code = @dept_code
-                @department.name = entry['description'][0]
-                @department.save
-            end  
-             self.department_id = @department.id
+              @department = Department.where(:code => @dept_code).first_or_create!(:name => entry['description'][0],:code => @dept_code)    
+              self.department_id = @department.id
               }
  
         self.save
