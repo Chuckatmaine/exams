@@ -1,7 +1,6 @@
-<%= current_user.username %><br >
+Logged in as <%= current_user.username %>, department: <%= current_user.department.name%> <br >
 Welcome to the UMA exams application
 <div>
-  <a href="http://exams-dev.uma.edu/questions">Work with Questions</a><br />
-  <a href="http://exams-dev.uma.edu/answers">Work with Answers</a><br />
-  <a href="http://exams-dev.uma.edu/tests">Work with Tests</a><br />
+  To use this application start by creating courses and categories.  These can then be selected when creating questions.  Answers are created while creating questions.  To create tests select the tests link then enter the test parameters.  Questions will be randomly seleected by the test generator using the parameters you previously entered.
+  All tests and components are tagged with your department so that only those in your department can access them.
 </div>

@@ -2,13 +2,13 @@
 
 <table>
   <tr>
-    <th>Name</th>
-    <th>Level</th>
-    <th>Value</th>
-    <th>Creator</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>Question Text :</th>
+    <th>Level :</th>
+    <th>Value :</th>
+    <th>Author :</th>
+    <th>Available :</th>
+    <th>Locked :</th>
+    <th>Department :</th>
   </tr>
 
 <% @questions.each do |question| %>
@@ -16,7 +16,10 @@
     <td><%= question.name %></td>
     <td><%= question.level %></td>
     <td><%= question.value %></td>
-    <td><%= question.creator_id %></td>
+    <td><%= question.creator.username %></td>
+    <td><%= question.available %></td>
+    <td><%= question.locked %></td>
+    <td><%= question.department.name %></td>
     <td><%= link_to 'Show', question %></td>
     <td><%= link_to 'Edit', edit_question_path(question) %></td>
     <td><%= link_to 'Destroy', question, confirm: 'Are you sure?', method: :delete %></td>

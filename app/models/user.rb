@@ -6,10 +6,14 @@ class User < ActiveRecord::Base
 
 
   has_many :questions, :foreign_key => 'creator_id'
-  belongs_to :departments
+  has_many :tests, :foreign_key => 'creator_id'
+  has_many :answers, :foreign_key => 'creator_id'
+  has_many :courses, :foreign_key => 'creator_id'
+  has_many :categories, :foreign_key => 'creator_id'
+  belongs_to :department
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :username, :department_id, :name, :code
+  attr_accessible :email, :username, :department_id, :name, :code, :faculty
   # attr_accessible :title, :body
   
 
@@ -26,11 +30,14 @@ class User < ActiveRecord::Base
               (mainePersonType=primary)
               (uid=' + self.username + ')
             )',
-            ['employeeNumber','mail','departmentNumber']
+            ['employeeNumber','mail','departmentNumber','eduPersonPrimaryAffiliation']
           ) { |entry|
             # populate user attributes
             self.employee_number  = entry['employeeNumber'][0]
             self.email    = entry['mail'][0]
+            if entry['eduPersonPrimaryAffiliation'][0] == 'faculty' 
+              self.faculty = true 
+            end
            logger.debug "\n\n\n\n\n#{entry.inspect}\n\n\n\n\n\n\n"
             @dept_code = entry['departmentNumber'][0]
           # fix employee_number anomalies
@@ -52,7 +59,7 @@ class User < ActiveRecord::Base
               ['description']
               ){|entry|
               @department = Department.where(:code => @dept_code).first_or_create!(:name => entry['description'][0],:code => @dept_code)    
-              self.department_id = @department.id
+              self.department = @department
               }
  
         self.save

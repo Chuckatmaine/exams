@@ -1,25 +1,35 @@
 <p id="notice"><%= notice %></p>
 <table>
 <tr>
-  <td>
-
-<b>Name:</b>
+<td>
+<b>Question text:</b>
 <%= @question.name %>
 </td>
-
+</tr>
+<tr>
 <td>
 <b>Level:</b>
 <%= @question.level %>
 </td>
 
+</tr>
+<tr>
 <td>
 <b>Value:</b>
 <%= @question.value %>
 </td>
 
+</tr>
+<tr>
 <td>
 <b>Creator:</b>
 <%= @question.creator.username%>
+</td>
+</tr>
+<tr>
+<td>
+<b>Department:</b>
+<%= @question.department.name %>
 </td>
 </tr>
 <% @question.question_answers.each do |question_answer| %>

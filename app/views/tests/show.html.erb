@@ -6,10 +6,26 @@
 </p>
 
 <p>
-  <b>Level:</b>
-  <%= @test.level %>
+  <b>Course:</b>
+  <%= @test.course.name %>
+</p>
+<p>
+<b>Level:</b>
+<%= @test.level %>
 </p>
 
+<p>
+  <b>Question Count:</b>
+  <%= @test.question_count %>
+</p>
+
+  <ul>
+    Categories selected for this question:
+  <% @categories.each do |cat| %>
+      <li> <%= check_box_tag "test[category_ids][]", cat.id, @test.categories.include?(cat) %> <%=cat.name%> </li>
+  <% end %>
+  </ul>
+ 
 
 <%= link_to 'Edit', edit_test_path(@test) %> |
 <%= link_to 'Back', tests_path %>

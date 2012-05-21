@@ -41,7 +41,8 @@ class AnswersController < ApplicationController
   # POST /answers.json
   def create
     @answer = Answer.new(params[:answer])
-
+    @answer.creator_id = current_user
+    @answer.department_id = current_user.department_id
     respond_to do |format|
       if @answer.save
         format.html { redirect_to @answer, notice: 'Answer was successfully created.' }
@@ -57,7 +58,9 @@ class AnswersController < ApplicationController
   # PUT /answers/1.json
   def update
     @answer = Answer.find(params[:id])
-
+    @answer.creator_id = current_user
+    @answer.department_id = current_user.department_id
+ 
     respond_to do |format|
       if @answer.update_attributes(params[:answer])
         format.html { redirect_to @answer, notice: 'Answer was successfully updated.' }

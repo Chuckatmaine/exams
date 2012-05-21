@@ -2,17 +2,28 @@
 
 <table>
   <tr>
-    <th>Title</th>
-    <th>Level</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>Title :</th>
+    <th>Level :</th>
+    <th>Creator :</th>
+    <th>Course :</th>
+    <th>Available :</th>
+    <th>Question Count :</th>
+    <th>Department :</th>
+    <th>Start Date :</th>
+    <th>End Date :</th>
   </tr>
 
 <% @tests.each do |test| %>
   <tr>
     <td><%= test.title %></td>
     <td><%= test.level %></td>
+    <td><%= test.creator.username %></td>
+    <td><%= test.course.name %></td>
+    <td><%= test.available %></td>
+    <td><%= test.question_count %></td>
+    <td><%= test.department.name %></td>
+    <td><%= test.start_date%></td>
+    <td><%= test.end_date %></td>
     <td><%= link_to 'Show', test %></td>
     <td><%= link_to 'Edit', edit_test_path(test) %></td>
     <td><%= link_to 'Destroy', test, confirm: 'Are you sure?', method: :delete %></td>

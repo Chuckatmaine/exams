@@ -11,13 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120516113758) do
+ActiveRecord::Schema.define(:version => 20120518132053) do
 
   create_table "answers", :force => true do |t|
     t.string   "name"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
     t.integer  "department_id"
+    t.integer  "creator_id"
   end
 
   create_table "categories", :force => true do |t|
@@ -25,6 +26,7 @@ ActiveRecord::Schema.define(:version => 20120516113758) do
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
     t.integer  "department_id"
+    t.integer  "creator_id"
   end
 
   create_table "courses", :force => true do |t|
@@ -32,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20120516113758) do
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
     t.integer  "department_id"
+    t.integer  "creator_id"
   end
 
   create_table "departments", :force => true do |t|
@@ -80,6 +83,7 @@ ActiveRecord::Schema.define(:version => 20120516113758) do
     t.integer  "category_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.integer  "count"
   end
 
   create_table "test_courses", :force => true do |t|
@@ -105,6 +109,9 @@ ActiveRecord::Schema.define(:version => 20120516113758) do
     t.boolean  "available",      :default => false
     t.integer  "question_count"
     t.integer  "department_id"
+    t.integer  "creator_id"
+    t.datetime "start_date"
+    t.datetime "end_date"
   end
 
   create_table "user_answers", :force => true do |t|

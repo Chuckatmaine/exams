@@ -32,7 +32,15 @@
     <%= f.label :available %><br />
     <%= f.check_box :available %>
   </div>
-
+  <div class="field">
+    <%= f.label "Start date/time when test is available" %><br />
+    <%= f.datetime_select :start_date %>
+  </div>
+  <div class="field">
+    <%= f.label "End date/time when test becomes unavailable" %><br />
+    <%= f.datetime_select :end_date %>
+  </div>
+ 
 
   <div class="actions">
     <%= f.submit %>

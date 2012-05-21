@@ -14,7 +14,7 @@ class TestsController < ApplicationController
   # GET /tests/1.json
   def show
     @test = Test.find(params[:id])
-
+    @categories = Category.all
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @test }
@@ -47,6 +47,7 @@ class TestsController < ApplicationController
     @courses = Course.all
     @categories = Category.all
     @test.department_id = current_user.department_id
+    @test.creator_id = current_user
     respond_to do |format|
       if @test.save
         format.html { redirect_to @test, notice: 'Test was successfully created.' }

@@ -42,7 +42,7 @@ class CategoriesController < ApplicationController
   def create
     @category = Category.new(params[:category])
     @category.department_id = current_user.department_id
-
+    @category.creator_id = current_user
     respond_to do |format|
       if @category.save
         format.html { redirect_to categories_url, notice: 'Category was successfully created.' }
