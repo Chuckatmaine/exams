@@ -2,7 +2,7 @@ class QuestionsController < ApplicationController
   # GET /questions
   # GET /questions.json
   def index
-    @questions = Question.where :department_id => current_user.department_id
+    @questions = Question.find_all_by_department_id(current_user.department.id)
 
     respond_to do |format|
       format.html # index.html.erb

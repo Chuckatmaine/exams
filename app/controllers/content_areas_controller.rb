@@ -2,7 +2,7 @@ class ContentAreasController < ApplicationController
   # GET /content_areas
   # GET /content_areas.json
   def index
-    @content_areas = ContentArea.where :department_id => current_user.department_id
+    @content_areas = ContentArea.find_all_by_department_id(current_user.department.id)
 
     respond_to do |format|
       format.html # index.html.erb
