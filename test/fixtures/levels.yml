@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  learning_level: MyText
+  department_id: 1
+  creator_id: 1
+
+two:
+  learning_level: MyText
+  department_id: 1
+  creator_id: 1

@@ -2,7 +2,7 @@ class QuestionsController < ApplicationController
   # GET /questions
   # GET /questions.json
   def index
-    @questions = Question.all
+    @questions = Question.where :department_id => current_user.department_id
 
     respond_to do |format|
       format.html # index.html.erb
@@ -14,7 +14,7 @@ class QuestionsController < ApplicationController
   # GET /questions/1.json
   def show
     @question = Question.find(params[:id])
-
+    @answers = @question.answers.all
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @question }
@@ -27,12 +27,14 @@ class QuestionsController < ApplicationController
     @question = Question.new
     @question.creator = current_user
     @question.question_courses.build
-    @question.question_categories.build
+    @question.question_content_areas.build
     question_answer = @question.question_answers.build
     @answer = @question.answers.build
+    @answer.department_id = current_user.department_id
+    @answer.creator = current_user
     question_answer.answer = @answer
-    @courses = Course.all
-    @categories = Category.all
+    @courses = Course.where :department_id => current_user.department_id
+    @content_areas = ContentArea.where :department_id => current_user.department_id
     @answers = Answer.all
     respond_to do |format|
       format.html # new.html.erb
@@ -43,15 +45,15 @@ class QuestionsController < ApplicationController
   # GET /questions/1/edit
   def edit
     @question = Question.find(params[:id])
+    require_unlocked
     question_answer = @question.question_answers.build
     @answer = @question.answers.build
+    @answer.department_id = current_user.department_id
+    @answer.creator = current_user
     question_answer.answer = @answer
-    @courses = Course.all
-    @categories = Category.all
-    @answers = Answer.all
-    if @question.locked 
-      redirect_to(@question, :notice => 'This question is locked and can not be edited.')
-    end    
+    @courses = Course.where :department_id => current_user.department_id
+    @content_areas = ContentArea.where :department_id => current_user.department_id
+    #logger.debug "\n*****\n\n#{@question.question_answers.inspect}\n\n*****\n"
   end
 
   # POST /questions
@@ -60,9 +62,17 @@ class QuestionsController < ApplicationController
     @question = Question.new(params[:question])
     @question.creator = current_user
     @question.department = current_user.department
-    respond_to do |format|
+     respond_to do |format|
       if @question.save
-        format.html { redirect_to @question, notice: 'Question was successfully created.' }
+        @question.reload
+        @question.answers.each do |a| 
+          if a.creator == nil && a.department == nil
+           a.creator = current_user
+           a.department = current_user.department
+           a.save
+          end
+        end
+       format.html { redirect_to @question, notice: 'Question was successfully created.' }
         format.json { render json: @question, status: :created, location: @question }
       else
         format.html { render action: "new" }
@@ -78,6 +88,14 @@ class QuestionsController < ApplicationController
     @question.department = current_user.department
     respond_to do |format|
       if @question.update_attributes(params[:question])
+        @question.reload
+        @question.answers.each do |a| 
+          if a.creator == nil && a.department == nil
+           a.creator = current_user
+           a.department = current_user.department
+           a.save
+          end
+        end
         format.html { redirect_to @question, notice: 'Question was successfully updated.' }
         format.json { head :no_content }
       else
@@ -96,6 +114,33 @@ class QuestionsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to questions_url }
       format.json { head :no_content }
+    end
+  end
+  def require_unlocked
+    if @question.locked
+      flash[:notice] = "This question has been assigned to a test and is therefore locked.  It can no longer be edited."
+      redirect_to @question
+    end
+  end
+  def require_faculty
+    @question = Question.find(params[:id])
+     unless (current_user.faculty) || (current_user.admin)
+     flash[:notice] = "You must be a faculty to create questions."
+     redirect_to @question
+     end
+  end
+  def require_owner
+    @question = Question.find(params[:id])
+     unless (current_user == @question.creator) || (current_user.admin)
+     flash[:notice] = "You must be the owner to modify this question."
+     redirect_to @question
+     end
+  end
+  def require_unlocked
+    @question = Question.find(params[:id])
+    if @question.locked
+      flash[:notice] = "This question has been administered and is therefore locked. It can no longer be edited or deleted."
+      redirect_to @question
     end
   end
 end

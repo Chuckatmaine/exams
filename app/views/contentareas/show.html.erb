@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @contentarea.name %>
+</p>
+
+<p>
+  <b>Department:</b>
+  <%= @contentarea.department_id %>
+</p>
+
+<p>
+  <b>Creator:</b>
+  <%= @contentarea.creator %>
+</p>
+
+
+<%= link_to 'Edit', edit_contentarea_path(@contentarea) %> |
+<%= link_to 'Back', contentareas_path %>

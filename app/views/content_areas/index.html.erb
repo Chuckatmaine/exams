@@ -1,0 +1,27 @@
+<h1>Listing content_areas</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Department</th>
+    <th>Creator</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @content_areas.each do |content_area| %>
+  <tr>
+    <td><%= content_area.name %></td>
+    <td><%= content_area.department_id %></td>
+    <td><%= content_area.creator_id %></td>
+    <td><%= link_to 'Show', content_area %></td>
+    <td><%= link_to 'Edit', edit_content_area_path(content_area) %></td>
+    <td><%= link_to 'Destroy', content_area, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Content area', new_content_area_path %>

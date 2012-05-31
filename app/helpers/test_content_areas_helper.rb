@@ -1,0 +1,2 @@
+module TestContentAreasHelper
+end

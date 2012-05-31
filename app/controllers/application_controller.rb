@@ -4,4 +4,8 @@ class ApplicationController < ActionController::Base
   #user_signed_in?
   #current_user
   #user_session
+
+def admins_only  
+  CASClient::Frameworks::Rails::Filter
+ end
 end

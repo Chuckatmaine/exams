@@ -1,0 +1,2 @@
+module QuestionContentAreasHelper
+end

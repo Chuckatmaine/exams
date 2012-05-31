@@ -1,4 +1,12 @@
 Exams::Application.routes.draw do
+  resources :test_content_areas
+
+  resources :question_content_areas
+
+  resources :content_areas
+
+  resources :levels
+
   resources :departments
 
   resources :test_categories

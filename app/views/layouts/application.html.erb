@@ -5,11 +5,12 @@
   <%= stylesheet_link_tag 'scaffold' %>
   <%= stylesheet_link_tag 'exams', :media => :all %>
   <%= javascript_include_tag :defaults %>
+  <%= javascript_include_tag "application" %>
   <%= csrf_meta_tag %>
 </head>
 <body id="exams">
   <div id="banner"> 
-    <img src=<%= image_path("UMAlogo.jpg") %> width="96" height="77" alt="UMA Logo" />
+    <img src=<%= image_path("UMAlogo.jpg") %> width="128" height="77" alt="UMA Logo" />
     <h3><%= @page_title || "University of Maine at Augusta - Online Exam Application" %></h3>
    <p id="notice"><%= notice %></p>
   </div>
@@ -17,7 +18,7 @@
     <div id="side">
       <a href="http://exams-dev.uma.edu/">Home</a><br />
       <a href="http://exams-dev.uma.edu/answers">Answers</a><br />
-      <a href="http://exams-dev.uma.edu/categories">Categories</a><br />
+      <a href="http://exams-dev.uma.edu/content_areas">Content Areas</a><br />
       <a href="http://exams-dev.uma.edu/courses">Courses</a><br />
       <a href="http://exams-dev.uma.edu/questions">Questions</a><br />
       <a href="http://exams-dev.uma.edu/tests">Tests</a><br />

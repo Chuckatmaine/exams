@@ -1,0 +1,27 @@
+<h1>Listing test_content_areas</h1>
+
+<table>
+  <tr>
+    <th>Test</th>
+    <th>Content area</th>
+    <th>Count</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @test_content_areas.each do |test_content_area| %>
+  <tr>
+    <td><%= test_content_area.test_id %></td>
+    <td><%= test_content_area.content_area_id %></td>
+    <td><%= test_content_area.count %></td>
+    <td><%= link_to 'Show', test_content_area %></td>
+    <td><%= link_to 'Edit', edit_test_content_area_path(test_content_area) %></td>
+    <td><%= link_to 'Destroy', test_content_area, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Test content area', new_test_content_area_path %>

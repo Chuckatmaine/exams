@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  objective: MyString
+  department_id: 1
+  creator: 1
+
+two:
+  objective: MyString
+  department_id: 1
+  creator: 1

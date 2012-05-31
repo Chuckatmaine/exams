@@ -2,7 +2,8 @@ class AnswersController < ApplicationController
   # GET /answers
   # GET /answers.json
   def index
-    @answers = Answer.all
+    @answers = Answer.where :department_id => (current_user.department_id)
+
 
     respond_to do |format|
       format.html # index.html.erb
@@ -35,6 +36,8 @@ class AnswersController < ApplicationController
   # GET /answers/1/edit
   def edit
     @answer = Answer.find(params[:id])
+    require_unlocked
+    require_owner
   end
 
   # POST /answers
@@ -76,11 +79,34 @@ class AnswersController < ApplicationController
   # DELETE /answers/1.json
   def destroy
     @answer = Answer.find(params[:id])
+    require_owner
+    require_unlocked
     @answer.destroy
 
     respond_to do |format|
       format.html { redirect_to answers_url }
       format.json { head :no_content }
+    end
+  end
+  def require_faculty
+    @answer = Answer.find(params[:id])
+     unless (current_user.faculty) || (current_user.admin)
+     flash[:notice] = "You must be a faculty to create answers."
+     redirect_to @answer
+     end
+  end
+  def require_owner
+    @answer = Answer.find(params[:id])
+     unless (current_user == @answer.creator) || (current_user.admin)
+     flash[:notice] = "You must be the owner to modify this answer."
+     redirect_to @answer
+     end
+  end
+  def require_unlocked
+    @answer= Answer.find(params[:id])
+    if @answer.locked
+      flash[:notice] = "This answer has been administered and is therefore locked. It can no longer be edited or deleted."
+      redirect_to @answer
     end
   end
 end

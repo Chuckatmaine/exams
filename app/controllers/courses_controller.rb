@@ -2,7 +2,7 @@ class CoursesController < ApplicationController
   # GET /courses
   # GET /courses.json
   def index
-    @courses = Course.all
+    @courses = Course.where :department_id => current_user.department_id
 
     respond_to do |format|
       format.html # index.html.erb

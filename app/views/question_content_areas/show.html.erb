@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Question:</b>
+  <%= @question_content_area.question_id %>
+</p>
+
+<p>
+  <b>Content area:</b>
+  <%= @question_content_area.content_area_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_question_content_area_path(@question_content_area) %> |
+<%= link_to 'Back', question_content_areas_path %>

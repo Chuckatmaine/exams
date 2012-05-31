@@ -20,12 +20,11 @@
 </p>
 
   <ul>
-    Categories selected for this question:
-  <% @categories.each do |cat| %>
-      <li> <%= check_box_tag "test[category_ids][]", cat.id, @test.categories.include?(cat) %> <%=cat.name%> </li>
+    Content areas selected for this question:
+  <% @test.content_areas.each do |ca| %>
+      <li> <%= check_box_tag "test[content_area_ids][]", ca.id, @test.content_areas.include?(ca) %> <%=ca.name%> </li>
   <% end %>
   </ul>
  
-
 <%= link_to 'Edit', edit_test_path(@test) %> |
 <%= link_to 'Back', tests_path %>

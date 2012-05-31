@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120518132053) do
+ActiveRecord::Schema.define(:version => 20120530104257) do
 
   create_table "answers", :force => true do |t|
     t.string   "name"
@@ -19,14 +19,15 @@ ActiveRecord::Schema.define(:version => 20120518132053) do
     t.datetime "updated_at",    :null => false
     t.integer  "department_id"
     t.integer  "creator_id"
+    t.text     "rationale"
   end
 
-  create_table "categories", :force => true do |t|
+  create_table "content_areas", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
     t.integer  "department_id"
     t.integer  "creator_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "courses", :force => true do |t|
@@ -44,6 +45,22 @@ ActiveRecord::Schema.define(:version => 20120518132053) do
     t.string   "code"
   end
 
+  create_table "learningobjectives", :force => true do |t|
+    t.string   "objective"
+    t.integer  "department_id"
+    t.integer  "creator"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "levels", :force => true do |t|
+    t.text     "learning_level"
+    t.integer  "department_id"
+    t.integer  "creator_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
   create_table "question_answers", :force => true do |t|
     t.integer  "answer_id"
     t.integer  "question_id"
@@ -52,11 +69,11 @@ ActiveRecord::Schema.define(:version => 20120518132053) do
     t.boolean  "is_correct"
   end
 
-  create_table "question_categories", :force => true do |t|
-    t.integer  "category_id"
+  create_table "question_content_areas", :force => true do |t|
     t.integer  "question_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.integer  "content_area_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "question_courses", :force => true do |t|
@@ -71,19 +88,20 @@ ActiveRecord::Schema.define(:version => 20120518132053) do
     t.integer  "level"
     t.integer  "value"
     t.integer  "creator_id"
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
-    t.boolean  "available",     :default => true
-    t.boolean  "locked",        :default => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
+    t.boolean  "available",          :default => true
+    t.boolean  "locked",             :default => false
     t.integer  "department_id"
+    t.string   "learning_objective"
   end
 
-  create_table "test_categories", :force => true do |t|
+  create_table "test_content_areas", :force => true do |t|
     t.integer  "test_id"
-    t.integer  "category_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.integer  "content_area_id"
     t.integer  "count"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "test_courses", :force => true do |t|
@@ -112,6 +130,7 @@ ActiveRecord::Schema.define(:version => 20120518132053) do
     t.integer  "creator_id"
     t.datetime "start_date"
     t.datetime "end_date"
+    t.boolean  "locked"
   end
 
   create_table "user_answers", :force => true do |t|

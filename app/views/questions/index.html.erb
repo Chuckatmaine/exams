@@ -4,6 +4,7 @@
   <tr>
     <th>Question Text :</th>
     <th>Level :</th>
+    <th>Learning Objective :</th>
     <th>Value :</th>
     <th>Author :</th>
     <th>Available :</th>
@@ -15,6 +16,7 @@
   <tr>
     <td><%= question.name %></td>
     <td><%= question.level %></td>
+    <td><%= question.learning_objective %></td>
     <td><%= question.value %></td>
     <td><%= question.creator.username %></td>
     <td><%= question.available %></td>
@@ -24,6 +26,16 @@
     <td><%= link_to 'Edit', edit_question_path(question) %></td>
     <td><%= link_to 'Destroy', question, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
+ <% question.question_answers.each do |question_answer| %>
+
+  <tr>
+    <td>Answer: <%= question_answer.answer.name %>
+      <% if question_answer.is_correct then %>
+         :Correct answer
+      <% end %>  
+    </td>
+  </tr>    
+  <% end %>     
 <% end %>
 </table>
 
