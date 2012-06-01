@@ -34,6 +34,7 @@ class ContentAreasController < ApplicationController
 
   # GET /content_areas/1/edit
   def edit
+    require_unlocked
     @content_area = ContentArea.find(params[:id])
   end
 
@@ -59,7 +60,8 @@ class ContentAreasController < ApplicationController
   # PUT /content_areas/1.json
   def update
     @content_area = ContentArea.find(params[:id])
-
+    require_unlocked
+    require_owner
     respond_to do |format|
       if @content_area.update_attributes(params[:content_area])
         format.html { redirect_to @content_area, notice: 'Content area was successfully updated.' }
@@ -74,6 +76,8 @@ class ContentAreasController < ApplicationController
   # DELETE /content_areas/1
   # DELETE /content_areas/1.json
   def destroy
+    require_unlocked
+    require_owner
     @content_area = ContentArea.find(params[:id])
     @content_area.destroy
 
@@ -81,5 +85,19 @@ class ContentAreasController < ApplicationController
       format.html { redirect_to content_areas_url }
       format.json { head :no_content }
     end
+  end
+  def require_unlocked
+    @ca = ContentArea.find(params[:id])
+    if @ca.locked
+      flash[:notice] = "This content area has been administered and is therefore locked. It can no longer be edited or deleted."
+      redirect_to @ca and return 
+    end
+  end
+  def require_owner
+      @ca = ContentArea.find(params[:id])
+      unless (current_user == @ca.creator) || (current_user.admin)
+      flash[:notice] = "You must be the owner to modify this content area."
+      redirect_to @ca 
+      end
   end
 end

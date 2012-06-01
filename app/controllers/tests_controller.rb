@@ -39,24 +39,24 @@ class TestsController < ApplicationController
     @courses = Course.find_all_by_department_id(current_user.department.id)
 
     @test = Test.find(params[:id])
-    require_owner
-    require_unlocked
+    if require_owner(@test) &&  require_unlocked(@test)
+    require_unlocked(@test)
     @content_areas = ContentArea.find_all_by_department_id(current_user.department.id)
+    end
   end
 
   # POST /tests
   # POST /tests.json
   def take
     @test = Test.find(params[:id])
-    require_unlocked
-    require_available
+    require_unlocked(@test)
+    require_available(@test)
   end
   def create
     @test = Test.new(params[:test])
     @courses = Course.find_all_by_department_id(current_user.department.id)
 
     @content_areas = ContentArea.find_all_by_department_id(current_user.department.id)
-
     @test.department_id = current_user.department_id
     @test.creator_id = current_user
     respond_to do |format|
@@ -75,7 +75,7 @@ class TestsController < ApplicationController
   # PUT /tests/1.json
   def update
     @test = Test.find(params[:id])
-    cleanup
+    cleanup(@test)
     @test.department_id = current_user.department_id
     respond_to do |format|
       if @test.update_attributes(params[:test])
@@ -102,6 +102,8 @@ class TestsController < ApplicationController
             @test.content_areas.each do |tca|
              if qca == tca  
                @qtmp = 1 
+               tca.locked = 1
+               tca.save
              end
             end
           end
@@ -120,59 +122,61 @@ class TestsController < ApplicationController
     if @qcount < @test.question_count
       flash[:notice] = "Not enough questions were available for the number requested (Max: " + @qcount.to_s + " ).  Test NOT created!"
 #      logger.debug "\n\n *** \n\n content before cleanup. \n\n" + flash.inspect + "\n\n ********* \n"
-      cleanup
+      cleanup(@test)
     else
       @test.locked = 1
       flash[:notice] = "Test was created successfully!"
     end
   end
-  def cleanup
-    @test = Test.find(params[:id])
-    @test.test_questions.each do |tq|
+  def cleanup(test)
+    #@test = Test.find(params[:id])
+    test.test_questions.each do |tq|
 #      logger.debug "\n\n *** \n\n Cleaning up. \n\n" + tq.id.to_s + "\n\n ********* \n"
       tq.delete
     end
-      @test.save
+      test.save
   end
   # DELETE /tests/1
   # DELETE /tests/1.json
   def destroy
-    require_unlocked
-    require_owner
     @test = Test.find(params[:id])
+    if require_unlocked(@test) && require_owner(@test)
     @test.delete
-    
     respond_to do |format|
       format.html { redirect_to tests_url }
       format.json { head :no_content }
     end
-  end
-   def require_faculty
-    @test = Test.find(params[:id])
-     unless (current_user.faculty) || (current_user.admin)
-     flash[:notice] = "You must be a faculty to create tests."
-     redirect_to @test
-     end
-  end
-  def require_owner
-    @test = Test.find(params[:id])
-     unless (current_user == @test.creator) || (current_user.admin)
-     flash[:notice] = "You must be the owner to modify this test."
-     redirect_to @test
-     end
-  end
-  def require_unlocked
-    @test = Test.find(params[:id])
-    if @test.locked
-      flash[:notice] = "This test has been administered and is therefore locked. It can no longer be edited or deleted."
-      redirect_to @test
     end
   end
-  def require_available
-    @test = Test.find(params[:id])
+   def require_faculty(test)
+    #@test = Test.find(params[:id])
+     unless (current_user.faculty) || (current_user.admin)
+     flash[:notice] = "You must be a faculty to create tests."
+     redirect_to test
+     return(0)
+     end
+  end
+  def require_owner(test)
+     unless (current_user == test.creator) || (current_user.admin)
+     flash[:notice] = "You must be the owner to modify this test."
+     redirect_to test
+     return(0)
+     end
+  end
+  def require_unlocked(test)
+    #@test = Test.find(params[:id])
+    if @test.locked
+      flash[:notice] = "This test has been administered and is therefore locked. It can no longer be edited or deleted."
+      redirect_to test 
+      return(0)
+    end
+  end
+  def require_available(test)
+    #@test = Test.find(params[:id])
     if @test.available == false
       flash[:notice] = "This test is not available at this time."
-      redirect_to @test
+      redirect_to test
+      return(0)
     end
     now = DateTime.current
     if  now < @test.start_date || now > @test.end_date
