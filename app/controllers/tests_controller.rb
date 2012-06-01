@@ -46,6 +46,11 @@ class TestsController < ApplicationController
 
   # POST /tests
   # POST /tests.json
+  def take
+    @test = Test.find(params[:id])
+    require_unlocked
+    require_available
+  end
   def create
     @test = Test.new(params[:test])
     @courses = Course.find_all_by_department_id(current_user.department.id)
@@ -161,6 +166,17 @@ class TestsController < ApplicationController
     if @test.locked
       flash[:notice] = "This test has been administered and is therefore locked. It can no longer be edited or deleted."
       redirect_to @test
+    end
+  end
+  def require_available
+    @test = Test.find(params[:id])
+    if @test.available == false
+      flash[:notice] = "This test is not available at this time."
+      redirect_to @test
+    end
+    now = DateTime.current
+    if  now < @test.start_date || now > @test.end_date
+      flash[:notice] = "This test is only available from: " + @test.start_date.to_s + " to: " + @test.end_date.to_s + "Time = " + now.to_s
     end
   end
 end

@@ -34,6 +34,9 @@ Exams::Application.routes.draw do
   resources :tests
 
   devise_for :users
+  #match ':tests(/:take(/:id))'
+  get "/tests/:id/take", :to => 'tests#take', :as => :take_test
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -26,6 +26,7 @@
     <td><%= test.end_date %></td>
     <td><%= link_to 'Show', test %></td>
     <td><%= link_to 'Edit', edit_test_path(test) %></td>
+    <td><%= link_to 'Take', take_test_path(test) %></td>
     <td><%= link_to 'Destroy', test, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
 <% end %>
