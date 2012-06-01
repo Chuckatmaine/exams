@@ -176,7 +176,7 @@ class TestsController < ApplicationController
     end
     now = DateTime.current
     if  now < @test.start_date || now > @test.end_date
-      flash[:notice] = "This test is only available from: " + @test.start_date.to_s + " to: " + @test.end_date.to_s + "Time = " + now.to_s
+      flash[:notice] = "This test is only available from: " + @test.start_date.to_s + " to: " + @test.end_date.to_s + " Current Time = " + now.to_s
     end
   end
 end
