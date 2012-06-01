@@ -39,16 +39,15 @@ class TestsController < ApplicationController
     @courses = Course.find_all_by_department_id(current_user.department.id)
 
     @test = Test.find(params[:id])
-    @content_areas = ContentArea.find_all_by_department_id(current_user.department.id)
     require_owner
     require_unlocked
+    @content_areas = ContentArea.find_all_by_department_id(current_user.department.id)
   end
 
   # POST /tests
   # POST /tests.json
   def create
     @test = Test.new(params[:test])
-        generate
     @courses = Course.find_all_by_department_id(current_user.department.id)
 
     @content_areas = ContentArea.find_all_by_department_id(current_user.department.id)
@@ -58,6 +57,7 @@ class TestsController < ApplicationController
     respond_to do |format|
       if @test.save
         format.html { redirect_to @test, notice: 'Test was successfully created.' }
+    generate
         format.json { render json: @test, status: :created, location: @test }
       else
         format.html { render action: "new" }
@@ -86,7 +86,7 @@ class TestsController < ApplicationController
   end
 
   def generate
-    @test = Test.find(params[:id])
+    #@test = Test.find(params[:id])
     @qtmp = 0 # flag that content areas matched
     @qcount = 0 #questions selected for test
     @questions = Question.where(:available && :department_id => @test.department).order('rand()')
