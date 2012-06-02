@@ -2,6 +2,10 @@ class TestsController < ApplicationController
   # GET /tests
   # GET /tests.json
   skip_before_filter :require_user, :only => [:show]
+  before_filter :require_owner, :only => [:edit, :destroy]
+  before_filter :require_unlocked, :only => [:edit, :destroy]
+  before_filter :require_available, :only => [:take]
+
   def index
     @tests = Test.find_all_by_department_id(current_user.department.id)
 
@@ -36,21 +40,15 @@ class TestsController < ApplicationController
 
   # GET /tests/1/edit
   def edit
-    @courses = Course.find_all_by_department_id(current_user.department.id)
-
     @test = Test.find(params[:id])
-    if require_owner(@test) &&  require_unlocked(@test)
-    require_unlocked(@test)
+    @courses = Course.find_all_by_department_id(current_user.department.id)
     @content_areas = ContentArea.find_all_by_department_id(current_user.department.id)
-    end
   end
 
   # POST /tests
   # POST /tests.json
   def take
     @test = Test.find(params[:id])
-    require_unlocked(@test)
-    require_available(@test)
   end
   def create
     @test = Test.new(params[:test])
@@ -117,6 +115,7 @@ class TestsController < ApplicationController
         @qcount = @qcount + 1 
       end
       @qtmp = 0
+      @test.course.locked = 1
     end
 #    logger.debug "\n\n **** \n\n " + @qcount.to_s + "\n\n ***** \n" + "\n\n" + @test.question_count.to_s + "\n\n ***** \n"
     if @qcount < @test.question_count
@@ -140,12 +139,10 @@ class TestsController < ApplicationController
   # DELETE /tests/1.json
   def destroy
     @test = Test.find(params[:id])
-    if require_unlocked(@test) && require_owner(@test)
     @test.delete
     respond_to do |format|
       format.html { redirect_to tests_url }
       format.json { head :no_content }
-    end
     end
   end
    def require_faculty(test)
@@ -156,27 +153,26 @@ class TestsController < ApplicationController
      return(0)
      end
   end
-  def require_owner(test)
-     unless (current_user == test.creator) || (current_user.admin)
+  def require_owner
+    @test = Test.find(params[:id])
+     unless (current_user == @test.creator) || (current_user.admin)
      flash[:notice] = "You must be the owner to modify this test."
-     redirect_to test
-     return(0)
+     redirect_to @test
      end
   end
-  def require_unlocked(test)
-    #@test = Test.find(params[:id])
+  def require_unlocked
+    @test = Test.find(params[:id])
     if @test.locked
       flash[:notice] = "This test has been administered and is therefore locked. It can no longer be edited or deleted."
-      redirect_to test 
+      redirect_to @test 
       return(0)
     end
   end
-  def require_available(test)
-    #@test = Test.find(params[:id])
+  def require_available
+    @test = Test.find(params[:id])
     if @test.available == false
       flash[:notice] = "This test is not available at this time."
-      redirect_to test
-      return(0)
+      redirect_to @test
     end
     now = DateTime.current
     if  now < @test.start_date || now > @test.end_date

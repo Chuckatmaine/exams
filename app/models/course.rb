@@ -1,5 +1,5 @@
 class Course < ActiveRecord::Base
-  attr_accessible :id, :name
+  attr_accessible :id, :name, :locked
   belongs_to :test
   belongs_to :creator, :class_name => "User"
   belongs_to :question

@@ -1,4 +1,6 @@
 class QuestionsController < ApplicationController
+  before_filter :require_unlocked, :only => [:edit, :destroy]
+  before_filter :require_owner, :only => [:edit, :destroy]
   # GET /questions
   # GET /questions.json
   def index
@@ -45,7 +47,6 @@ class QuestionsController < ApplicationController
   # GET /questions/1/edit
   def edit
     @question = Question.find(params[:id])
-    require_unlocked
     question_answer = @question.question_answers.build
     @answer = @question.answers.build
     @answer.department_id = current_user.department_id
@@ -116,13 +117,7 @@ class QuestionsController < ApplicationController
       format.json { head :no_content }
     end
   end
-  def require_unlocked
-    if @question.locked
-      flash[:notice] = "This question has been assigned to a test and is therefore locked.  It can no longer be edited."
-      redirect_to @question
-    end
-  end
-  def require_faculty
+ def require_faculty
     @question = Question.find(params[:id])
      unless (current_user.faculty) || (current_user.admin)
      flash[:notice] = "You must be a faculty to create questions."
