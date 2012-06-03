@@ -10,9 +10,14 @@
     <th>Available :</th>
     <th>Locked :</th>
     <th>Department :</th>
+    <th>Courses :</th>
   </tr>
 
 <% @questions.each do |question| %>
+  <% @courselist = '' %>
+    <% question.question_courses.each do |qc| %>
+    <% @courselist = @courselist + qc.course.name + ',' %>
+    <% end %>
   <tr>
     <td><%= question.name %></td>
     <td><%= question.level %></td>
@@ -22,7 +27,8 @@
     <td><%= question.available %></td>
     <td><%= question.locked %></td>
     <td><%= question.department.name %></td>
-    <td><%= link_to 'Show', question %></td>
+    <td><%= @courselist %></td>
+   <td><%= link_to 'Show', question %></td>
     <td><%= link_to 'Edit', edit_question_path(question) %></td>
     <td><%= link_to 'Destroy', question, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
