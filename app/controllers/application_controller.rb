@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   #current_user
   #user_session
 
-def admins_only  
-  CASClient::Frameworks::Rails::Filter
- end
+#def admins_only  
+#  CASClient::Frameworks::Rails::Filter
+# end
 end

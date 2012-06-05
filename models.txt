@@ -9,7 +9,7 @@ class Category < ActiveRecord::Base
 end
 class Course < ActiveRecord::Base
   attr_accessible :name
-  belongs_to :test
+  belongs_to :exam
   belongs_to :question
 end
 class QuestionAnswer < ActiveRecord::Base
@@ -29,24 +29,24 @@ class QuestionCourse < ActiveRecord::Base
 end
 class Question < ActiveRecord::Base
   attr_accessible :creator_id, :course_id, :category_id, :level, :name, :value, :available, :locked
-  belongs_to :test
+  belongs_to :exam
   has_many :question_answers
   has_many :question_categories
   has_many :question_courses
   belongs_to :creator, :class_name => "User"
 end
-class TestCourse < ActiveRecord::Base
-  attr_accessible :course_id, :test_id
-  belongs_to :test
+class ExamCourse < ActiveRecord::Base
+  attr_accessible :course_id, :exam_id
+  belongs_to :exam
 
 end
-class TestQuestion < ActiveRecord::Base
-  attr_accessible :question_id, :test_id
+class ExamQuestion < ActiveRecord::Base
+  attr_accessible :question_id, :exam_id
 end
-class Test < ActiveRecord::Base
+class Exam < ActiveRecord::Base
   attr_accessible :level, :title
-  has_many :test_questions
-  has_many :test_courses
+  has_many :exam_questions
+  has_many :exam_courses
 end
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:

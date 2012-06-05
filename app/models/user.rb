@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
 
 
   has_many :questions, :foreign_key => 'creator_id'
-  has_many :tests, :foreign_key => 'creator_id'
+  has_many :exams, :foreign_key => 'creator_id'
   has_many :answers, :foreign_key => 'creator_id'
   has_many :courses, :foreign_key => 'creator_id'
   has_many :categories, :foreign_key => 'creator_id'
