@@ -1,5 +1,5 @@
 Exams::Application.routes.draw do
-  resources :test_content_areas
+  resources :exam_content_areas
 
   resources :question_content_areas
 
@@ -9,13 +9,13 @@ Exams::Application.routes.draw do
 
   resources :departments
 
-  resources :test_categories
+  resources :exam_categories
 
   resources :user_answers
 
   resources :question_courses
 
-  resources :test_courses
+  resources :exam_courses
 
   resources :courses
 
@@ -23,7 +23,7 @@ Exams::Application.routes.draw do
 
   resources :question_answers
 
-  resources :test_questions
+  resources :exam_questions
 
   resources :answers
 
@@ -31,11 +31,11 @@ Exams::Application.routes.draw do
 
   resources :questions
 
-  resources :tests
+  resources :exams
 
   devise_for :users
-  #match ':tests(/:take(/:id))'
-  get "/tests/:id/take", :to => 'tests#take', :as => :take_test
+  #match ':exams(/:take(/:id))'
+  get "/exams/:id/take", :to => 'exams#take', :as => :take_exam
 
 
   # The priority is based upon order of creation:

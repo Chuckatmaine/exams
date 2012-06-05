@@ -2,7 +2,7 @@
 
 <table>
   <tr>
-    <th>Test</th>
+    <th>Exam</th>
     <th>Question</th>
     <th></th>
     <th></th>
@@ -11,7 +11,7 @@
 
 <% @question_answers.each do |question_answer| %>
   <tr>
-    <td><%= question_answer.test_id %></td>
+    <td><%= question_answer.exam_id %></td>
     <td><%= question_answer.question_id %></td>
     <td><%= link_to 'Show', question_answer %></td>
     <td><%= link_to 'Edit', edit_question_answer_path(question_answer) %></td>
