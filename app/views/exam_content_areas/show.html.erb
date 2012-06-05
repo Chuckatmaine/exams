@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Exam:</b>
+  <%= @exam_content_area.exam_id %>
+</p>
+
+<p>
+  <b>Content area:</b>
+  <%= @exam_content_area.content_area_id %>
+</p>
+
+<p>
+  <b>Count:</b>
+  <%= @exam_content_area.count %>
+</p>
+
+
+<%= link_to 'Edit', edit_exam_content_area_path(@exam_content_area) %> |
+<%= link_to 'Back', exam_content_areas_path %>

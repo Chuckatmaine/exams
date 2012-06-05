@@ -1,0 +1,2 @@
+module ExamContentAreasHelper
+end

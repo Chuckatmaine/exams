@@ -1,0 +1,29 @@
+<%= form_for(@exam_content_area) do |f| %>
+  <% if @exam_content_area.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@exam_content_area.errors.count, "error") %> prohibited this exam_content_area from being saved:</h2>
+
+      <ul>
+      <% @exam_content_area.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :exam_id %><br />
+    <%= f.number_field :exam_id %>
+  </div>
+  <div class="field">
+    <%= f.label :content_area_id %><br />
+    <%= f.number_field :content_area_id %>
+  </div>
+  <div class="field">
+    <%= f.label :count %><br />
+    <%= f.number_field :count %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
