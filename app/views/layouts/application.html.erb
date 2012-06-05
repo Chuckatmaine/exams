@@ -14,12 +14,12 @@
   </div>
  <div id="columns">
     <div id="side">
-      <a href="http://exams-dev.uma.edu/">Home</a><br />
-      <a href="http://exams-dev.uma.edu/answers">Answers</a><br />
-      <a href="http://exams-dev.uma.edu/content_areas">Content Areas</a><br />
-      <a href="http://exams-dev.uma.edu/courses">Courses</a><br />
-      <a href="http://exams-dev.uma.edu/questions">Questions</a><br />
-      <a href="http://exams-dev.uma.edu/exams">Exams</a><br />
+      <%= link_to "Home", root_path %><br>
+      <%= link_to "Answers", answers_path %><br>
+      <%= link_to "Content Areas", content_areas_path %><br>
+      <%= link_to "Courses", courses_path %><br>
+      <%= link_to "Questions", questions_path %><br>
+      <%= link_to "Exams", exams_path %><br>
     </div>   
    <div id="main">
     <%= yield %>
