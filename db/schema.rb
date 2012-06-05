@@ -11,15 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120602111806) do
+ActiveRecord::Schema.define(:version => 20120605162722) do
 
   create_table "answers", :force => true do |t|
     t.string   "name"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
-    t.integer  "department_id"
     t.integer  "creator_id"
     t.text     "rationale"
+    t.integer  "department_id"
   end
 
   create_table "content_areas", :force => true do |t|
@@ -31,13 +31,21 @@ ActiveRecord::Schema.define(:version => 20120602111806) do
     t.boolean  "locked"
   end
 
+  create_table "contentareas", :force => true do |t|
+    t.string   "name"
+    t.integer  "department_id"
+    t.integer  "creator"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
   create_table "courses", :force => true do |t|
     t.string   "name"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
-    t.integer  "department_id"
     t.integer  "creator_id"
     t.boolean  "locked"
+    t.integer  "department_id"
   end
 
   create_table "departments", :force => true do |t|
@@ -45,6 +53,42 @@ ActiveRecord::Schema.define(:version => 20120602111806) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "code"
+  end
+
+  create_table "exam_content_areas", :force => true do |t|
+    t.integer  "exam_id"
+    t.integer  "content_area_id"
+    t.integer  "count"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  create_table "exam_courses", :force => true do |t|
+    t.integer  "exam_id"
+    t.integer  "course_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "exam_questions", :force => true do |t|
+    t.integer  "exam_id"
+    t.integer  "question_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "exams", :force => true do |t|
+    t.string   "title"
+    t.integer  "level"
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+    t.integer  "course_id"
+    t.boolean  "available",      :default => false
+    t.integer  "question_count"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.boolean  "locked"
+    t.integer  "department_id"
   end
 
   create_table "learningobjectives", :force => true do |t|
@@ -97,46 +141,12 @@ ActiveRecord::Schema.define(:version => 20120602111806) do
     t.datetime "created_at",                            :null => false
     t.datetime "updated_at",                            :null => false
     t.boolean  "available",          :default => true
+    t.integer  "course_id"
     t.boolean  "locked",             :default => false
-    t.integer  "department_id"
+    t.integer  "category_id"
+    t.integer  "answer_id"
     t.string   "learning_objective"
-  end
-
-  create_table "test_content_areas", :force => true do |t|
-    t.integer  "test_id"
-    t.integer  "content_area_id"
-    t.integer  "count"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
-  end
-
-  create_table "test_courses", :force => true do |t|
-    t.integer  "test_id"
-    t.integer  "course_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "test_questions", :force => true do |t|
-    t.integer  "test_id"
-    t.integer  "question_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  create_table "tests", :force => true do |t|
-    t.string   "title"
-    t.integer  "level"
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
-    t.integer  "course_id"
-    t.boolean  "available",      :default => false
-    t.integer  "question_count"
     t.integer  "department_id"
-    t.integer  "creator_id"
-    t.datetime "start_date"
-    t.datetime "end_date"
-    t.boolean  "locked"
   end
 
   create_table "user_answers", :force => true do |t|
