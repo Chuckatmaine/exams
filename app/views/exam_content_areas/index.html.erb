@@ -1,0 +1,27 @@
+<h1>Listing exam_content_areas</h1>
+
+<table>
+  <tr>
+    <th>Exam</th>
+    <th>Content area</th>
+    <th>Count</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @exam_content_areas.each do |exam_content_area| %>
+  <tr>
+    <td><%= exam_content_area.exam_id %></td>
+    <td><%= exam_content_area.content_area_id %></td>
+    <td><%= exam_content_area.count %></td>
+    <td><%= link_to 'Show', exam_content_area %></td>
+    <td><%= link_to 'Edit', edit_exam_content_area_path(exam_content_area) %></td>
+    <td><%= link_to 'Destroy', exam_content_area, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Exam content area', new_exam_content_area_path %>

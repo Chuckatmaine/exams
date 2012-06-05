@@ -1,0 +1,48 @@
+<%= form_for(@exam) do |f| %>
+  <% if @exam.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@exam.errors.count, "error") %> prohibited this exam from being saved:</h2>
+
+      <ul>
+      <% @exam.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+  <p>Select a course: <%= collection_select(:exam, :course_id, @courses, :id, :name, :prompt => true) %></p>
+  <p>Select a level: <%= f.select(:level, options_for_select([ "1", "2", "3", "4" ], "1")) %></p>
+   <ul>
+    Select all content areas appropriate for this exam:
+  <% @content_areas.each do |ca| %>
+      <li> <%= check_box_tag "exam[content_area_ids][]", ca.id, @exam.content_areas.include?(ca) %> <%=ca.name%> </li>
+  <% end %>
+  </ul>
+ <div class="field">
+    <%= f.label "Number of questions to include in this exam" %><br />
+    <%= f.number_field :question_count %>
+  </div>
+
+<div class="field">
+    <%= f.label :available %><br />
+    <%= f.check_box :available %>
+  </div>
+  <div class="field">
+    <%= f.label "Start date/time when exam is available" %><br />
+    <%= f.datetime_select :start_date %>
+  </div>
+  <div class="field">
+    <%= f.label "End date/time when exam becomes unavailable" %><br />
+    <%= f.datetime_select :end_date %>
+  </div>
+ 
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
