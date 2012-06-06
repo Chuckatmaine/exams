@@ -17,6 +17,6 @@ class Question < ActiveRecord::Base
  
   accepts_nested_attributes_for :answers, :reject_if => lambda {|a| a[:name].blank? }, :allow_destroy => true
   attr_accessible :name, :level, :value, :creator, :content_areas, :answer, :rationale, :courses, :question_answers, :exam_questions, :question_content_areas, :question_courses, :question_courses_attributes, :question_content_areas_attributes, :answers_attributes, :content_area_ids, :course_ids, :question_answers_attributes
-  validates :name, :presence => true
+  validates :name, :learning_objective, :level, :value, :presence => true
 
 end
