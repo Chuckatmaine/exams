@@ -6,4 +6,5 @@ class Course < ActiveRecord::Base
   belongs_to :department
   has_many :questions, :through => :question_courses
   has_many :exams
+  validates :name, :presence => true
 end

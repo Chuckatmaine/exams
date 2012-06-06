@@ -6,5 +6,6 @@ class ContentArea < ActiveRecord::Base
   belongs_to :department
   has_many :questions, :through => :question_content_areas  
   has_many :exams, :through => :exam_content_areas
-  attr_accessible :creator_id, :department_id, :name
+  attr_accessible :creator_id, :department_id, :name 
+  validates :name, :presence => true
 end
