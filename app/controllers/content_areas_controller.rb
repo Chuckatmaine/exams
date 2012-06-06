@@ -43,7 +43,7 @@ class ContentAreasController < ApplicationController
   def create
     @content_area = ContentArea.new(params[:content_area])
     @content_area.department_id = current_user.department_id
-    @content_area.creator_id = current_user
+    @content_area.creator = current_user
  
     respond_to do |format|
       if @content_area.save

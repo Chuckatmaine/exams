@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120605162722) do
+ActiveRecord::Schema.define(:version => 20120606104952) do
 
   create_table "answers", :force => true do |t|
     t.string   "name"
@@ -89,14 +89,7 @@ ActiveRecord::Schema.define(:version => 20120605162722) do
     t.datetime "end_date"
     t.boolean  "locked"
     t.integer  "department_id"
-  end
-
-  create_table "learningobjectives", :force => true do |t|
-    t.string   "objective"
-    t.integer  "department_id"
-    t.integer  "creator"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.integer  "creator_id"
   end
 
   create_table "levels", :force => true do |t|

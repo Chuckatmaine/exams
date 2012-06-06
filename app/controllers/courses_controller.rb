@@ -42,7 +42,7 @@ class CoursesController < ApplicationController
   def create
     @course = Course.new(params[:course])
     @course.department_id = current_user.department_id
-    @course.creator_id = current_user
+    @course.creator = current_user
     respond_to do |format|
       if @course.save
         format.html { redirect_to courses_url, notice: 'Course was successfully created.' }
