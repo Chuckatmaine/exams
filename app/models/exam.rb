@@ -12,4 +12,46 @@ class Exam < ActiveRecord::Base
   accepts_nested_attributes_for :exam_content_areas
   validates :title, :course, :level, :presence => true
   validates :question_count, :numericality => { :only_integer => true, :greater_than => 0, :less_than_or_equal_to => 100 }
+def generate
+    @qtmp = 0 # flag that content areas matched
+    @qcount = 0 #questions selected for exam
+    @questions = Question.where(:available && :department_id => self.department).order('rand()')
+    @questions.each do |q|
+      q.courses.each do |qc|
+        if qc.id == self.course_id
+          q.content_areas.each do |qca|
+            self.content_areas.each do |tca|
+             if qca == tca  
+               @qtmp = 1 
+               tca.locked = 1
+               tca.save!
+             end
+            end
+          end
+        end
+      end
+      if @qtmp == 1 && @qcount < self.question_count 
+        @tq = self.exam_questions.build :question => q
+        logger.debug "\n\n *** \n\n Cleaning up. \n\n" + @tq.to_s + "\n\n ********* \n"
+        @tq.save!
+        @qcount = @qcount + 1 
+      end
+      @qtmp = 0
+    end
+    if @qcount < self.question_count
+      return "Not enough questions were available that fit the requested parameters (Max available: " + @qcount.to_s + " ).  Exam NOT created!"
+      self.cleanup
+      self.question_count = 0 
+    else
+      self.locked = 1
+      self.course.locked = 1
+      return "Exam was created successfully!"
+    end
+  end
+  def cleanup
+    self.exam_questions.each do |tq|
+  # logger.debug "\n\n *** \n\n Cleaning up. \n\n" + tq.id.to_s + "\n\n ********* \n"
+    tq.delete
+    end
+  end
 end

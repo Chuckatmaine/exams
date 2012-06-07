@@ -57,9 +57,10 @@ class ExamsController < ApplicationController
     @content_areas = ContentArea.find_all_by_department_id(current_user.department.id)
     @exam.department_id = current_user.department_id
     @exam.creator_id = current_user
-    generate
+    flash[:notice] = @exam.generate
     respond_to do |format|
-      if @exam.save
+      logger.debug "\n\n *** \n\n content after generate. \n\n" + flash.inspect + "\n\n ********* \n"
+      if @exam.save!
         format.html { redirect_to @exam }
         format.json { render json: @exam, status: :created, location: @exam }
       else
@@ -73,7 +74,7 @@ class ExamsController < ApplicationController
   # PUT /exams/1.json
   def update
     @exam = Exam.find(params[:id])
-    cleanup(@exam)
+    @exam.cleanup
     @exam.department_id = current_user.department_id
     respond_to do |format|
       if @exam.update_attributes(params[:exam])
@@ -87,51 +88,7 @@ class ExamsController < ApplicationController
       end
     end
   end
-
-  def generate
-    #@exam = Exam.find(params[:id])
-    @qtmp = 0 # flag that content areas matched
-    @qcount = 0 #questions selected for exam
-    @questions = Question.where(:available && :department_id => @exam.department).order('rand()')
-    @questions.each do |q|
-      q.courses.each do |qc|
-        if qc.id == @exam.course_id
-          q.content_areas.each do |qca|
-            @exam.content_areas.each do |tca|
-             if qca == tca  
-               @qtmp = 1 
-               tca.locked = 1
-               tca.save
-             end
-            end
-          end
-        end
-      end
-      if @qtmp == 1 && @qcount < @exam.question_count 
-        @tq = @exam.exam_questions.build :question => q
-        @tq.save
-        @qcount = @qcount + 1 
-      end
-      @qtmp = 0
-    end
-    if @qcount < @exam.question_count
-      flash[:notice] = "Not enough questions were available that fit the requested parameters (Max available: " + @qcount.to_s + " ).  Exam NOT created!"
-      cleanup(@exam)
-      @exam.question_count = 0 
-    else
-      @exam.locked = 1
-      @exam.course.locked = 1
-      flash[:notice] = "Exam was created successfully!"
-    end
-  end
-  def cleanup(exam)
-    #@exam = Exam.find(params[:id])
-    exam.exam_questions.each do |tq|
-#      logger.debug "\n\n *** \n\n Cleaning up. \n\n" + tq.id.to_s + "\n\n ********* \n"
-      tq.delete
-    end
-  end
-  # DELETE /exams/1
+ # DELETE /exams/1
   # DELETE /exams/1.json
   def destroy
     @exam = Exam.find(params[:id])

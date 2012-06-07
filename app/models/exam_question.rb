@@ -3,5 +3,5 @@ class ExamQuestion < ActiveRecord::Base
   belongs_to :exam
   belongs_to :question
   accepts_nested_attributes_for :question, :reject_if => lambda {|a| a[:name].blank? }
-  validates_presence_of :exam_id, :question_id
+  validates_presence_of :question_id
 end
