@@ -49,6 +49,11 @@ class ExamsController < ApplicationController
   # POST /exams.json
   def take
     @exam = Exam.find(params[:id])
+    #@questions = ExamQuestion.where(:exam = > @exam)
+     respond_to do |format|
+      format.html # take.html.erb
+      format.json { render json: @exam }
+    end
   end
   def create
     @exam = Exam.new(params[:exam])
@@ -59,7 +64,7 @@ class ExamsController < ApplicationController
     @exam.creator_id = current_user
     flash[:notice] = @exam.generate
     respond_to do |format|
-      logger.debug "\n\n *** \n\n content after generate. \n\n" + flash.inspect + "\n\n ********* \n"
+#      logger.debug "\n\n *** \n\n content after generate. \n\n" + flash.inspect + "\n\n ********* \n"
       if @exam.save!
         format.html { redirect_to @exam }
         format.json { render json: @exam, status: :created, location: @exam }
@@ -78,7 +83,7 @@ class ExamsController < ApplicationController
     @exam.department_id = current_user.department_id
     respond_to do |format|
       if @exam.update_attributes(params[:exam])
-        generate
+        flash[:notice] = @exam.generate
         format.html { redirect_to @exam }
         format.json { head :no_content }
 #      logger.debug "\n\n *** \n\n content after generate. \n\n" + flash.inspect + "\n\n ********* \n"
