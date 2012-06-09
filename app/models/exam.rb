@@ -60,5 +60,8 @@ def generate
   # logger.debug "\n\n *** \n\n Cleaning up. \n\n" + tq.id.to_s + "\n\n ********* \n"
     tq.delete
     end
+    self.locked = 0
+    self.available = 0
+    self.save
   end
 end
