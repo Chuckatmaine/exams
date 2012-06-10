@@ -3,13 +3,12 @@
 
 <center> <b>Exam Title:</b>
   <%= @exam.title %>
-  <br>  <b>Course:</b>
+  <br>  <b>This exam is intended for students in course:</b>
   <%= @exam.course.name %>
-  <br>  Created by: <%= @exam.creator.username %></center>
+  <br> Exam Created by: <%= @exam.creator.username %>
+  <b>This is a level <%= @exam.level %> Exam </b></center>
 
 <p>
-<b>Level:</b>
-<%= @exam.level %>
 </p>
 
 <p>
@@ -19,29 +18,19 @@
 <p>
    <ul>
  <% @exam.exam_questions.each do |tq| %>
-  Creator: <%= tq.question.creator.username %>
-   <br> 
-   Learning Objective: <%= tq.question.learning_objective %>
-   <br>
     Question: <%= tq.question.name %> 
    <br>
  <% tq.question.question_answers.each do |question_answer| %>
-     <li>    Answer: <%= question_answer.answer.name %>
-      <% if question_answer.is_correct then %>
-         :Correct answer
-      </li>
-      <% end %>  
+   <li> 
+   <div class="field">
+      <%= question_answer.check_box  "Answer: ", question_answer.answer.name %>
+    </div>
+    <% end %>  
+     <br><br>
   <% end %>     
   <br>
-<% end %>     
+  <br>
 </ul>
 </p>
-  <ul>
-    Content areas selected for this exam:
-  <% @exam.content_areas.each do |ca| %>
-      <li> <%= check_box_tag "exam[content_area_ids][]", ca.id, @exam.content_areas.include?(ca) %> <%=ca.name%> </li>
-  <% end %>
-  </ul>
-
 <%= link_to 'Edit', edit_exam_path(@exam) %> |
 <%= link_to 'Back', exams_path %>

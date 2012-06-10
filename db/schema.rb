@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120607115513) do
+ActiveRecord::Schema.define(:version => 20120606104952) do
 
   create_table "answers", :force => true do |t|
     t.string   "name"
@@ -140,7 +140,6 @@ ActiveRecord::Schema.define(:version => 20120607115513) do
     t.integer  "answer_id"
     t.string   "learning_objective"
     t.integer  "department_id"
-    t.integer  "content_area_id"
   end
 
   create_table "user_answers", :force => true do |t|
