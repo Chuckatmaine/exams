@@ -1,36 +1,46 @@
-<p id="notice"><%= notice %></p>
+<%= form_for(@usersubmit) do |f| %>
+  <% if @usersubmit.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@usersubmit.errors.count, "error") %> prohibited this question from being saved:</h2>
 
-
-<center> <b>Exam Title:</b>
+      <ul>
+      <% @usersubmit.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+   <% end %>
+ <center> <b>Exam Title:</b>
   <%= @exam.title %>
   <br>  <b>This exam is intended for students in course:</b>
   <%= @exam.course.name %>
-  <br> Exam Created by: <%= @exam.creator.username %>
-  <b>This is a level <%= @exam.level %> Exam </b></center>
+  <br>  Created by: <%= @exam.creator.username %></center>
 
 <p>
+<b>The level of this exam is:</b>
+<%= @exam.level %>
 </p>
-
+The content areas contained within this exam are:
+<% @exam.content_areas.each do |eca| %>
+  <br>
+  <%= eca.name %>
+<% end %>
 <p>
-  <b>Question Count:</b>
+  <b>The question count for this exam is:</b>
   <%= @exam.question_count %>
 </p>
+Select all correct answers for each question.
 <p>
-   <ul>
- <% @exam.exam_questions.each do |tq| %>
-    Question: <%= tq.question.name %> 
-   <br>
- <% tq.question.question_answers.each do |question_answer| %>
-   <li> 
-   <div class="field">
-      <%= question_answer.check_box  "Answer: ", question_answer.answer.name %>
-    </div>
-    <% end %>  
-     <br><br>
-  <% end %>     
+      <% @questions.each do |q| %>
+     <div>   Question : <%= q.name %>
+     </div>
+     <% q.answers.each do |qa| %>
+     <div>   Answer : <%= qa.name %>
+     </div>
+  <% end %> 
   <br>
-  <br>
-</ul>
-</p>
-<%= link_to 'Edit', edit_exam_path(@exam) %> |
-<%= link_to 'Back', exams_path %>
+<% end %>
+ <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

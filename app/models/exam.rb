@@ -1,8 +1,10 @@
 class Exam < ActiveRecord::Base
   has_many :exam_questions, :dependent => :destroy
-  has_many :questionss, :through => :exam_questions
+  has_many :questions, :through => :exam_questions
   has_many :content_areas, :through => :exam_content_areas
   has_many :exam_content_areas
+  has_many :user_submits
+  has_many :users, :through => :user_submits
   belongs_to :course
   belongs_to :creator, :class_name => "User"
   belongs_to :department

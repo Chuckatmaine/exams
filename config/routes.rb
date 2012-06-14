@@ -1,4 +1,6 @@
 Exams::Application.routes.draw do
+  resources :user_submits
+
   resources :exam_content_areas
 
   resources :question_content_areas

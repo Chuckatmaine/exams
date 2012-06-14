@@ -49,7 +49,10 @@ class ExamsController < ApplicationController
   # POST /exams.json
   def take
     @exam = Exam.find(params[:id])
-    #@questions = ExamQuestion.where(:exam = > @exam)
+    @usersubmit = UserSubmit.new
+    @usersubmit.user_id = current_user    
+    #@questions = ExamQuestion.where(:exam_id => @exam.id)
+    @questions = @exam.questions
      respond_to do |format|
       format.html # take.html.erb
       format.json { render json: @exam }

@@ -4,12 +4,13 @@ class User < ActiveRecord::Base
   devise :cas_authenticatable, :trackable, :timeoutable
   before_save :ldap_update_user, :on => :create
 
-
+  has_many :question_answers, :through => :user_answers
   has_many :questions, :foreign_key => 'creator_id'
   has_many :exams, :foreign_key => 'creator_id'
   has_many :answers, :foreign_key => 'creator_id'
   has_many :courses, :foreign_key => 'creator_id'
   has_many :categories, :foreign_key => 'creator_id'
+  has_many :user_submits
   belongs_to :department
 
   # Setup accessible (or protected) attributes for your model
