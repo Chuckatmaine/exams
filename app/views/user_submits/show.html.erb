@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @user_submit.user_id %>
+</p>
+
+<p>
+  <b>Exam:</b>
+  <%= @user_submit.exam_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_user_submit_path(@user_submit) %> |
+<%= link_to 'Back', user_submits_path %>
