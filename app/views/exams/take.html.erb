@@ -31,14 +31,17 @@ The content areas contained within this exam are:
 </p>
 Select all correct answers for each question.
 <p>
-      <% @questions.each do |q| %>
+   <% @questions.each do |q| %>
      <div>   Question : <%= q.name %>
-     </div>
+     </div> 
      <% q.answers.each do |qa| %>
-     <div>   Answer : <%= qa.name %>
+       <div>
+         <%= check_box_tag "@user_submit[user_answer_ids][]", qa.id %> 
+       Answer : <%= qa.name %>
      </div>
   <% end %> 
   <br>
+  <%= f.hidden_field  @examid, :value => @exam.id %>
 <% end %>
  <div class="actions">
     <%= f.submit %>

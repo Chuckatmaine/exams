@@ -1,11 +1,15 @@
 class QuestionsController < ApplicationController
   before_filter :require_unlocked, :only => [:edit, :destroy]
   before_filter :require_owner, :only => [:edit, :destroy]
+  before_filter :require_faculty, :only => [:show, :index]
   # GET /questions
   # GET /questions.json
   def index
-    @questions = Question.find_all_by_department_id(current_user.department.id)
-
+    if current_user.admin || current_user.faculty #Temporary for testing - need to remove faculty from this 
+      @questions = Question.all
+    else
+      @questions = Question.find_all_by_department_id(current_user.department.id)
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @questions }
@@ -35,8 +39,13 @@ class QuestionsController < ApplicationController
     @answer.department_id = current_user.department_id
     @answer.creator = current_user
     question_answer.answer = @answer
-    @courses = Course.where :department_id => current_user.department_id
-    @content_areas = ContentArea.where :department_id => current_user.department_id
+    if current_user.admin || current_user.faculty  #Temporary for testing - need to remove faculty from this
+      @courses = Course.all
+      @content_areas = ContentArea.all
+    else
+      @courses = Course.where :department_id => current_user.department_id
+      @content_areas = ContentArea.where :department_id => current_user.department_id
+    end
     @answers = Answer.all
     respond_to do |format|
       format.html # new.html.erb
@@ -118,16 +127,15 @@ class QuestionsController < ApplicationController
     end
   end
  def require_faculty
-    @question = Question.find(params[:id])
      unless (current_user.faculty) || (current_user.admin)
-     flash[:notice] = "You must be a faculty to create questions."
-     redirect_to @question
+     flash[:notice] = "You must be faculty to access the questions page. "
+     redirect_to :back
      end
   end
   def require_owner
     @question = Question.find(params[:id])
      unless (current_user == @question.creator) || (current_user.admin)
-     flash[:notice] = "You must be the owner to modify this question."
+     flas[:notice] = "You must be the owner to modify this question."
      redirect_to @question
      end
   end

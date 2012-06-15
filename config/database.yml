@@ -17,8 +17,8 @@ test:
   adapter: mysql2
   database: exams_test
   host: Amysql.uma.edu
-  username: exams
-  password: 2dFuM9pJLX95TPA7
+  username: examstest
+  password: 3EuXpWww74vF8L85 
 
 production:
   adapter: mysql2

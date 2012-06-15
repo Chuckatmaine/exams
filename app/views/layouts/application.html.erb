@@ -14,12 +14,14 @@
   </div>
  <div id="columns">
     <div id="side">
+
       <%= link_to "Home", root_path %><br>
-      <%= link_to "Answers", answers_path %><br>
+      <%= link_to "Exams", exams_path %><br>
+      <hr>
+      <font color="#ff0000">Faculty only</font>
       <%= link_to "Content Areas", content_areas_path %><br>
       <%= link_to "Courses", courses_path %><br>
       <%= link_to "Questions", questions_path %><br>
-      <%= link_to "Exams", exams_path %><br>
     </div>   
    <div id="main">
     <%= yield %>

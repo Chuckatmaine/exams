@@ -2,6 +2,7 @@ class ExamsController < ApplicationController
   # GET /exams
   # GET /exams.json
   skip_before_filter :require_user, :only => [:show]
+  before_filter :require_faculty, :only => [:new, :edit]
   before_filter :require_owner, :only => [:edit, :destroy]
   before_filter :require_unlocked, :only => [:edit, :destroy]
   before_filter :require_available, :only => [:take]
@@ -106,12 +107,10 @@ class ExamsController < ApplicationController
       format.json { head :no_content }
     end
   end
-   def require_faculty(exam)
-    #@exam = Exam.find(params[:id])
+  def require_faculty
      unless (current_user.faculty) || (current_user.admin)
-     flash[:notice] = "You must be a faculty to create exams."
-     redirect_to exam
-     return(0)
+     flash[:notice] = "You must be a faculty member to create or edit exams." 
+     redirect_to :back
      end
   end
   def require_owner

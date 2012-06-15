@@ -1,4 +1,5 @@
 class ContentAreasController < ApplicationController
+  before_filter :require_faculty, :only => [:new, :edit, :show, :index]
   # GET /content_areas
   # GET /content_areas.json
   def index
@@ -93,7 +94,13 @@ class ContentAreasController < ApplicationController
       redirect_to @ca and return 
     end
   end
-  def require_owner
+  def require_faculty
+      unless (current_user.faculty) || (current_user.admin)
+      flash[:notice] = "You must be a faculty member to access content areas."
+      redirect_to :back 
+      end
+  end
+ def require_owner
       @ca = ContentArea.find(params[:id])
       unless (current_user == @ca.creator) || (current_user.admin)
       flash[:notice] = "You must be the owner to modify this content area."

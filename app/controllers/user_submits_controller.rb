@@ -41,7 +41,8 @@ class UserSubmitsController < ApplicationController
   # POST /user_submits.json
   def create
     @user_submit = UserSubmit.new(params[:user_submit])
-
+    @user_submit.user = current_user
+    @user_submit.exam_id = @examid
     respond_to do |format|
       if @user_submit.save
         format.html { redirect_to @user_submit, notice: 'User submit was successfully created.' }
