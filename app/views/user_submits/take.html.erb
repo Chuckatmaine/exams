@@ -36,9 +36,7 @@ Select all correct answers for each question.
      </div> 
      <% q.question_answers.each do |qa| %>
        <div>
-         <%= f.fields_for :user_answers do |ua| %>
-           <%= ua.check_box :question_answer_id, {}, qa.id %> 
-         <% end %>
+         <%= check_box_tag "user_submit[user_answer_ids][]", qa.id %> 
        Answer : <%= qa.answer.name %>
      </div>
   <% end %> 

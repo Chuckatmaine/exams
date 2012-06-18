@@ -4,7 +4,7 @@ class UserSubmitsController < ApplicationController
   def index
     @user_submits = UserSubmit.all
 
-    respond_to do |format|
+    respo_to do |format|
       format.html # index.html.erb
       format.json { render json: @user_submits }
     end
@@ -25,7 +25,8 @@ class UserSubmitsController < ApplicationController
   # GET /user_submits/new.json
   def new
     @user_submit = UserSubmit.new
-
+    @user_submit.user_id = current_user
+    @user_submit.user_answers.build 
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @user_submit }
@@ -42,9 +43,16 @@ class UserSubmitsController < ApplicationController
   def create
     @user_submit = UserSubmit.new(params[:user_submit])
     @user_submit.user = current_user
-    @user_submit.exam_id = @examid
+    #@user_submit.exam_id = @examid
     respond_to do |format|
       if @user_submit.save
+        @user_submit.reload
+        @user_submit.user_answers.each do |ua|
+          if ua.user_id == nil 
+            ua.user_id = current_user
+            ua.save
+          end
+        end
         format.html { redirect_to @user_submit, notice: 'User submit was successfully created.' }
         format.json { render json: @user_submit, status: :created, location: @user_submit }
       else

@@ -9,13 +9,13 @@
     <th></th>
   </tr>
 
-<% @user_submits.each do |user_submit| %>
+<% @user_submits.each do |usersubmit| %>
   <tr>
-    <td><%= user_submit.user_id %></td>
-    <td><%= user_submit.exam_id %></td>
-    <td><%= link_to 'Show', user_submit %></td>
-    <td><%= link_to 'Edit', edit_user_submit_path(user_submit) %></td>
-    <td><%= link_to 'Destroy', user_submit, confirm: 'Are you sure?', method: :delete %></td>
+    <td><%= usersubmit.user_id %></td>
+    <td><%= usersubmit.exam_id %></td>
+    <td><%= link_to 'Show', usersubmit %></td>
+    <td><%= link_to 'Edit', edit_user_submit_path(usersubmit) %></td>
+    <td><%= link_to 'Destroy', usersubmit, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
 <% end %>
 </table>

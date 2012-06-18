@@ -2,7 +2,7 @@ class ExamsController < ApplicationController
   # GET /exams
   # GET /exams.json
   skip_before_filter :require_user, :only => [:show]
-  before_filter :require_faculty, :only => [:new, :edit]
+  before_filter :require_faculty, :only => [:new, :edit, :show]
   before_filter :require_owner, :only => [:edit, :destroy]
   before_filter :require_unlocked, :only => [:edit, :destroy]
   before_filter :require_available, :only => [:take]
@@ -50,8 +50,10 @@ class ExamsController < ApplicationController
   # POST /exams.json
   def take
     @exam = Exam.find(params[:id])
-    @usersubmit = UserSubmit.new
-    @usersubmit.user_id = current_user    
+    @user_submit = UserSubmit.new
+    @user_submit.user_id = current_user    
+    @user_submit.user_answers.build 
+    @user_answers = UserAnswer.where(:user_id => current_user)
     #@questions = ExamQuestion.where(:exam_id => @exam.id)
     @questions = @exam.questions
      respond_to do |format|
