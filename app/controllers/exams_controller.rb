@@ -5,7 +5,7 @@ class ExamsController < ApplicationController
   before_filter :require_faculty, :only => [:new, :edit, :show]
   before_filter :require_owner, :only => [:edit, :destroy]
   before_filter :require_unlocked, :only => [:edit, :destroy]
-  before_filter :require_available, :only => [:take]
+  before_filter :require_available, :only => [:take] # Locks the exam the first time someone begins taking it
 
   def index
     @exams = Exam.find_all_by_department_id(current_user.department.id)
@@ -49,11 +49,21 @@ class ExamsController < ApplicationController
   # POST /exams
   # POST /exams.json
   def take
-    @exam = Exam.find(params[:id])
-    @user_submit = UserSubmit.new
-    @user_submit.user_id = current_user    
-    @user_submit.user_answers.build 
-    @user_answers = UserAnswer.where(:user_id => current_user)
+    @exam = Exam.includes(:questions, :answers).find(params[:id])
+    if @user_submit = UserSubmit.includes(:user_answers).find(:first, :conditions =>{:user_id => current_user.id, :exam_id => @exam.id})
+      # @user_submit.user_answers = UserAnswer.where(:user_id => current_user, :question_answer_id => @exam.question_answer)
+    else
+      @user_submit = UserSubmit.new
+      @user_submit.user_id = current_user    
+      @user_submit.locked = 0
+      #@user_submit.user_answers.build 
+    end
+    @uahash = Hash.new
+    @user_submit.user_answers.each do |ua|
+      @uahash[ua.question_answer_id] = ua.id
+    end
+
+    #@user_answers = UserAnswer.where(:user_id => current_user)
     #@questions = ExamQuestion.where(:exam_id => @exam.id)
     @questions = @exam.questions
      respond_to do |format|
@@ -131,14 +141,17 @@ class ExamsController < ApplicationController
     end
   end
   def require_available
-    @exam = Exam.find(params[:id])
-    if @exam.available == false
+    @exam = Exam.includes(:user_submits).find(params[:id])
+   if @exam.available == false
       flash[:notice] = "This exam is not available at this time."
       redirect_to @exam
     end
     now = DateTime.current
     if  now < @exam.start_date || now > @exam.end_date
       flash[:notice] = "Exam " + @exam.title + " is only available from: " + @exam.start_date.to_s + " to: " + @exam.end_date.to_s + " Now: " + now.to_s
+      redirect_to :back
     end
+    @exam.locked = 1 # Lock the exam once someone begins taking the exam 
+    @exam.save
   end
 end

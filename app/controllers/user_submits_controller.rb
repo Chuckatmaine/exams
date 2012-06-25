@@ -41,19 +41,15 @@ class UserSubmitsController < ApplicationController
   # POST /user_submits
   # POST /user_submits.json
   def create
+    params[:user_submit][:user_answers_attributes].each do |key,value|
+      params[:user_submit][:user_answers_attributes][key] = params[:user_submit][:user_answers_attributes][key].merge(:user_id => current_user.id)
+    end
     @user_submit = UserSubmit.new(params[:user_submit])
     @user_submit.user = current_user
     #@user_submit.exam_id = @examid
     respond_to do |format|
       if @user_submit.save
-        @user_submit.reload
-        @user_submit.user_answers.each do |ua|
-          if ua.user_id == nil 
-            ua.user_id = current_user
-            ua.save
-          end
-        end
-        format.html { redirect_to @user_submit, notice: 'User submit was successfully created.' }
+      format.html { redirect_to @user_submit, notice: 'User submit was successfully created.' }
         format.json { render json: @user_submit, status: :created, location: @user_submit }
       else
         format.html { render action: "new" }
@@ -65,6 +61,9 @@ class UserSubmitsController < ApplicationController
   # PUT /user_submits/1
   # PUT /user_submits/1.json
   def update
+    params[:user_submit][:user_answers_attributes].each do |key,value|
+      params[:user_submit][:user_answers_attributes][key] = params[:user_submit][:user_answers_attributes][key].merge(:user_id => current_user.id)
+    end
     @user_submit = UserSubmit.find(params[:id])
 
     respond_to do |format|

@@ -31,13 +31,19 @@ The content areas contained within this exam are:
 </p>
 Select all correct answers for each question.
 <p>
+   <% i = 0 %>
    <% @questions.each do |q| %>
      <div>   Question : <%= q.name %>
      </div> 
      <% q.question_answers.each do |qa| %>
+       <% i = i + 1 %>
        <div>
-         <%= f.fields_for :user_answers do |ua| %>
-           <%= ua.check_box :question_answer_id, {}, qa.id %> 
+         <% if  @uahash.has_key?(qa.id) %>
+           <%= hidden_field_tag "user_submit[user_answers_attributes][" + i.to_s + "][id]", @uahash[qa.id] %>
+           <%= hidden_field_tag "user_submit[user_answers_attributes][" + i.to_s + "][_destroy]", 1 %>
+           <%= check_box_tag "user_submit[user_answers_attributes][" + i.to_s + "][_destroy]", 0, true %>
+         <% else %>
+           <%= check_box_tag "user_submit[user_answers_attributes][" + i.to_s + "][question_answer_id]", qa.id, false %>
          <% end %>
        Answer : <%= qa.answer.name %>
      </div>
