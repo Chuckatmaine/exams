@@ -55,13 +55,11 @@ class ExamsController < ApplicationController
         @correct = @correct + 1 # number of correct answers for this question
         @ua = @user_submit.user_answers.where(:question_answer_id => qa).each do |m| # match user answers to correct answers
         @count = @count + 1 #correct answer matched count
-      logger.debug "\n\n ***Answers counts " + @count.to_s + "  " + @correct.to_s + " ********* \n"
         end
       end
     end # end answers
     if @count == @correct && @count == @uacount # must have correct matching count and no extra answers
       @grade = @grade + 1
-     logger.debug "\n\n *** Grade counts\n\n . \n\n" + @grade.to_s + "  " + @count.to_s + "  " + @correct.to_s + "\n\n ********* \n"
     end
     end #end questions
     @grade = ((@grade.to_f / @exam.question_count.to_f) * 100)  
