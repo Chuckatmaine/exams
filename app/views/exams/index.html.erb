@@ -30,6 +30,7 @@
      <td><%= link_to 'Edit', edit_exam_path(exam) %></td>
      <td><%= link_to 'Destroy', exam, confirm: 'Are you sure?', method: :delete %></td>
     <% end %>
+     <td><%= link_to 'Grades', grade_exam_path(exam) %></td>
   </tr>
 <% end %>
 </table>

@@ -18,7 +18,8 @@ class Exam < ActiveRecord::Base
   accepts_nested_attributes_for :exam_content_areas
   validates :title, :course, :level, :presence => true
   validates :question_count, :numericality => { :only_integer => true, :greater_than => 0, :less_than_or_equal_to => 500 }
-def generate
+ 
+ def generate
     @qtmp = 0 # flag that content areas matched
     @qcount = 0 #questions selected for exam
     @questions = Question.where(:available && :department_id => self.department).order('rand()')

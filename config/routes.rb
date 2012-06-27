@@ -1,4 +1,6 @@
 Exams::Application.routes.draw do
+  resources :user_courses
+
   resources :exam_users
 
   resources :user_submits
@@ -40,6 +42,9 @@ Exams::Application.routes.draw do
   devise_for :users
   #match ':exams(/:take(/:id))'
   get "/exams/:id/take", :to => 'exams#take', :as => :take_exam
+  #match ':exams(/:grade(/:id))'
+  get "/exams/:id/grade", :to => 'exams#grade', :as => :grade_exam
+
 
 
   # The priority is based upon order of creation:
