@@ -173,8 +173,8 @@ class ExamsController < ApplicationController
   def require_available
     @exam = Exam.includes(:user_submits).find(params[:id])
    if @exam.available == false
-      flash[:notice] = "This exam is not available at this time."
-      redirect_to @exam
+      flash[:notice] = "This exam is not available to take at this time."
+      redirect_to :back 
     end
     now = DateTime.current
     if  now < @exam.start_date || now > @exam.end_date
