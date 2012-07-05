@@ -1,7 +1,7 @@
 class QuestionsController < ApplicationController
   before_filter :require_unlocked, :only => [:edit, :destroy]
   before_filter :require_owner, :only => [:edit, :destroy]
-  before_filter :require_faculty, :only => [:show, :index]
+  before_filter :require_faculty, :only => [:show, :index, :new]
   # GET /questions
   # GET /questions.json
   def index
