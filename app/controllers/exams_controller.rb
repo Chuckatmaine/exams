@@ -6,11 +6,16 @@ class ExamsController < ApplicationController
   before_filter :require_owner, :only => [:edit, :destroy]
   before_filter :require_unlocked, :only => [:edit, :destroy]
   before_filter :require_available, :only => [:take] # Locks the exam the first time someone begins taking it
+  before_filter :already_taken, :only => [:take] # prevent user from re-taking / updating an exam they have already taken
 
   def index
-    @exams = Exam.find_all_by_department_id(current_user.department.id)
+    if current_user.admin || current_user.faculty
+      @exams = Exam.find_all_by_department_id(current_user.department.id)
+    else
+      @exams = Exam.where("available = ? and start_date <= ? and end_date >= ?", true, Time.zone.now, Time.zone.now)
+    end
 
-
+#    logger.debug "\n\n *** \n\n Exams in index " + @exams.inspect + " ********* \n"
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @exams }
@@ -86,15 +91,12 @@ class ExamsController < ApplicationController
       @user_submit = UserSubmit.new
       @user_submit.user_id = current_user    
       @user_submit.locked = 0
-      #@user_submit.user_answers.build 
     end
     @uahash = Hash.new
     @user_submit.user_answers.each do |ua|
-      @uahash[ua.question_answer_id] = ua.id
+    @uahash[ua.question_answer_id] = ua.id
     end
 
-    #@user_answers = UserAnswer.where(:user_id => current_user)
-    #@questions = ExamQuestion.where(:exam_id => @exam.id)
     @questions = @exam.questions
      respond_to do |format|
       format.html # take.html.erb
@@ -174,7 +176,7 @@ class ExamsController < ApplicationController
     @exam = Exam.includes(:user_submits).find(params[:id])
    if @exam.available == false
       flash[:notice] = "This exam is not available to take at this time."
-      redirect_to :back 
+      return 
     end
     now = DateTime.current
     if  now < @exam.start_date || now > @exam.end_date
@@ -183,5 +185,12 @@ class ExamsController < ApplicationController
     end
     @exam.locked = 1 # Lock the exam once someone begins taking the exam 
     @exam.save
+  end
+  def already_taken
+    @exam = Exam.find(params[:id])
+    if @user_submit = UserSubmit.includes(:user_answers).find(:first, :conditions =>{:user_id => current_user.id, :exam_id => @exam.id})
+      flash[:notice] = "You have already taken this exam.  See instructor to enable it to be reopened." 
+      redirect_to :back
+    end
   end
 end

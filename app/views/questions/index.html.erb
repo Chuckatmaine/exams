@@ -4,7 +4,8 @@
   <tr>
     <th>Question Text :</th>
     <th>Level :</th>
-    <th>Learning Objective :</th>
+    <th>Learning Objectives :</th>
+    <th>Content Areas :</th>
     <th>Value :</th>
     <th>Author :</th>
     <th>Available :</th>
@@ -15,13 +16,18 @@
 
 <% @questions.each do |question| %>
   <% @courselist = '' %>
-    <% question.question_courses.each do |qc| %>
-    <% @courselist = @courselist + qc.course.name + ',' %>
+    <% question.courses.each do |qc| %>
+    <% @courselist = @courselist + qc.name + ',' %>
+    <% end %>
+  <% @calist = '' %>
+    <% question.content_areas.each do |qca| %>
+    <% @calist = @calist + qca.name + ',' %>
     <% end %>
   <tr>
     <td><%= question.name %></td>
     <td><%= question.level %></td>
     <td><%= question.learning_objective %></td>
+    <td><%= @calist %></td>
     <td><%= question.value %></td>
     <td><%= question.creator.username %></td>
     <td><%= question.available %></td>

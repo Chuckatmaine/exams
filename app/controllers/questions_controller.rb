@@ -6,9 +6,9 @@ class QuestionsController < ApplicationController
   # GET /questions.json
   def index
     if current_user.admin || current_user.faculty #Temporary for testing - need to remove faculty from this 
-      @questions = Question.all
+      @questions = Question.includes(:question_content_areas, :question_answers, :question_courses).all
     else
-      @questions = Question.find_all_by_department_id(current_user.department.id)
+      @questions = Question.includes(:question_content_areas, :question_answers).find_all_by_department_id(current_user.department.id)
     end
     respond_to do |format|
       format.html # index.html.erb
