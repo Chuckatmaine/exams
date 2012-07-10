@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120625155409) do
+ActiveRecord::Schema.define(:version => 20120710150734) do
 
   create_table "answers", :force => true do |t|
     t.string   "name"
@@ -29,14 +29,6 @@ ActiveRecord::Schema.define(:version => 20120625155409) do
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
     t.boolean  "locked"
-  end
-
-  create_table "contentareas", :force => true do |t|
-    t.string   "name"
-    t.integer  "department_id"
-    t.integer  "creator"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
   end
 
   create_table "courses", :force => true do |t|
@@ -97,14 +89,6 @@ ActiveRecord::Schema.define(:version => 20120625155409) do
     t.boolean  "locked"
     t.integer  "department_id"
     t.integer  "creator_id"
-  end
-
-  create_table "levels", :force => true do |t|
-    t.text     "learning_level"
-    t.integer  "department_id"
-    t.integer  "creator_id"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
   end
 
   create_table "question_answers", :force => true do |t|
