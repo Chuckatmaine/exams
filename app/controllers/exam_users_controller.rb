@@ -3,6 +3,7 @@ class ExamUsersController < ApplicationController
   # GET /exam_users.json
   def index
     @exam_users = ExamUser.all
+    #@users = Users.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -25,7 +26,7 @@ class ExamUsersController < ApplicationController
   # GET /exam_users/new.json
   def new
     @exam_user = ExamUser.new
-
+    @users = User.where(:faculty => false, :admin => false)
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @exam_user }

@@ -12,7 +12,8 @@ class ExamsController < ApplicationController
     if current_user.admin || current_user.faculty
       @exams = Exam.find_all_by_department_id(current_user.department.id)
     else
-      @exams = Exam.where("available = ? and start_date <= ? and end_date >= ?", true, Time.zone.now, Time.zone.now)
+      @exams = Exam.includes(:users).where("available = ? and start_date <= ? and end_date >= ?", true, Time.zone.now, Time.zone.now)
+    logger.debug "\n\n *** \n\n Exams in index " + @exams.inspect + " ********* \n"
     end
 
 #    logger.debug "\n\n *** \n\n Exams in index " + @exams.inspect + " ********* \n"

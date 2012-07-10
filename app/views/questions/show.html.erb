@@ -7,6 +7,30 @@
 </td>
 </tr>
 <tr>
+  <td>
+    <b>Course List</b>
+  </td>
+</tr>
+<% @question.courses.each do |qc| %>
+<tr>
+<td>
+<%= qc.name %>
+</td>
+</tr>
+<% end %>
+<tr>
+  <td>
+    <b>Content Areas</b>
+  </td>
+</tr>
+<% @question.content_areas.each do |qca| %>
+<tr>
+<td>
+<%= qca.name %>
+</td>
+</tr>
+<% end %>
+<tr>
 <td>
 <b>Learning Objective:</b>
 <%= @question.learning_objective %>

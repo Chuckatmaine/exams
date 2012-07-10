@@ -6,6 +6,7 @@ class Exam < ActiveRecord::Base
   has_many :content_areas, :through => :exam_content_areas
   has_many :exam_content_areas
   has_many :user_submits
+  has_many :exam_users
   has_many :user_answers, :through => :user_submits
   has_many :users, :through => :user_submits
   has_many :users, :through => :exam_users
