@@ -1,4 +1,5 @@
 class UserSubmit < ActiveRecord::Base
+  validates :user_id, :uniqueness => { :scope => :exam_id, :message => "You may only submit answers for an exam once."}
   belongs_to :user
   belongs_to :exam
   has_many :user_answers

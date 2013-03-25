@@ -90,12 +90,12 @@ class ExamsController < ApplicationController
       # @user_submit.user_answers = UserAnswer.where(:user_id => current_user, :question_answer_id => @exam.question_answer)
     else
       @user_submit = UserSubmit.new
-      @user_submit.user_id = current_user    
+      @user_submit.user = current_user    
       @user_submit.locked = 0
     end
     @uahash = Hash.new
     @user_submit.user_answers.each do |ua|
-    @uahash[ua.question_answer_id] = ua.id
+      @uahash[ua.question_answer_id] = ua.id
     end
 
     @questions = @exam.questions

@@ -4,7 +4,7 @@ class UserSubmitsController < ApplicationController
   def index
     @user_submits = UserSubmit.all
 
-    respo_to do |format|
+    respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @user_submits }
     end
@@ -52,8 +52,9 @@ class UserSubmitsController < ApplicationController
       format.html { redirect_to @user_submit, notice: 'User submit was successfully created.' }
         format.json { render json: @user_submit, status: :created, location: @user_submit }
       else
-        format.html { render action: "new" }
+        #format.html { render action: "new" }
         format.json { render json: @user_submit.errors, status: :unprocessable_entity }
+        format.html { redirect_to exams_url, notice: 'NOTICE! You may only submit answers for this exam once.  See your instructor for permission to re-take the exam.' }
       end
     end
   end
