@@ -110,10 +110,10 @@ class ExamsController < ApplicationController
 
     @content_areas = ContentArea.find_all_by_department_id(current_user.department.id)
     @exam.department_id = current_user.department_id
-    @exam.creator_id = current_user
+    @exam.creator = current_user
     flash[:notice] = @exam.generate
     respond_to do |format|
-#      logger.debug "\n\n *** \n\n content after generate. \n\n" + flash.inspect + "\n\n ********* \n"
+      logger.debug "\n\n *** \n\n content after generate. \n\n" + flash.inspect + "\n\n ********* \n"
       if @exam.save!
         format.html { redirect_to @exam }
         format.json { render json: @exam, status: :created, location: @exam }

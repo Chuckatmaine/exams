@@ -5,8 +5,11 @@ class CoursesController < ApplicationController
   # GET /courses
   # GET /courses.json
   def index
-    @courses = Course.find_all_by_department_id(current_user.department.id)
-
+    if current_user.admin
+      @courses = Course.all
+    else
+      @courses = Course.find_all_by_department_id(current_user.department.id)
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @courses }

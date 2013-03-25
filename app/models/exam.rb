@@ -53,6 +53,7 @@ class Exam < ActiveRecord::Base
     else
       self.locked = 1
       self.course.locked = 1
+      self.course.save
       return "Exam was created successfully!"
     end
   end

@@ -38,10 +38,11 @@
     <td><%= link_to 'Edit', edit_question_path(question) %></td>
     <td><%= link_to 'Destroy', question, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
+  <% qacount = 0 %>
  <% question.question_answers.each do |question_answer| %>
-
+   <% qacount += 1 %>
   <tr>
-    <td>Answer: <%= question_answer.answer.name %>
+  <td>Answer <%=qacount %>: <%= question_answer.answer.name %>
       <% if question_answer.is_correct then %>
          :Correct answer
       <% end %>  
