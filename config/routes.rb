@@ -43,7 +43,9 @@ Exams::Application.routes.draw do
   #match ':exams(/:take(/:id))'
   get "/exams/:id/take", :to => 'exams#take', :as => :take_exam
   #match ':exams(/:grade(/:id))'
-  get "/exams/:id/grade", :to => 'exams#grade', :as => :grade_exam
+  get "/exams/:id/mygrade", :to => 'exams#mygrade', :as => :mygrade_exam
+  get "/exams/:id/allgrades", :to => 'exams#allgrades', :as => :allgrades_exam
+  get "/user_submits/:id/display", :to => 'user_submits#display', :as => :display_user_submits
 
 
 

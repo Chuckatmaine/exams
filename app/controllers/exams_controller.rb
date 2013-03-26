@@ -44,35 +44,32 @@ class ExamsController < ApplicationController
       format.json { render json: @exam }
     end
   end
-  def grade
+  def mygrade
     @exam = Exam.find(params[:id])
-    @grade = 0
     @user_submit = UserSubmit.includes(:user_answers, :question_answers).find(:first, :conditions =>{:user_id => current_user.id, :exam_id => @exam.id})
     if @user_submit.nil?
      flash[:notice] = "You have not yet taken this exam." 
      redirect_to :back
     else
-    @exam.exam_questions.each do |tq|
-    @uacount = @user_submit.question_answers.where(:question_id => tq.question).count # how many user_answers for this question
-    @correct = 0
-    @count = 0
-    tq.question.question_answers.each do |qa|
-      if qa.is_correct 
-        @correct = @correct + 1 # number of correct answers for this question
-        @ua = @user_submit.user_answers.where(:question_answer_id => qa).each do |m| # match user answers to correct answers
-        @count = @count + 1 #correct answer matched count
-        end
-      end
-    end # end answers
-    if @count == @correct && @count == @uacount # must have correct matching count and no extra answers
-      @grade = @grade + 1
-    end
-    end #end questions
-    @grade = ((@grade.to_f / @exam.question_count.to_f) * 100)  
-    respond_to do |format|
-      format.html # grade.html.erb
+     submit = @user_submit
+     @grade = @exam.calc_grade(submit)
+     respond_to do |format|
+      format.html # mygrade.html.erb
       format.json { render json: @exam }
     end
+    end
+  end
+  def allgrades
+    @exam = Exam.find(params[:id])
+    @users_submit = UserSubmit.includes(:user_answers, :question_answers).find(:all, :conditions =>{:exam_id => @exam.id})
+    if @users_submit.nil?
+     flash[:notice] = "No one has yet taken this exam." 
+     redirect_to :back
+    else
+      respond_to do |format|
+        format.html # allgrades.html.erb
+        format.json { render json: @exam }
+      end
     end
   end
   # GET /exams/1/edit

@@ -66,4 +66,25 @@ class Exam < ActiveRecord::Base
     self.available = 0
     self.save
   end
+  def calc_grade(submit)
+    grade = 0
+    self.exam_questions.each do |tq|
+    @uacount = submit.question_answers.where(:question_id => tq.question).count # how many user_answers for this question
+    @correct = 0
+    @count = 0
+    tq.question.question_answers.each do |qa|
+      if qa.is_correct
+        @correct = @correct + 1 # number of correct answers for this question
+        @ua = submit.user_answers.where(:question_answer_id => qa).each do |m| # match user answers to correct answers
+        @count = @count + 1 #correct answer matched count
+        end
+      end
+    end # end answers
+    if @count == @correct && @count == @uacount # must have correct matching count and no extra answers
+      grade = grade + 1
+    end
+    end #end questions
+    grade = ((grade.to_f / self.question_count.to_f) * 100)
+    return(grade)
+  end
 end

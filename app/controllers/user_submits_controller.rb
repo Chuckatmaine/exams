@@ -78,6 +78,18 @@ class UserSubmitsController < ApplicationController
     end
   end
 
+ def display
+    @user_submit = UserSubmit.find(params[:id])
+    @exam = @user_submit.exam
+    submit = @user_submit
+    @grade = @exam.calc_grade(submit)
+
+    respond_to do |format|
+      format.html # display.html.erb
+      format.json { render json: @exam }
+    end
+ end
+
   # DELETE /user_submits/1
   # DELETE /user_submits/1.json
   def destroy
