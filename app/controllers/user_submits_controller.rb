@@ -83,7 +83,6 @@ class UserSubmitsController < ApplicationController
     @exam = @user_submit.exam
     submit = @user_submit
     @grade = @exam.calc_grade(submit)
-
     respond_to do |format|
       format.html # display.html.erb
       format.json { render json: @exam }

@@ -11,27 +11,30 @@
     <th>Department :</th>
     <th>Start Date :</th>
     <th>End Date :</th>
+    <th>Taken Count :</th>
   </tr>
 
 <% @exams.each do |exam| %>
+  <% @taken_count = UserSubmit.where(:exam_id => exam.id).count %>
   <tr>
-    <td><%= exam.title %></td>
-    <td><%= exam.level %></td>
+    <td><center><%= exam.title %></center></td>
+    <td><center><%= exam.level %></center></td>
     <td><%= exam.creator.username %></td>
     <td><%= exam.course.name %></td>
-    <td><%= exam.available %></td>
-    <td><%= exam.question_count %></td>
+    <td><center><%= exam.available %></center></td>
+    <td><center><%= exam.question_count %></center></td>
     <td><%= exam.department.name %></td>
     <td><%= exam.start_date%></td>
     <td><%= exam.end_date %></td>
+    <td><center><%= @taken_count %></center></td>
     <td><%= link_to 'Take exam', take_exam_path(exam) %></td>
     <% if current_user.faculty || current_user.admin %>
      <td><%= link_to 'Show', exam %></td>
      <td><%= link_to 'Edit', edit_exam_path(exam) %></td>
      <td><%= link_to 'Destroy', exam, confirm: 'Are you sure?', method: :delete %></td>
+     <td><%= link_to 'All Grades', allgrades_exam_path(exam) %></td>
     <% end %>
      <td><%= link_to 'My Grade', mygrade_exam_path(exam) %></td>
-     <td><%= link_to 'All Grades', allgrades_exam_path(exam) %></td>
   </tr>
 <% end %>
 </table>

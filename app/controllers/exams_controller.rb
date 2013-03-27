@@ -62,8 +62,9 @@ class ExamsController < ApplicationController
   def allgrades
     @exam = Exam.find(params[:id])
     @users_submit = UserSubmit.includes(:user_answers, :question_answers).find(:all, :conditions =>{:exam_id => @exam.id})
-    if @users_submit.nil?
-     flash[:notice] = "No one has yet taken this exam." 
+  logger.debug "\n\n *** \n\n User submit. \n\n" + @users_submit.inspect + "\n\n ********* \n"
+    if @users_submit.empty?
+     flash[:notice] = "No one has yet taken exam: " + @exam.title 
      redirect_to :back
     else
       respond_to do |format|
@@ -92,7 +93,7 @@ class ExamsController < ApplicationController
     end
     @uahash = Hash.new
     @user_submit.user_answers.each do |ua|
-      @uahash[ua.question_answer_id] = ua.id
+    @uahash[ua.question_answer_id] = ua.id
     end
 
     @questions = @exam.questions
@@ -110,7 +111,7 @@ class ExamsController < ApplicationController
     @exam.creator = current_user
     flash[:notice] = @exam.generate
     respond_to do |format|
-      logger.debug "\n\n *** \n\n content after generate. \n\n" + flash.inspect + "\n\n ********* \n"
+#      logger.debug "\n\n *** \n\n content after generate. \n\n" + flash.inspect + "\n\n ********* \n"
       if @exam.save!
         format.html { redirect_to @exam }
         format.json { render json: @exam, status: :created, location: @exam }
@@ -172,9 +173,9 @@ class ExamsController < ApplicationController
   end
   def require_available
     @exam = Exam.includes(:user_submits).find(params[:id])
-   if @exam.available == false
-      flash[:notice] = "This exam is not available to take at this time."
-      return 
+    if @exam.available == false
+      flash[:notice] = "Exam: " + @exam.title + "  is not available to take at this time."
+      redirect_to :back  
     end
     now = DateTime.current
     if  now < @exam.start_date || now > @exam.end_date
