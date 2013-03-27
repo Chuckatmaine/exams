@@ -49,7 +49,7 @@ class UserSubmitsController < ApplicationController
     #@user_submit.exam_id = @examid
     respond_to do |format|
       if @user_submit.save
-      format.html { redirect_to @user_submit, notice: 'User submit was successfully created.' }
+        format.html { redirect_to exams_url, notice: 'User submit was successfully created.' }
         format.json { render json: @user_submit, status: :created, location: @user_submit }
       else
         #format.html { render action: "new" }

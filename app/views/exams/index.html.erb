@@ -7,15 +7,20 @@
     <th>Creator :</th>
     <th>Course :</th>
     <th>Available :</th>
-    <th>Question Count :</th>
-    <th>Department :</th>
-    <th>Start Date :</th>
-    <th>End Date :</th>
+    <th>Questions :</th>
+    <!--    <th>Department :</th> -->
+    <th>Start :</th>
+    <th>End :</th>
     <th>Taken Count :</th>
+    <th>Retake</th>
   </tr>
 
 <% @exams.each do |exam| %>
-  <% @taken_count = UserSubmit.where(:exam_id => exam.id).count %>
+  <% if current_user.admin || current_user.faculty %>
+    <% @taken_count = UserSubmit.where(:exam_id => exam.id).count %>
+  <% else %>
+    <% @taken_count = UserSubmit.where(:exam_id => exam.id, :user_id => current_user.id).count %>
+  <% end %>
   <tr>
     <td><center><%= exam.title %></center></td>
     <td><center><%= exam.level %></center></td>
@@ -23,16 +28,22 @@
     <td><%= exam.course.name %></td>
     <td><center><%= exam.available %></center></td>
     <td><center><%= exam.question_count %></center></td>
-    <td><%= exam.department.name %></td>
+    <!-- <td><%= exam.department.name %></td> -->
     <td><%= exam.start_date%></td>
     <td><%= exam.end_date %></td>
     <td><center><%= @taken_count %></center></td>
+    <td><center><%= exam.retake %></center></td>
     <td><%= link_to 'Take exam', take_exam_path(exam) %></td>
     <% if current_user.faculty || current_user.admin %>
      <td><%= link_to 'Show', exam %></td>
      <td><%= link_to 'Edit', edit_exam_path(exam) %></td>
      <td><%= link_to 'Destroy', exam, confirm: 'Are you sure?', method: :delete %></td>
      <td><%= link_to 'All Grades', allgrades_exam_path(exam) %></td>
+     <% if exam.retake %>
+       <td><%= link_to 'Disable Retakes', enable_retake_exam_path(exam) %></td>
+     <% else %>
+       <td><%= link_to 'Enable Retakes', enable_retake_exam_path(exam) %></td>
+     <%end %>
     <% end %>
      <td><%= link_to 'My Grade', mygrade_exam_path(exam) %></td>
   </tr>

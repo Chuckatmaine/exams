@@ -13,7 +13,7 @@ class ExamsController < ApplicationController
       @exams = Exam.find_all_by_department_id(current_user.department.id)
     else
       @exams = Exam.includes(:users).where("available = ? and start_date <= ? and end_date >= ?", true, Time.zone.now, Time.zone.now)
-    logger.debug "\n\n *** \n\n Exams in index " + @exams.inspect + " ********* \n"
+#    logger.debug "\n\n *** \n\n Exams in index " + @exams.inspect + " ********* \n"
     end
 
 #    logger.debug "\n\n *** \n\n Exams in index " + @exams.inspect + " ********* \n"
@@ -84,7 +84,8 @@ class ExamsController < ApplicationController
   # POST /exams.json
   def take
     @exam = Exam.includes(:questions, :answers).find(params[:id])
-    if @user_submit = UserSubmit.includes(:user_answers).find(:first, :conditions =>{:user_id => current_user.id, :exam_id => @exam.id})
+     
+    if @user_submit = UserSubmit.includes(:user_answers).find(:first, :conditions =>{:user_id => current_user.id, :exam_id => @exam.id}) && !@exam.retake
       # @user_submit.user_answers = UserAnswer.where(:user_id => current_user, :question_answer_id => @exam.question_answer)
     else
       @user_submit = UserSubmit.new
@@ -185,11 +186,27 @@ class ExamsController < ApplicationController
     @exam.locked = 1 # Lock the exam once someone begins taking the exam 
     @exam.save
   end
+  def enable_retake
+    @exam = Exam.find(params[:id])
+    if @exam.retake
+      @exam.retake = 0
+      retake = "false"
+    else
+      @exam.retake = 1
+      retake = "true"
+    end
+    if @exam.save
+      flash[:notice] = "Exam " + @exam.title + " Retake is now set to: " + retake
+      redirect_to :back
+    end
+  end
   def already_taken
     @exam = Exam.find(params[:id])
     if @user_submit = UserSubmit.includes(:user_answers).find(:first, :conditions =>{:user_id => current_user.id, :exam_id => @exam.id})
+      unless @exam.retake
       flash[:notice] = "You have already taken this exam.  See instructor to enable it to be reopened." 
       redirect_to :back
+      end
     end
   end
 end
