@@ -33,6 +33,7 @@ class QuestionsController < ApplicationController
     @question = Question.new
     @question.creator = current_user
     @question.question_courses.build
+    @question.question_levels.build
     @question.question_content_areas.build
     question_answer = @question.question_answers.build
     @answer = @question.answers.build
@@ -41,9 +42,11 @@ class QuestionsController < ApplicationController
     question_answer.answer = @answer
     if current_user.admin || current_user.faculty  #Temporary for testing - need to remove faculty from this
       @courses = Course.all
+      @levels= Level.all
       @content_areas = ContentArea.all
     else
       @courses = Course.where :department_id => current_user.department_id
+      @levels = Level.where :department_id => current_user.department_id
       @content_areas = ContentArea.where :department_id => current_user.department_id
     end
     @answers = Answer.all
@@ -62,6 +65,7 @@ class QuestionsController < ApplicationController
     @answer.creator = current_user
     question_answer.answer = @answer
     @courses = Course.where :department_id => current_user.department_id
+    @levels = Level.where :department_id => current_user.department_id
     @content_areas = ContentArea.where :department_id => current_user.department_id
     #logger.debug "\n*****\n\n#{@question.question_answers.inspect}\n\n*****\n"
   end
@@ -72,6 +76,10 @@ class QuestionsController < ApplicationController
     @question = Question.new(params[:question])
     @question.creator = current_user
     @question.department = current_user.department
+    @courses = Course.where :department_id => current_user.department_id
+    @levels = Level.where :department_id => current_user.department_id
+    @content_areas = ContentArea.where :department_id => current_user.department_id
+    @question.value = 1
      respond_to do |format|
       if @question.save
         @question.reload

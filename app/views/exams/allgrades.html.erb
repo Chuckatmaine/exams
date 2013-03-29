@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+
+
+<center> <b>Grades for Exam:</b>
+  <%= @exam.title %>
+  <br>  <b>Course:</b>
+  <%= @exam.course.name %>
+<b>Level:</b>
+<%= @exam.level %>
+
+  <b>Question Count:</b>
+  <%= @exam.question_count %>
+<table>
+    
+  <tr>
+    <th>Student </th>
+    <th>Grade </th>
+  </tr>
+
+ <% @ave = 0 %>
+ <% @users_submit.each do |us| %>
+   <% @grade = @exam.calc_grade(us) %>
+   <% @ave = @ave + @grade %> 
+   <tr>
+     <td><%= us.user.username %> </td>
+     <td> <%= @grade.round(2) %></td>
+     <td><%= link_to 'Display', display_user_submits_path(us) %></td>
+   </tr>
+ <% end %>  
+
+  </table>
+  <br>Average score for this exam: <%= (@ave / @users_submit.count).round(2) %>
+<br />
+
+<%= link_to 'Edit', edit_exam_path(@exam) %> |
+<%= link_to 'Back', exams_path %>

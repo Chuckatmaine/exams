@@ -25,17 +25,18 @@
     <% if current_user.department == cour.department %> <li> <%= check_box_tag "question[course_ids][]", cour.id, @question.courses.include?(cour) %> <%=cour.name%> </li><% end %>
   <% end %>
   </ul>
- <p>Select a level: <%= f.select(:level, options_for_select([ "1", "2", "3", "4" ], "1")) %></p>
+  <ul>
+    Select all learning levels appropriate for this question:
+  <% @levels.each do |ll| %>
+    <% if current_user.department == ll.department %> <li> <%= check_box_tag "question[level_ids][]", ll.id, @question.levels.include?(ll) %> <%=ll.learning_level%> </li><%end %>
+  <% end %>
+  </ul>
   <ul>
     Select all content areas appropriate for this question:
   <% @content_areas.each do |ca| %>
     <% if current_user.department == ca.department %> <li> <%= check_box_tag "question[content_area_ids][]", ca.id, @question.content_areas.include?(ca) %> <%=ca.name%> </li><%end %>
   <% end %>
   </ul>
-  <div class="field">
-    <%= f.label "Point Value" %><br />
-    <%= f.number_field :value %>
-  </div>
   <div class="field">
     <%= f.check_box :available %>
     <%= f.label "Enable this question for use by the exam creator"%><br />

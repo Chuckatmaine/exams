@@ -39,6 +39,7 @@ class ExamsController < ApplicationController
     @exam = Exam.new
     @courses = Course.find_all_by_department_id(current_user.department.id)
     @content_areas = ContentArea.find_all_by_department_id(current_user.department.id)
+    @levels = Level.find_all_by_department_id(current_user.department.id)
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @exam }
@@ -106,7 +107,7 @@ class ExamsController < ApplicationController
   def create
     @exam = Exam.new(params[:exam])
     @courses = Course.find_all_by_department_id(current_user.department.id)
-
+    @levels = Level.find_all_by_department_id(current_user.department.id)
     @content_areas = ContentArea.find_all_by_department_id(current_user.department.id)
     @exam.department_id = current_user.department_id
     @exam.creator = current_user

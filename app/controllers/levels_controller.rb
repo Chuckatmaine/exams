@@ -41,7 +41,8 @@ class LevelsController < ApplicationController
   # POST /levels.json
   def create
     @level = Level.new(params[:level])
-
+    @level.department_id = current_user.department_id
+    @level.creator_id = current_user.id
     respond_to do |format|
       if @level.save
         format.html { redirect_to @level, notice: 'Level was successfully created.' }

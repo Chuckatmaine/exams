@@ -1,4 +1,10 @@
 Exams::Application.routes.draw do
+  resources :question_levels
+
+
+  resources :exam_levels
+
+
   resources :user_courses
 
   resources :exam_users

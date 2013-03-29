@@ -4,7 +4,9 @@ class Exam < ActiveRecord::Base
   has_many :question_answers, :through => :questions
   has_many :answers, :through => :question_answers
   has_many :content_areas, :through => :exam_content_areas
+  has_many :levels, :through => :exam_levels
   has_many :exam_content_areas
+  has_many :exam_levels
   has_many :user_submits
   has_many :exam_users
   has_many :user_answers, :through => :user_submits
@@ -13,11 +15,12 @@ class Exam < ActiveRecord::Base
   belongs_to :course
   belongs_to :creator, :class_name => "User"
   belongs_to :department
-  attr_accessible :level, :title, :course_id, :available, :exam_content_areas, :content_areas, :content_area_ids, :exam_id, :question_count, :start_date, :end_date, :department_id
+  attr_accessible :level_ids, :levels, :learning_level, :title, :course_id, :available, :exam_content_areas, :content_areas, :content_area_ids, :retake, :exam_id, :question_count, :start_date, :end_date, :department_id
   attr_accessible :exam_questions, :allow_destroy => true
   accepts_nested_attributes_for :content_areas, :reject_if => lambda {|a| a[:name].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :exam_content_areas
-  validates :title, :course, :level, :presence => true
+  accepts_nested_attributes_for :exam_levels, :reject_if => lambda {|a| a[:name].blank? }, :allow_destroy => true
+  validates :title, :course, :presence => true
   validates :question_count, :numericality => { :only_integer => true, :greater_than => 0, :less_than_or_equal_to => 500 }
  
  def generate
