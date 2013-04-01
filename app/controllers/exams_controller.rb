@@ -77,8 +77,15 @@ class ExamsController < ApplicationController
   # GET /exams/1/edit
   def edit
     @exam = Exam.find(params[:id])
-    @courses = Course.find_all_by_department_id(current_user.department.id)
-    @content_areas = ContentArea.find_all_by_department_id(current_user.department.id)
+    if current_user.admin
+      @courses = Course.all
+      @content_areas = ContentArea.all
+      @levels = Level.all
+    else
+      @courses = Course.find_all_by_department_id(current_user.department.id)
+      @content_areas = ContentArea.find_all_by_department_id(current_user.department.id)
+      @levels = Level.find_all_by_department_id(current_user.department.id)
+    end
   end
 
   # POST /exams
@@ -111,6 +118,7 @@ class ExamsController < ApplicationController
     @content_areas = ContentArea.find_all_by_department_id(current_user.department.id)
     @exam.department_id = current_user.department_id
     @exam.creator = current_user
+    @exam.show_results = 0
     flash[:notice] = @exam.generate
     respond_to do |format|
 #      logger.debug "\n\n *** \n\n content after generate. \n\n" + flash.inspect + "\n\n ********* \n"

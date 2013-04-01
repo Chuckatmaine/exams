@@ -8,40 +8,43 @@
   <br>  Created by: <%= @exam.creator.username %></center>
 
 <p>
-<b>Level:</b>
-<%= @exam.level %>
-</p>
+    <b>Learning Levels selected for this exam:</b>
+  <ul>
+  <% @exam.levels.each do |ll| %>
+      <li> <%= ll.learning_level%> </li>
+  <% end %>
+  </ul>
 
+  <b>Content areas selected for this exam:</b>
+  <ul>
+  <% @exam.content_areas.each do |ca| %>
+      <li> <%=ca.name%> </li>
+  <% end %>
+  </ul>
 <p>
   <b>Question Count:</b>
   <%= @exam.question_count %>
 </p>
 <p>
-   <ul>
  <% @exam.exam_questions.each do |tq| %>
-  Creator: <%= tq.question.creator.username %>
+   <b>Question Creator: </b>   
+   <%= tq.question.creator.username %>
    <br> 
-   Learning Objective: <%= tq.question.learning_objective %>
+   <b>Learning Objective: </b><%= tq.question.learning_objective %>
    <br>
-    Question: <%= tq.question.name %> 
+   <b>Question: </b><%= tq.question.name %> 
    <br>
  <% tq.question.question_answers.each do |question_answer| %>
-     <li>    Answer: <%= question_answer.answer.name %>
+   <b>Answer: </b><%= question_answer.answer.name %>
       <% if question_answer.is_correct then %>
-         :Correct answer
-      </li>
+       Correct answer
       <% end %>  
+      <br>
   <% end %>     
   <br>
 <% end %>     
 </ul>
 </p>
-  <ul>
-    Content areas selected for this exam:
-  <% @exam.content_areas.each do |ca| %>
-      <li> <%= check_box_tag "exam[content_area_ids][]", ca.id, @exam.content_areas.include?(ca) %> <%=ca.name%> </li>
-  <% end %>
-  </ul>
 
 <%= link_to 'Edit', edit_exam_path(@exam) %> |
 <%= link_to 'Back', exams_path %>

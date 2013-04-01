@@ -8,10 +8,10 @@
     <th>Course :</th>
     <th>Available :</th>
     <th>Questions :</th>
-    <!--    <th>Department :</th> -->
     <th>Start :</th>
     <th>End :</th>
     <th>Taken Count :</th>
+    <th>Show Results :</th>
     <th>Retake</th>
   </tr>
 
@@ -21,7 +21,6 @@
   <% else %>
     <% @taken_count = UserSubmit.where(:exam_id => exam.id, :user_id => current_user.id).count %>
   <% end %>
-  <tr>
     <td><center><%= exam.title %></center></td>
     <td><center><%= exam.level %></center></td>
     <td><%= exam.creator.username %></td>
@@ -32,6 +31,7 @@
     <td><%= exam.start_date%></td>
     <td><%= exam.end_date %></td>
     <td><center><%= @taken_count %></center></td>
+    <td><center><%= exam.show_results %></center></td>
     <td><center><%= exam.retake %></center></td>
     <td><%= link_to 'Take exam', take_exam_path(exam) %></td>
     <% if current_user.faculty || current_user.admin %>
