@@ -40,6 +40,18 @@ class ExamsController < ApplicationController
     @courses = Course.find_all_by_department_id(current_user.department.id)
     @content_areas = ContentArea.find_all_by_department_id(current_user.department.id)
     @levels = Level.find_all_by_department_id(current_user.department.id)
+    if @courses.nil? 
+       flash[:notice] = "You must create courses before creating exams."
+       redirect_to :back
+    end
+    if @content_areas.nil? 
+       flash[:notice] = "You must create content areas before creating exams."
+       redirect_to :back
+    end
+    if @levels.nil? 
+       flash[:notice] = "You must create learning levels before creating exams."
+       redirect_to :back
+    end
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @exam }
