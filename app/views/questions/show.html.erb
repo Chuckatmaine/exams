@@ -20,6 +20,18 @@
 <% end %>
 <tr>
   <td>
+    <b>Learning Levels</b>
+  </td>
+</tr>
+<% @question.levels.each do |ql| %>
+<tr>
+<td>
+<%= ql.learning_level %>
+</td>
+</tr>
+<% end %>
+<tr>
+  <td>
     <b>Content Areas</b>
   </td>
 </tr>
@@ -35,13 +47,6 @@
 <b>Learning Objective:</b>
 <%= @question.learning_objective %>
 </td>
-</tr>
-<tr>
-<td>
-<b>Level:</b>
-<%= @question.level %>
-</td>
-
 </tr>
 <tr>
 <td>
@@ -69,6 +74,8 @@
       <% if question_answer.is_correct then %>
          :Correct answer
       <% end %>  
+    </td>
+    <td>Rationale: <%= question_answer.answer.rationale %>
     </td>
   </tr>    
   <% end %>     

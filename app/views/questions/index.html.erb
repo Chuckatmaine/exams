@@ -3,7 +3,7 @@
 <table>
   <tr>
     <th><u>Question Text</u></th>
-    <th><u>Level</u></th>
+    <th><u>Learning Levels</u></th>
     <th><u>Learning Objectives</u></th>
     <th><u>Content Areas</u></th>
     <th><u>Author</u></th>
@@ -22,9 +22,13 @@
     <% question.content_areas.each do |qca| %>
     <% @calist = @calist + qca.name + ',' %>
     <% end %>
+  <% @levellist = '' %>
+    <% question.levels.each do |ql| %>
+    <% @levellist = @levellist + ql.learning_level + ',' %>
+    <% end %>
   <tr>
     <td><%= question.name %></td>
-    <td><%= question.level %></td>
+    <td><%= @levellist %></td>
     <td><%= question.learning_objective %></td>
     <td><%= @calist %></td>
     <td><%= question.creator.username %></td>

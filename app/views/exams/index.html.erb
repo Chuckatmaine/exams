@@ -44,6 +44,16 @@
      <% else %>
        <td><%= link_to 'Enable Retakes', enable_retake_exam_path(exam) %></td>
      <%end %>
+     <% if exam.show_results %>
+       <td><%= link_to 'Disable Results', show_results_exam_path(exam) %></td>
+     <% else %>
+       <td><%= link_to 'Enable Results', show_results_exam_path(exam) %></td>
+     <%end %>
+     <% if exam.available %>
+       <td><%= link_to 'Set Unavailable', availability_exam_path(exam) %></td>
+     <% else %>
+       <td><%= link_to 'Set Available', availability_exam_path(exam) %></td>
+     <%end %>
     <% end %>
      <td><%= link_to 'My Grade', mygrade_exam_path(exam) %></td>
   </tr>

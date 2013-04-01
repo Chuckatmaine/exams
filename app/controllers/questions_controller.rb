@@ -114,7 +114,7 @@ class QuestionsController < ApplicationController
            a.save
           end
         end
-        format.html { redirect_to @question, notice: 'Question was successfully updated.' }
+        format.html { redirect_to :back, notice: 'Question was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

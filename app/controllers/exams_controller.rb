@@ -167,7 +167,8 @@ class ExamsController < ApplicationController
   end
   def require_unlocked
     @exam = Exam.find(params[:id])
-    if @exam.locked
+    taken_count = UserSubmit.where(:exam_id => @exam.id).count
+    if @exam.locked  && taken_count > 0
       flash[:notice] = "This exam has been administered and is therefore locked. It can no longer be edited or deleted."
       redirect_to @exam 
       return(0)
@@ -198,6 +199,34 @@ class ExamsController < ApplicationController
     end
     if @exam.save
       flash[:notice] = "Exam " + @exam.title + " Retake is now set to: " + retake
+      redirect_to :back
+    end
+  end
+  def availability 
+    @exam = Exam.find(params[:id])
+    if @exam.available
+      @exam.available = 0
+      available = "false"
+    else
+      @exam.available = 1
+      available = "true"
+    end
+    if @exam.save
+      flash[:notice] = "Exam " + @exam.title + " Availability is now set to: " + available
+      redirect_to :back
+    end
+  end
+  def show_results 
+    @exam = Exam.find(params[:id])
+    if @exam.show_results
+      @exam.show_results = 0
+      results = "false"
+    else
+      @exam.show_results = 1
+      results = "true"
+    end
+    if @exam.save
+      flash[:notice] = "Exam " + @exam.title + " Show Results is now set to: " + results
       redirect_to :back
     end
   end
