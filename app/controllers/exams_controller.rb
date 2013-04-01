@@ -40,17 +40,20 @@ class ExamsController < ApplicationController
     @courses = Course.find_all_by_department_id(current_user.department.id)
     @content_areas = ContentArea.find_all_by_department_id(current_user.department.id)
     @levels = Level.find_all_by_department_id(current_user.department.id)
-    if @courses.nil? 
+    if @courses.count < 1 
        flash[:notice] = "You must create courses before creating exams."
-       redirect_to :back
+       redirect_to :back 
+       return 
     end
-    if @content_areas.nil? 
+    if @content_areas.count < 1 
        flash[:notice] = "You must create content areas before creating exams."
-       redirect_to :back
+       redirect_to :back 
+       return 
     end
-    if @levels.nil? 
+    if @levels.count < 1 
        flash[:notice] = "You must create learning levels before creating exams."
-       redirect_to :back
+       redirect_to :back 
+       return 
     end
     respond_to do |format|
       format.html # new.html.erb
