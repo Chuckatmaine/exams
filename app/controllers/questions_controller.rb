@@ -49,6 +49,22 @@ class QuestionsController < ApplicationController
       @levels = Level.where :department_id => current_user.department_id
       @content_areas = ContentArea.where :department_id => current_user.department_id
     end
+    if @courses.count < 1
+       flash[:notice] = "You must create courses before creating questions."
+       redirect_to :back
+       return
+    end
+    if @content_areas.count < 1
+       flash[:notice] = "You must create content areas before creating questions."
+       redirect_to :back
+       return
+    end
+    if @levels.count < 1
+       flash[:notice] = "You must create learning levels before creating questions."
+       redirect_to :back
+       return
+    end
+
     @answers = Answer.all
     respond_to do |format|
       format.html # new.html.erb
