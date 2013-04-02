@@ -26,7 +26,7 @@ class Exam < ActiveRecord::Base
  def generate
     @qtmp = 0 # flag that content areas matched
     @qcount = 0 #questions selected for exam
-    @questions = Question.where({:available => true, :enable => true}, :department_id => self.department).order('rand()')
+    @questions = Question.where(:available => true, :department_id => self.department).order('rand()')
     @questions.each do |q|
       q.courses.each do |qc|
         if qc.id == self.course_id

@@ -32,14 +32,14 @@
     <%= f.label "Number of questions to include in this exam" %><br />
     <%= f.number_field :question_count %>
   </div>
-
-<div class="field">
-    <%= f.check_box :available %>
-    <%= f.label :available %>
-  </div>
 <div class="field">
     <%= f.check_box :retake %>
     <%= f.label "Allow students to take this exam more than once" %>
+  </div>
+
+<div class="field">
+  <%= f.check_box :available %>
+    <%= f.label "Available - Enables exam between start and end dates/times" %>
   </div>
   <div class="field">
     <%= f.label "Start date/time when exam is available" %><br />

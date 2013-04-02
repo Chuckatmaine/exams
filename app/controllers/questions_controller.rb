@@ -96,7 +96,6 @@ class QuestionsController < ApplicationController
     @levels = Level.where :department_id => current_user.department_id
     @content_areas = ContentArea.where :department_id => current_user.department_id
     @question.value = 1
-    @question.enable = 1
      respond_to do |format|
       if @question.save
         @question.reload
@@ -166,15 +165,15 @@ class QuestionsController < ApplicationController
   end
   def enable
     @question = Question.find(params[:id])
-    if @question.enable
-      @question.enable = 0
+    if @question.available
+      @question.available = 0
       enable = "false"
     else
-      @question.enable = 1
+      @question.available = 1
       enable = "true"
     end
     if @question.save
-      flash[:notice] = "Question " + @question.name + " Enable is now set to: " + enable
+      flash[:notice] = "Question " + @question.name + " Available is now set to: " + enable
       redirect_to :back
     end
   end
