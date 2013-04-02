@@ -3,13 +3,12 @@
 <table>
   <tr>
     <th>Title :</th>
-    <th>Level :</th>
     <th>Creator :</th>
     <th>Course :</th>
     <th>Available :</th>
     <th>Questions :</th>
-    <th>Start :</th>
-    <th>End :</th>
+    <th>Available From :</th>
+    <th>Available To :</th>
     <th>Taken Count :</th>
     <th>Show Results :</th>
     <th>Retake</th>
@@ -22,7 +21,6 @@
     <% @taken_count = UserSubmit.where(:exam_id => exam.id, :user_id => current_user.id).count %>
   <% end %>
     <td><center><%= exam.title %></center></td>
-    <td><center><%= exam.level %></center></td>
     <td><%= exam.creator.username %></td>
     <td><%= exam.course.name %></td>
     <td><center><%= exam.available %></center></td>
