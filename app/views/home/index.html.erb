@@ -1,6 +1,20 @@
-Logged in as <%= current_user.username %>, department: <%= current_user.department.name%> <br >
-Welcome to the UMA exams application
+<center> 
+  <h1>Welcome to the UMA Exams Application</h1>
+<br>
+  Logged in as <b>User:</b> <%= current_user.username %>, <b>Department:</b> <%= current_user.department.name%>, <b>Permission Level:</b> 
+<% if current_user.admin %>
+  Admin
+<% else %>
+<% if current_user.faculty %>
+  Faculty
+<% else %>
+  Student
+<% end %>
+<% end %>
+  <br >
+</center>
+<br>
 <div>
-  To use this application start by creating courses and content areas.  These can then be selected when creating questions.  Answers are created while creating questions.  To create exams select the exams link then enter the exam parameters.  Questions will be randomly seleected by the exam generator using the parameters you previously entered.
+  To use this application start by creating courses, content areas, and learning levels.  These can then be selected when creating questions.  Answers are created while creating questions.  To create exams select the exams link then enter the exam parameters.  Questions will be randomly seleected by the exam generator using the parameters you previously entered.
   All exams and components are tagged with your department so that only those in your department can access them.
 </div>
