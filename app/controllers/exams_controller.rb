@@ -120,7 +120,7 @@ class ExamsController < ApplicationController
     @uahash[ua.question_answer_id] = ua.id
     end
 
-    @questions = @exam.questions
+    @questions = @exam.questions.sort_by {rand() }
      respond_to do |format|
       format.html # take.html.erb
       format.json { render json: @exam }

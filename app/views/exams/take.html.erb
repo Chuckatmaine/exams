@@ -31,11 +31,13 @@ The content areas contained within this exam are:
 </p>
 Select all correct answers for each question.
 <p>
+<% @questions.sort {rand} %>
    <% i = 0 %>
    <% @questions.each do |q| %>
      <div>   Question : <%= q.name %>
      </div> 
-     <% q.question_answers.each do |qa| %>
+     <% answers = q.question_answers.sort_by {rand()} %>
+     <% answers.each do |qa| %>
        <% i = i + 1 %>
        <div>
          <% if  @uahash.has_key?(qa.id) %>
