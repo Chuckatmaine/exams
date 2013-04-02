@@ -40,7 +40,7 @@ class QuestionsController < ApplicationController
     @answer.department_id = current_user.department_id
     @answer.creator = current_user
     question_answer.answer = @answer
-    if current_user.admin || current_user.faculty  #Temporary for testing - need to remove faculty from this
+    if current_user.admin 
       @courses = Course.all
       @levels= Level.all
       @content_areas = ContentArea.all
