@@ -9,6 +9,7 @@
     <th><u>Author</u></th>
     <th><u>Available</u></th>
     <th><u>Locked</u></th>
+    <th><u>Enabled</u></th>
     <th><u>Department</u></th>
     <th><u>Courses</u></th>
   </tr>
@@ -34,10 +35,16 @@
     <td><%= question.creator.username %></td>
     <td><%= question.available %></td>
     <td><%= question.locked %></td>
+    <td><%= question.enable %></td>
     <td><%= question.department.name %></td>
     <td><%= @courselist %></td>
    <td><%= link_to 'Show', question %></td>
     <td><%= link_to 'Edit', edit_question_path(question) %></td>
+     <% if question.enable %>
+       <td><%= link_to 'Disable Question', enable_question_path(question) %></td>
+     <% else %>
+       <td><%= link_to 'Enable Question', enable_question_path(question) %></td>
+     <%end %>
     <td><%= link_to 'Destroy', question, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
   <% qacount = 0 %>
