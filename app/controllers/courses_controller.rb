@@ -91,22 +91,21 @@ class CoursesController < ApplicationController
   def require_faculty
       unless (current_user.faculty) || (current_user.admin)
       flash[:notice] = "You must be a faculty member to access course data."
-      redirect_to :back 
+      redirect_to :back and return 
       end
   end
   def require_owner
     @course = Course.find(params[:id])
      unless (current_user == @course.creator) || (current_user.admin)
      flash[:notice] = "You must be the owner to modify this course."
-     redirect_to @course 
+     redirect_to :back and return 
      end
   end
   def require_unlocked
     @course = Course.find(params[:id])
     if @course.locked
       flash[:notice] = "This course has been administered and is therefore locked. it can no longer be edited or deleted."
-      redirect_to @course 
-      return(0)
+      redirect_to :back and return 
     end
   end
  
