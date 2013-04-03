@@ -17,10 +17,13 @@
   <br>  Created by: <%= @exam.creator.username %></center>
 
 <p>
-<b>The level of this exam is:</b>
-<%= @exam.level %>
+<b>The Learning Levels for this exam:</b>
+<% @exam.levels.each do |ll| %>
+  <br>
+  <%= ll.learning_level %>
+<% end %>
 </p>
-The content areas contained within this exam are:
+<b>The content areas contained within this exam are:</b>
 <% @exam.content_areas.each do |eca| %>
   <br>
   <%= eca.name %>
@@ -29,12 +32,12 @@ The content areas contained within this exam are:
   <b>The question count for this exam is:</b>
   <%= @exam.question_count %>
 </p>
-Select all correct answers for each question.
+<b>You must select all correct answers for each question.</b>
 <p>
 <% @questions.sort {rand} %>
    <% i = 0 %>
    <% @questions.each do |q| %>
-     <div>   Question : <%= q.name %>
+     <div><b>Question : </b><%= q.name %>
      </div> 
      <% answers = q.question_answers.sort_by {rand()} %>
      <% answers.each do |qa| %>
@@ -47,7 +50,7 @@ Select all correct answers for each question.
          <% else %>
            <%= check_box_tag "user_submit[user_answers_attributes][" + i.to_s + "][question_answer_id]", qa.id, false %>
          <% end %>
-       Answer : <%= qa.answer.name %>
+         <%= qa.answer.name %>
      </div>
   <% end %> 
   <br>
