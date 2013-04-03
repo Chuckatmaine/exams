@@ -179,6 +179,7 @@ class ExamsController < ApplicationController
      unless (current_user.faculty) || (current_user.admin)
      flash[:notice] = "You must be a faculty member to create or edit exams." 
      redirect_to :back
+     return(0)
      end
   end
   def require_owner
@@ -192,8 +193,8 @@ class ExamsController < ApplicationController
     @exam = Exam.find(params[:id])
     taken_count = UserSubmit.where(:exam_id => @exam.id).count
     if @exam.locked  && taken_count > 0
-      flash[:notice] = "This exam has been administered and is therefore locked. It can no longer be edited or deleted."
-      redirect_to @exam 
+      flash[:notice] = "Exam " + @exam.title + " has been administered and is therefore locked. It can no longer be edited or deleted."
+      redirect_to :back 
       return(0)
     end
   end
@@ -202,11 +203,13 @@ class ExamsController < ApplicationController
     if @exam.available == false
       flash[:notice] = "Exam: " + @exam.title + "  is not available to take at this time."
       redirect_to :back  
+      return(0)
     end
     now = DateTime.current
     if  now < @exam.start_date || now > @exam.end_date
       flash[:notice] = "Exam " + @exam.title + " is only available from: " + @exam.start_date.to_s + " to: " + @exam.end_date.to_s + " Now: " + now.to_s
       redirect_to :back
+      return(0)
     end
     @exam.locked = 1 # Lock the exam once someone begins taking the exam 
     @exam.save
