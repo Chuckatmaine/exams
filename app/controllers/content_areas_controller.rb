@@ -1,5 +1,7 @@
 class ContentAreasController < ApplicationController
   before_filter :require_faculty, :only => [:new, :edit, :show, :index]
+  before_filter :require_owner, :only => [:edit, :destroy]
+  before_filter :require_unlocked, :only => [:edit, :destroy]
   # GET /content_areas
   # GET /content_areas.json
   def index
@@ -77,8 +79,6 @@ class ContentAreasController < ApplicationController
   # DELETE /content_areas/1
   # DELETE /content_areas/1.json
   def destroy
-    require_unlocked
-    require_owner
     @content_area = ContentArea.find(params[:id])
     @content_area.destroy
 
@@ -91,20 +91,20 @@ class ContentAreasController < ApplicationController
     @ca = ContentArea.find(params[:id])
     if @ca.locked
       flash[:notice] = "This content area has been administered and is therefore locked. It can no longer be edited or deleted."
-      redirect_to @ca and return 
+      redirect_to :back and return 
     end
   end
   def require_faculty
       unless (current_user.faculty) || (current_user.admin)
       flash[:notice] = "You must be a faculty member to access content areas."
-      redirect_to :back 
+      redirect_to :back and return 
       end
   end
  def require_owner
       @ca = ContentArea.find(params[:id])
       unless (current_user == @ca.creator) || (current_user.admin)
       flash[:notice] = "You must be the owner to modify this content area."
-      redirect_to @ca 
+      redirect_to :back and return 
       end
   end
 end
