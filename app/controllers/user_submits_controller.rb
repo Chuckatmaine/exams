@@ -49,6 +49,15 @@ class UserSubmitsController < ApplicationController
     #@user_submit.exam_id = @examid
     respond_to do |format|
       if @user_submit.save
+        @user_submit.exam.locked = 1
+        @user_submit.exam.questions.each do |useq|
+          useq.locked = 1
+          useq.answers.each do |uqa|
+            uqa.locked = 1
+            uqa.save
+          end
+        end
+        
         format.html { redirect_to exams_url, notice: 'User submit was successfully created.' }
         format.json { render json: @user_submit, status: :created, location: @user_submit }
       else

@@ -95,7 +95,6 @@ class QuestionsController < ApplicationController
     @courses = Course.where :department_id => current_user.department_id
     @levels = Level.where :department_id => current_user.department_id
     @content_areas = ContentArea.where :department_id => current_user.department_id
-    @question.value = 1
      respond_to do |format|
       if @question.save
         @question.reload
@@ -106,7 +105,9 @@ class QuestionsController < ApplicationController
            a.save
           end
         end
-       format.html { redirect_to questions_url, notice: 'Question was successfully created.' }
+         #redirect_to :action => 'edit', notice: 'Question was successfully created.'
+        format.html { render action: "show"} 
+        flash[:notice] = "Question was successfully created - Click Edit to add more answers"
         format.json { render json: @question, status: :created, location: @question }
       else
         format.html { render action: "new" }
