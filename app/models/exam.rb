@@ -21,7 +21,7 @@ class Exam < ActiveRecord::Base
   accepts_nested_attributes_for :exam_content_areas
   accepts_nested_attributes_for :exam_levels, :reject_if => lambda {|a| a[:name].blank? }, :allow_destroy => true
   validates :title, :course, :presence => true
-  validates :question_count, :numericality => { :only_integer => true, :greater_than => 0, :less_than_or_equal_to => 500 }
+  #validates :question_count, :numericality => { :only_integer => true, :greater_than => 0, :less_than_or_equal_to => 500 }
  
  def generate
     @qtmp = 0 # flag that content areas matched
