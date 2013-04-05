@@ -95,7 +95,7 @@ class QuestionsController < ApplicationController
     @courses = Course.where :department_id => current_user.department_id
     @levels = Level.where :department_id => current_user.department_id
     @content_areas = ContentArea.where :department_id => current_user.department_id
-     respond_to do |format|
+#     respond_to do |format|
       if @question.save
         @question.reload
         @question.answers.each do |a| 
@@ -105,15 +105,19 @@ class QuestionsController < ApplicationController
            a.save
           end
         end
-         #redirect_to :action => 'edit', notice: 'Question was successfully created.'
-        format.html { render action: "show"} 
+        redirect_to(edit_question_path(@question))
+        #format.html { render action: "show"} 
         flash[:notice] = "Question was successfully created - Click Edit to add more answers"
-        format.json { render json: @question, status: :created, location: @question }
+        #format.json { render json: @question, status: :created, location: @question }
       else
+        flash[:notice] = "Question was not created!!! "
+        respond_to do |format|
         format.html { render action: "new" }
         format.json { render json: @question.errors, status: :unprocessable_entity }
+        end
+        #redirect_to :back
       end
-    end
+#   end
   end
 
   # PUT /questions/1
