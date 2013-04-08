@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Question:</b>
+  <%= @question_level.question_id %>
+</p>
+
+<p>
+  <b>Level:</b>
+  <%= @question_level.level_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_question_level_path(@question_level) %> |
+<%= link_to 'Back', question_levels_path %>

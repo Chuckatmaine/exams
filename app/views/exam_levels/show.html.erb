@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Exam:</b>
+  <%= @exam_level.exam_id %>
+</p>
+
+<p>
+  <b>Level:</b>
+  <%= @exam_level.level_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_exam_level_path(@exam_level) %> |
+<%= link_to 'Back', exam_levels_path %>
