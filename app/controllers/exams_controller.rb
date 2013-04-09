@@ -107,6 +107,7 @@ class ExamsController < ApplicationController
   # POST /exams.json
   def take
     @exam = Exam.includes(:questions, :answers).find(params[:id])
+    @exam_start = Time.zone.now
      
     if @user_submit = UserSubmit.includes(:user_answers).find(:first, :conditions =>{:user_id => current_user.id, :exam_id => @exam.id}) && !@exam.retake
       # @user_submit.user_answers = UserAnswer.where(:user_id => current_user, :question_answer_id => @exam.question_answer)
@@ -114,6 +115,7 @@ class ExamsController < ApplicationController
       @user_submit = UserSubmit.new
       @user_submit.user = current_user    
       @user_submit.locked = 0
+      @user_submit.exam_start = @exam_start
     end
     @uahash = Hash.new
     @user_submit.user_answers.each do |ua|

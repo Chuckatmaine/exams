@@ -96,4 +96,9 @@ class Exam < ActiveRecord::Base
     grade = ((grade.to_f / self.question_count.to_f) * 100)
     return(grade)
   end
+  def question_average
+     self.exam_questions.each do |eq|
+
+     end 
+  end
 end

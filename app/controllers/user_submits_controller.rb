@@ -48,8 +48,10 @@ class UserSubmitsController < ApplicationController
     @user_submit.user = current_user
     #@user_submit.exam_id = @examid
     respond_to do |format|
+      @user_submit.locked = 1
       if @user_submit.save
         @user_submit.exam.locked = 1
+        @user_submit.exam.save
         @user_submit.exam.questions.each do |useq|
           useq.locked = 1
           useq.answers.each do |uqa|
