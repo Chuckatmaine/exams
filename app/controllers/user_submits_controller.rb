@@ -40,11 +40,12 @@ class UserSubmitsController < ApplicationController
 
   # POST /user_submits
   # POST /user_submits.json
-  def create
+  def update
     params[:user_submit][:user_answers_attributes].each do |key,value|
       params[:user_submit][:user_answers_attributes][key] = params[:user_submit][:user_answers_attributes][key].merge(:user_id => current_user.id)
     end
-    @user_submit = UserSubmit.new(params[:user_submit])
+    @user_submit = UserSubmit.find(params[:id])
+    @user_submit.update_attributes(params[:user_submit])
     @user_submit.user = current_user
     #@user_submit.exam_id = @examid
     respond_to do |format|
@@ -72,22 +73,22 @@ class UserSubmitsController < ApplicationController
 
   # PUT /user_submits/1
   # PUT /user_submits/1.json
-  def update
-    params[:user_submit][:user_answers_attributes].each do |key,value|
-      params[:user_submit][:user_answers_attributes][key] = params[:user_submit][:user_answers_attributes][key].merge(:user_id => current_user.id)
-    end
-    @user_submit = UserSubmit.find(params[:id])
-
-    respond_to do |format|
-      if @user_submit.update_attributes(params[:user_submit])
-        format.html { redirect_to @user_submit, notice: 'User submit was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @user_submit.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+#  def update
+#    params[:user_submit][:user_answers_attributes].each do |key,value|
+#      params[:user_submit][:user_answers_attributes][key] = params[:user_submit][:user_answers_attributes][key].merge(:user_id => current_user.id)
+#    end
+#    @user_submit = UserSubmit.find(params[:id])
+#
+#    respond_to do |format|
+#      if @user_submit.update_attributes(params[:user_submit])
+#        format.html { redirect_to @user_submit, notice: 'User submit was successfully updated.' }
+#        format.json { head :no_content }
+#      else
+#        format.html { render action: "edit" }
+#        format.json { render json: @user_submit.errors, status: :unprocessable_entity }
+#      end
+#    end
+#  end
 
  def display
     @user_submit = UserSubmit.find(params[:id])

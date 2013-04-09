@@ -15,6 +15,7 @@ class ExamsController < ApplicationController
       @exams = Exam.includes(:users).where("available = ? and start_date <= ? and end_date >= ?", true, Time.zone.now, Time.zone.now)
 #    logger.debug "\n\n *** \n\n Exams in index " + @exams.inspect + " ********* \n"
     end
+    UserSubmit.where(:user_id => current_user.id, :user_answers_count => false).delete_all
 
 #    logger.debug "\n\n *** \n\n Exams in index " + @exams.inspect + " ********* \n"
     respond_to do |format|
@@ -62,7 +63,7 @@ class ExamsController < ApplicationController
   end
   def mygrade
     @exam = Exam.find(params[:id])
-    @user_submit = UserSubmit.includes(:user_answers, :question_answers).find(:first, :conditions =>{:user_id => current_user.id, :exam_id => @exam.id})
+    @user_submit = UserSubmit.includes(:user_answers, :question_answers).find(:last, :conditions =>{:user_id => current_user.id, :exam_id => @exam.id, :locked => true})
     if @user_submit.nil?
      flash[:notice] = "You have not yet taken this exam." 
      redirect_to :back
@@ -107,7 +108,7 @@ class ExamsController < ApplicationController
   # POST /exams.json
   def take
     @exam = Exam.includes(:questions, :answers).find(params[:id])
-    @exam_start = Time.zone.now
+    @exam_start = Time.now
      
     if @user_submit = UserSubmit.includes(:user_answers).find(:first, :conditions =>{:user_id => current_user.id, :exam_id => @exam.id}) && !@exam.retake
       # @user_submit.user_answers = UserAnswer.where(:user_id => current_user, :question_answer_id => @exam.question_answer)
@@ -115,13 +116,14 @@ class ExamsController < ApplicationController
       @user_submit = UserSubmit.new
       @user_submit.user = current_user    
       @user_submit.locked = 0
-      @user_submit.exam_start = @exam_start
+      @user_submit.exam = @exam
     end
     @uahash = Hash.new
     @user_submit.user_answers.each do |ua|
     @uahash[ua.question_answer_id] = ua.id
     end
 
+    @user_submit.save!
     @questions = @exam.questions.sort_by {rand() }
      respond_to do |format|
       format.html # take.html.erb
@@ -207,7 +209,7 @@ class ExamsController < ApplicationController
       redirect_to :back  
       return(0)
     end
-    now = DateTime.current
+    now = Time.zone.now
     if  now < @exam.start_date || now > @exam.end_date
       flash[:notice] = "Exam " + @exam.title + " is only available from: " + @exam.start_date.to_s + " to: " + @exam.end_date.to_s + " Now: " + now.to_s
       redirect_to :back

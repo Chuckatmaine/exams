@@ -9,6 +9,8 @@
   <%= @exam.level %>
   <br>  Current User: <%= current_user.username %>
   <br>  Your grade for this exam: <%= @grade.round(2) %>%</center>
+  <br>  Start time for this exam: <%= @user_submit.created_at %></center>
+  <br>  Total time for this exam: <%= distance_of_time_in_words @user_submit.created_at, @user_submit.updated_at %></center>
 <% if @exam.show_results %>
   <p>
     <b>Question Count:</b>

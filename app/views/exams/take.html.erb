@@ -10,13 +10,11 @@
       </ul>
     </div>
    <% end %>
-   <% exam_start = Time.zone.now %>
  <center> <b>Exam Title:</b>
   <%= @exam.title %>
   <br>  <b>This exam is intended for students in course:</b>
   <%= @exam.course.name %>
   <br>  Created by: <%= @exam.creator.username %></center>
-<% @user_submit.exam_start = Time.now %>
 <p>
 <b>The Learning Levels for this exam:</b>
 <% @exam.levels.each do |ll| %>
@@ -34,7 +32,7 @@
   <%= @exam.question_count %>
 </p>
 <b>You must select all correct answers for each question.</b>
-<br><b>Exam start time = <%= exam_start %> </b>
+<br><b>Exam start time = <%= @user_submit.created_at %> </b>
 <p>
 <% @questions.sort {rand} %>
    <% i = 0 %>
@@ -56,8 +54,6 @@
      </div>
   <% end %> 
   <br>
-  <%= f.hidden_field :exam_id, :value => @exam.id %>
-  <%= f.hidden_field :exam_start, :value => Time.zone.now %>
 <% end %>
  <div class="actions">
     <%= f.submit %>
