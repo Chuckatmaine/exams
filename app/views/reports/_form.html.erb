@@ -1,0 +1,73 @@
+<%= form_for(@report) do |f| %>
+  <% if @report.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@report.errors.count, "error") %> prohibited this report from being saved:</h2>
+
+      <ul>
+      <% @report.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :rundate %><br />
+    <%= f.datetime_select :rundate %>
+  </div>
+  <div class="field">
+    <%= f.label :creator %><br />
+    <%= f.number_field :creator %>
+  </div>
+  <div class="field">
+    <%= f.label :department %><br />
+    <%= f.number_field :department %>
+  </div>
+  <div class="field">
+    <%= f.label :exam_mean %><br />
+    <%= f.text_field :exam_mean %>
+  </div>
+  <div class="field">
+    <%= f.label :exam_median %><br />
+    <%= f.text_field :exam_median %>
+  </div>
+  <div class="field">
+    <%= f.label :low_score %><br />
+    <%= f.text_field :low_score %>
+  </div>
+  <div class="field">
+    <%= f.label :high_score %><br />
+    <%= f.text_field :high_score %>
+  </div>
+  <div class="field">
+    <%= f.label :kr20 %><br />
+    <%= f.text_field :kr20 %>
+  </div>
+  <div class="field">
+    <%= f.label :variance %><br />
+    <%= f.text_field :variance %>
+  </div>
+  <div class="field">
+    <%= f.label :sd %><br />
+    <%= f.text_field :sd %>
+  </div>
+  <div class="field">
+    <%= f.label :sem %><br />
+    <%= f.text_field :sem %>
+  </div>
+  <div class="field">
+    <%= f.label :p_value %><br />
+    <%= f.text_field :p_value %>
+  </div>
+  <div class="field">
+    <%= f.label :mean_p %><br />
+    <%= f.text_field :mean_p %>
+  </div>
+  <div class="field">
+    <%= f.label :pbi %><br />
+    <%= f.text_field :pbi %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Report:</b>
+  <%= @report_question_answer.report_id %>
+</p>
+
+<p>
+  <b>Question answer:</b>
+  <%= @report_question_answer.question_answer_id %>
+</p>
+
+<p>
+  <b>Count:</b>
+  <%= @report_question_answer.count %>
+</p>
+
+
+<%= link_to 'Edit', edit_report_question_answer_path(@report_question_answer) %> |
+<%= link_to 'Back', report_question_answers_path %>

@@ -1,0 +1,45 @@
+<h1>Reports Exam List</h1>
+Generate a report from an exam in the list below
+<table>
+  <tr>
+    <th>Title:</th>
+    <th>Creator:</th>
+    <th>Course:</th>
+    <th>Available From:</th>
+    <th>Available To:</th>
+    <th>Taken Count:</th>
+    <th>Last Reported:</th>
+  </tr>
+
+<% @exams.each do |exam| %>
+  <% report = Report.where(:exam_id => exam).last %>
+  <tr class="<%= cycle("oddrow","evenrow") -%>
+    <span style="color:<%= cycle("green", "blue", :name => "colors") -%>">
+  <% if current_user.admin || current_user.faculty %>
+    <% @taken_count = UserSubmit.where(:exam_id => exam.id).count %>
+  <% else %>
+    <% @taken_count = UserSubmit.where(:exam_id => exam.id, :user_id => current_user.id).count %>
+  <% end %>
+    <td><center><%= exam.title %></center></td>
+    <td><%= exam.creator.username %></td>
+    <td><%= exam.course.name %></td>
+    <td><%= exam.start_date%></td>
+    <td><%= exam.end_date %></td>
+    <td><center><%= @taken_count %></center></td>
+    <% if report %>
+      <td><%= report.rundate %>
+    <%  else %>
+      <td>Never</td>
+    <% end %>
+    <% if current_user.faculty || current_user.admin %>
+     <td><%= link_to 'Show Exam', exam %></td>
+     <% if exam.locked && @taken_count > 0 %>
+       <td><%= link_to 'Run Report', run_report_path(exam) %></td>
+     <% end %>
+    <% end %>
+  </span>
+  </tr>
+<% end %>
+</table>
+
+<br />

@@ -1,0 +1,2 @@
+module ReportQuestionHelper
+end

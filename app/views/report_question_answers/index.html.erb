@@ -1,0 +1,27 @@
+<h1>Listing report_question_answers</h1>
+
+<table>
+  <tr>
+    <th>Report</th>
+    <th>Question answer</th>
+    <th>Count</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @report_question_answers.each do |report_question_answer| %>
+  <tr>
+    <td><%= report_question_answer.report_id %></td>
+    <td><%= report_question_answer.question_answer_id %></td>
+    <td><%= report_question_answer.count %></td>
+    <td><%= link_to 'Show', report_question_answer %></td>
+    <td><%= link_to 'Edit', edit_report_question_answer_path(report_question_answer) %></td>
+    <td><%= link_to 'Destroy', report_question_answer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Report question answer', new_report_question_answer_path %>

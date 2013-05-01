@@ -1,0 +1,46 @@
+<h1>Listing reports</h1>
+
+<table>
+  <tr>
+    <th>Rundate</th>
+    <th>Exam</th>
+    <th>Creator</th>
+    <th>Department</th>
+    <th>Mean</th>
+    <th>Median</th>
+    <th>Low Score</th>
+    <th>High Score</th>
+    <th>KR20</th>
+    <th>Variance</th>
+    <th>Standard Deviation</th>
+    <th>SEM</th>
+    <th>Mean P</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @reports.each do |report| %>
+  <tr><center>
+    <td><center><%= report.rundate %></td>
+    <td><center><%= report.exam.title %></td>
+    <td><center><%= report.creator.username %></td>
+    <td><center><%= report.department.name %></td>
+    <td><center><%= report.exam_mean %></td>
+    <td><center><%= report.exam_median %></td>
+    <td><center><%= report.low_score %></td>
+    <td><center><%= report.high_score %></td>
+    <td><center><%= report.kr20 %></td>
+    <td><center><%= report.variance %></td>
+    <td><center><%= report.sd %></td>
+    <td><center><%= report.sem %></td>
+    <td><center><%= report.mean_p %></td>
+    <td><%= link_to 'Show', report %></td>
+    <td><%= link_to 'Destroy', report, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Report', examlist_reports_path %>

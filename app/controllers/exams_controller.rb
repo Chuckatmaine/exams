@@ -15,7 +15,6 @@ class ExamsController < ApplicationController
       @exams = Exam.includes(:users).where("available = ? and start_date <= ? and end_date >= ?", true, Time.zone.now, Time.zone.now)
 #    logger.debug "\n\n *** \n\n Exams in index " + @exams.inspect + " ********* \n"
     end
-    UserSubmit.where(:user_id => current_user.id, :user_answers_count => false).delete_all
 
 #    logger.debug "\n\n *** \n\n Exams in index " + @exams.inspect + " ********* \n"
     respond_to do |format|
@@ -61,35 +60,6 @@ class ExamsController < ApplicationController
       format.json { render json: @exam }
     end
   end
-  def mygrade
-    @exam = Exam.find(params[:id])
-    @user_submit = UserSubmit.includes(:user_answers, :question_answers).find(:last, :conditions =>{:user_id => current_user.id, :exam_id => @exam.id, :locked => true})
-    if @user_submit.nil?
-     flash[:notice] = "You have not yet taken this exam." 
-     redirect_to :back
-    else
-     submit = @user_submit
-     @grade = @exam.calc_grade(submit)
-     respond_to do |format|
-      format.html # mygrade.html.erb
-      format.json { render json: @exam }
-    end
-    end
-  end
-  def allgrades
-    @exam = Exam.find(params[:id])
-    @users_submit = UserSubmit.includes(:user_answers, :question_answers).find(:all, :conditions =>{:exam_id => @exam.id})
-  logger.debug "\n\n *** \n\n User submit. \n\n" + @users_submit.inspect + "\n\n ********* \n"
-    if @users_submit.empty?
-     flash[:notice] = "No one has yet taken exam: " + @exam.title 
-     redirect_to :back
-    else
-      respond_to do |format|
-        format.html # allgrades.html.erb
-        format.json { render json: @exam }
-      end
-    end
-  end
   # GET /exams/1/edit
   def edit
     @exam = Exam.find(params[:id])
@@ -111,12 +81,18 @@ class ExamsController < ApplicationController
     @exam_start = Time.now
      
     if @user_submit = UserSubmit.includes(:user_answers).find(:first, :conditions =>{:user_id => current_user.id, :exam_id => @exam.id}) && !@exam.retake
+      logger.debug "\n\n *** \n\n If . \n\n" + @user_submit.inspect + "\n\n ********* \n"
+      @user_submit.take_count = UserSubmit.where(:user_id => current_user.id, :exam_id => @exam.id).count
       # @user_submit.user_answers = UserAnswer.where(:user_id => current_user, :question_answer_id => @exam.question_answer)
     else
+      logger.debug "\n\n *** \n\n Else. \n\n" + @user_submit.inspect + "\n\n ********* \n"
       @user_submit = UserSubmit.new
       @user_submit.user = current_user    
       @user_submit.locked = 0
       @user_submit.exam = @exam
+      @user_submit.take_count = UserSubmit.where(:user_id => current_user.id, :exam_id => @exam.id).where(:user_answers_count != 0  ).count
+      @user_submit.increment!(:take_count)
+      
     end
     @uahash = Hash.new
     @user_submit.user_answers.each do |ua|
@@ -129,6 +105,8 @@ class ExamsController < ApplicationController
       format.html # take.html.erb
       format.json { render json: @exam }
     end
+     @exam.calc_grade(@user_submit)
+     @user_submit.save!
   end
   def create
     @exam = Exam.new(params[:exam])

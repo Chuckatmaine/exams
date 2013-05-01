@@ -1,0 +1,21 @@
+<h1>Listing report_questions</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @report_questions.each do |report_question| %>
+  <tr>
+    <td><%= link_to 'Show', report_question %></td>
+    <td><%= link_to 'Edit', edit_report_question_path(report_question) %></td>
+    <td><%= link_to 'Destroy', report_question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Report question', new_report_question_path %>

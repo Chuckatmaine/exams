@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  exam: 1
+  report: 1
+
+two:
+  exam: 1
+  report: 1

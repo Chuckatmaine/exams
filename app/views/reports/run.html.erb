@@ -1,0 +1,97 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Rundate:</b>
+  <%= @report.rundate %>
+</p>
+
+<p>
+  <b>Creator:</b>
+  <%= @report.creator.username %>
+</p>
+
+<p>
+  <b>Exam :</b>
+  <%= @report.exam.title %>
+</p>
+
+<p>
+  <b>Department:</b>
+  <%= @report.department.name %>
+</p>
+
+<p>
+  <b>Exam Question Count:</b>
+  <%= @report.qcount %>
+</p>
+
+<p>
+  <b>Exam mean:</b>
+  <%= @report.exam_mean.round(2) %>
+</p>
+
+<p>
+  <b>Exam median:</b>
+  <%= @report.exam_median.round(2)  %>
+</p>
+
+<p>
+  <b>Low score:</b>
+  <%= @report.low_score.round(2)  %>
+</p>
+
+<p>
+  <b>High score:</b>
+  <%= @report.high_score.round(2)  %>
+</p>
+
+<p>
+  <b>Range:</b>
+  <%= @report.range.round(2)  %>
+</p>
+
+<p>
+  <b>Kr20:</b>
+  <%= @report.kr20.round(2)  %>
+</p>
+
+<p>
+  <b>Variance:</b>
+  <%= @report.variance.round(2)  %>
+</p>
+
+<p>
+  <b>Standard Deviation:</b>
+  <%= @report.sd.round(2)  %>
+</p>
+
+<p>
+  <b>Sem:</b>
+  <%= @report.sem.round(2)  %>
+</p>
+
+
+<p>
+  <b>Mean PValue:</b>
+  <%= (@report.mean_p.round(2) * 100).to_i  %>
+</p>
+<b> Questions for this exam </b>
+<p>
+<table>
+  <tr>
+    <td>Question</td>
+    <td>Correct Count</td>
+    <td>Incorrect Count</td>
+    <td>PValue</td>
+  </tr>
+  <% @report.report_questions.each do |rq| %>
+  <tr>
+    <td> <b><%= rq.question.name %></b></td>
+    <td><center><%= rq.correct %></center></td>
+    <td><center><%= rq.incorrect %></center></td>
+    <td><center><%= (rq.pvalue.round(2) * 100).to_i %></center></td>
+  <% end %>
+  </tr>
+</table>
+<%= link_to 'Edit', edit_report_path(@report) %> |
+<%= link_to 'Back', reports_path %>

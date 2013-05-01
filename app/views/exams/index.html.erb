@@ -2,19 +2,21 @@
 
 <table>
   <tr>
-    <th>Title :</th>
-    <th>Creator :</th>
-    <th>Course :</th>
-    <th>Available :</th>
-    <th>Questions :</th>
-    <th>Available From :</th>
-    <th>Available To :</th>
-    <th>Taken Count :</th>
-    <th>Show Results :</th>
+    <th>Title:</th>
+    <th>Creator:</th>
+    <th>Course:</th>
+    <th>Available:</th>
+    <th>Questions:</th>
+    <th>Available From:</th>
+    <th>Available To:</th>
+    <th>Taken Count:</th>
+    <th>Show Results:</th>
     <th>Retake</th>
   </tr>
 
 <% @exams.each do |exam| %>
+  <tr class="<%= cycle("oddrow","evenrow") -%>>
+    <span style="color:<%= cycle("green", "blue", :name => "colors") -%>">
   <% if current_user.admin || current_user.faculty %>
     <% @taken_count = UserSubmit.where(:exam_id => exam.id).count %>
   <% else %>
@@ -32,11 +34,9 @@
     <td><center><%= exam.show_results %></center></td>
     <td><center><%= exam.retake %></center></td>
     <td><%= link_to 'Take exam', take_exam_path(exam) %></td>
+    <td><%= link_to 'My Grade', mygrade_report_path(exam) %></td>
     <% if current_user.faculty || current_user.admin %>
      <td><%= link_to 'Show', exam %></td>
-     <td><%= link_to 'Edit', edit_exam_path(exam) %></td>
-     <td><%= link_to 'Destroy', exam, confirm: 'Are you sure?', method: :delete %></td>
-     <td><%= link_to 'All Grades', allgrades_exam_path(exam) %></td>
      <% if exam.retake %>
        <td><%= link_to 'Disable Retakes', enable_retake_exam_path(exam) %></td>
      <% else %>
@@ -52,8 +52,12 @@
      <% else %>
        <td><%= link_to 'Set Available', availability_exam_path(exam) %></td>
      <%end %>
+     <% unless exam.locked %>
+       <td><%= link_to 'Edit', edit_exam_path(exam) %></td>
+       <td><%= link_to 'Destroy', exam, confirm: 'Are you sure?', method: :delete %></td>
+     <% end %>
     <% end %>
-     <td><%= link_to 'My Grade', mygrade_exam_path(exam) %></td>
+  </span>
   </tr>
 <% end %>
 </table>

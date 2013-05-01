@@ -1,0 +1,33 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  rundate: 2013-04-16 07:43:24
+  creator: 1
+  department: 1
+  exam_mean: 1.5
+  exam_median: 1.5
+  low_score: 1.5
+  high_score: 1.5
+  kr20: 1.5
+  variance: 1.5
+  sd: 1.5
+  sem: 1.5
+  p_value: 1.5
+  mean_p: 1.5
+  pbi: 1.5
+
+two:
+  rundate: 2013-04-16 07:43:24
+  creator: 1
+  department: 1
+  exam_mean: 1.5
+  exam_median: 1.5
+  low_score: 1.5
+  high_score: 1.5
+  kr20: 1.5
+  variance: 1.5
+  sd: 1.5
+  sem: 1.5
+  p_value: 1.5
+  mean_p: 1.5
+  pbi: 1.5

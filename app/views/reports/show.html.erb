@@ -1,0 +1,70 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Report for Exam :</b>
+  <%= @report.exam.title %>
+</p>
+
+
+<p>
+  <b>Rundate:</b>
+  <%= @report.rundate %>
+</p>
+
+<p>
+  <b>Report Creator :</b>
+  <%= @report.creator.username %>
+  <b> - </b>
+  <%= @report.department.name %>
+</p>
+
+<p>
+  <b>Exam mean:</b>
+  <%= @report.exam_mean.round(2) %>
+</p>
+
+<p>
+  <b>Exam median:</b>
+  <%= @report.exam_median.round(2)  %>
+</p>
+
+<p>
+  <b>Low score:</b>
+  <%= @report.low_score.round(2)  %>
+</p>
+
+<p>
+  <b>High score:</b>
+  <%= @report.high_score.round(2)  %>
+</p>
+
+<p>
+  <b>Kr20:</b>
+  <%= @report.kr20.round(2)  %>
+</p>
+
+<p>
+  <b>Variance:</b>
+  <%= @report.variance.round(2)  %>
+</p>
+
+<p>
+  <b>Sd:</b>
+  <%= @report.sd.round(2)  %>
+</p>
+
+<p>
+  <b>Sem:</b>
+  <%= @report.sem.round(2)  %>
+</p>
+
+<p>
+<p>
+  <b>Mean p:</b>
+  <%= @report.mean_p %>
+</p>
+
+<p>
+
+<%= link_to 'Edit', edit_report_path(@report) %> |
+<%= link_to 'Back', reports_path %>

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  report_id: 1
+  question_answer_id: 1
+  count: 1
+
+two:
+  report_id: 1
+  question_answer_id: 1
+  count: 1

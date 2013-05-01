@@ -1,4 +1,29 @@
 Exams::Application.routes.draw do
+  resources :report_question_answers
+
+
+  resources :report_questions
+
+
+  resources :create_report_questions
+
+
+  resources :exam_reports
+
+
+  resources :reports do
+    collection do
+      get 'examlist'
+      get 'mygrade'
+    end
+    member do
+      get 'run'
+      get 'mygrade'
+      get 'allgrades'
+    end
+  end
+
+
   resources :question_levels
 
 
@@ -56,6 +81,7 @@ Exams::Application.routes.draw do
   get "/exams/:id/show_results", :to => 'exams#show_results', :as => :show_results_exam
   get "/exams/:id/allgrades", :to => 'exams#allgrades', :as => :allgrades_exam
   get "/user_submits/:id/display", :to => 'user_submits#display', :as => :display_user_submits
+#  get "/examlist", :to => 'reports#examlist', :as => :examlist_reports
 
 
 

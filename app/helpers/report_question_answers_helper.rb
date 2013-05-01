@@ -1,0 +1,2 @@
+module ReportQuestionAnswersHelper
+end

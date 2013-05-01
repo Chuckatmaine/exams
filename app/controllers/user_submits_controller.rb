@@ -41,7 +41,7 @@ class UserSubmitsController < ApplicationController
   # POST /user_submits
   # POST /user_submits.json
   def update
-    params[:user_submit][:user_answers_attributes].each do |key,value|
+    self.params[:user_submit][:user_answers_attributes].each do |key,value|
       params[:user_submit][:user_answers_attributes][key] = params[:user_submit][:user_answers_attributes][key].merge(:user_id => current_user.id)
     end
     @user_submit = UserSubmit.find(params[:id])
@@ -49,7 +49,8 @@ class UserSubmitsController < ApplicationController
     @user_submit.user = current_user
     #@user_submit.exam_id = @examid
     respond_to do |format|
-      @user_submit.locked = 1
+    @user_submit.locked = 1
+    @user_submit.grade = @user_submit.exam.calc_grade(@user_submit)
       if @user_submit.save
         @user_submit.exam.locked = 1
         @user_submit.exam.save

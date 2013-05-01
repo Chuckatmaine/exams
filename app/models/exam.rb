@@ -12,6 +12,7 @@ class Exam < ActiveRecord::Base
   has_many :user_answers, :through => :user_submits
   has_many :users, :through => :user_submits
   has_many :users, :through => :exam_users
+  has_many :reports
   belongs_to :course
   belongs_to :creator, :class_name => "User"
   belongs_to :department
@@ -82,9 +83,6 @@ class Exam < ActiveRecord::Base
         @correct = @correct + 1 # number of correct answers for this question
         @ua = submit.user_answers.where(:question_answer_id => qa).each do |m| # match user answers to correct answers
         @count = @count + 1 #correct answer matched count
-    #logger.debug "\n\n *** \n\n Correct Answer " + qa.inspect + " ********* \n"
-    #logger.debug "\n\n *** \n\n User Answer " + m.inspect + " ********* \n"
-    #logger.debug "\n\n *** \n\n Count " + @count.inspect + " ********* \n"
         end
       end
     end # end answers
@@ -93,12 +91,8 @@ class Exam < ActiveRecord::Base
     #logger.debug "\n\n *** \n\n grade " + grade.inspect + " ********* \n"
     end
     end #end questions
-    grade = ((grade.to_f / self.question_count.to_f) * 100)
-    return(grade)
-  end
-  def question_average
-     self.exam_questions.each do |eq|
-
-     end 
+    submit.grade = ((grade.to_f / self.question_count.to_f) * 100)
+    submit.save
+    return(submit.grade)
   end
 end
