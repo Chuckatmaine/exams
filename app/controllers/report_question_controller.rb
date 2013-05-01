@@ -53,3 +53,4 @@ class ReportQuestionController < ApplicationController
       end
     end
   end
+end
