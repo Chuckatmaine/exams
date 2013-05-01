@@ -3,7 +3,7 @@ class ReportQuestionController < ApplicationController
   # GET /report_question.json
   def index
     @report_question = ReportQuestion.all
-
+ 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @report_question }
