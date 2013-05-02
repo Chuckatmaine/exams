@@ -51,6 +51,7 @@ class ReportsController < ApplicationController
     #@report.report_questions.build
     @report.exam = Exam.find(params[:id])
     #allgrades 
+    @gradess = UserSubmit.where(:exam_id => @report.exam).includes(:grades)
     @report.rundate = Time.zone.now
     @report.creator = current_user
     @report.department = @report.creator.department

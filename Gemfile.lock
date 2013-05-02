@@ -49,6 +49,8 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    highcharts-rails (3.0.1)
+      railties (>= 3.1)
     hike (1.2.2)
     i18n (0.6.4)
     journey (1.0.4)
@@ -122,6 +124,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2.2)
   devise
   devise_cas_authenticatable
+  highcharts-rails
   jquery-rails
   mysql2
   rails (= 3.2.11)

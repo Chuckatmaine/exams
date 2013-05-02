@@ -1,5 +1,33 @@
 <p id="notice"><%= notice %></p>
 
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    new Highcharts.Chart({
+    chart: {
+      renderTo: "grades_chart"
+      type: 'column'
+    },
+    title: {
+      text: "Grades by user"
+    },
+    xAxis: {
+       min: 0,
+       max: 100,
+      type: 'Grade'
+    },
+    yAxis: {
+      title: {
+        test: 'Number of Students'
+      }
+    },
+    series: [{
+     name: 'Students',
+     data: <%= @grades %> 
+     }]
+   });
+ });
+ </script>
+ <div id="grades_chart" style="width:560px; height:300px;"></div>
 <p>
   <b>Rundate:</b>
   <%= @report.rundate %>
@@ -66,7 +94,7 @@
 </p>
 
 <p>
-  <b>Sem:</b>
+  <b>SEM:</b>
   <%= @report.sem.round(2)  %>
 </p>
 
