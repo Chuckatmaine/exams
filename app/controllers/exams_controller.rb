@@ -15,7 +15,7 @@ class ExamsController < ApplicationController
       @exams = Exam.includes(:users).where("available = ? and start_date <= ? and end_date >= ?", true, Time.zone.now, Time.zone.now)
 #    logger.debug "\n\n *** \n\n Exams in index " + @exams.inspect + " ********* \n"
     end
-
+    UserSubmit.delete_all("user_answers_count < 1") # Clear all test takes not really started - click take then leave
 #    logger.debug "\n\n *** \n\n Exams in index " + @exams.inspect + " ********* \n"
     respond_to do |format|
       format.html # index.html.erb

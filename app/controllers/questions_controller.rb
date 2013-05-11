@@ -39,6 +39,7 @@ class QuestionsController < ApplicationController
     @answer = @question.answers.build
     @answer.department_id = current_user.department_id
     @answer.creator = current_user
+    @objectives = Objective.all
     question_answer.answer = @answer
     if current_user.admin 
       @courses = Course.all
@@ -83,6 +84,7 @@ class QuestionsController < ApplicationController
     @courses = Course.where :department_id => current_user.department_id
     @levels = Level.where :department_id => current_user.department_id
     @content_areas = ContentArea.where :department_id => current_user.department_id
+    @objectives = Objective.all
     #logger.debug "\n*****\n\n#{@question.question_answers.inspect}\n\n*****\n"
   end
 
@@ -95,6 +97,7 @@ class QuestionsController < ApplicationController
     @courses = Course.where :department_id => current_user.department_id
     @levels = Level.where :department_id => current_user.department_id
     @content_areas = ContentArea.where :department_id => current_user.department_id
+    @objectives = Objective.all
 #     respond_to do |format|
       if @question.save
         @question.reload

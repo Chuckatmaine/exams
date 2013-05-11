@@ -1,5 +1,5 @@
 class Question < ActiveRecord::Base
-  attr_accessible :answer_id, :creator_id, :course_id, :learning_objective, :category_id, :is_correct, :level, :name, :value, :available, :locked
+  attr_accessible :answer_id, :creator_id, :course_id, :objective_id, :learning_objective, :category_id, :is_correct, :level, :name, :value, :available, :locked
   has_many :question_answers
   has_many :exam_questions
   has_many :exams, :through => :exam_questions
@@ -12,6 +12,7 @@ class Question < ActiveRecord::Base
   has_many :courses, :through => :question_courses
   has_many :user_answers, :through => :question_answers 
   has_many :report_questions
+  belongs_to :objective
   belongs_to :creator, :class_name => "User"
   belongs_to :department
   accepts_nested_attributes_for :courses, :content_areas, :levels, :question_levels, :exam_questions, :question_content_areas, :question_courses,:reject_if => lambda {|a| a[:name].blank? }, :allow_destroy => true
@@ -20,6 +21,6 @@ class Question < ActiveRecord::Base
  
   accepts_nested_attributes_for :answers, :reject_if => lambda {|a| a[:name].blank? }, :allow_destroy => true
   attr_accessible :name, :level, :level_ids, :value, :creator, :content_areas, :answer, :rationale, :courses, :question_answers, :exam_questions, :question_content_areas, :question_courses, :question_courses_attributes, :question_content_areas_attributes, :answers_attributes, :content_area_ids, :course_ids, :question_answers_attributes
-  validates :name, :learning_objective, :question_courses, :content_areas, :presence => true
+  validates :name, :objective_id, :question_courses, :content_areas, :presence => true
 
 end

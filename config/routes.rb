@@ -1,4 +1,7 @@
 Exams::Application.routes.draw do
+  resources :objectives
+
+
   resources :report_question_answers
 
 

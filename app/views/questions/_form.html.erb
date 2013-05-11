@@ -16,8 +16,8 @@
     <%= f.text_area :name, :rows => 4, :cols => 60%>
   </div>
   <div class="field">
-    <%= f.label "Learning Objective " %><br />
-    <%= f.text_area :learning_objective, :rows => 4, :cols => 60%>
+    Select a learning Objective:
+    <%= f.collection_select :objective_id, @objectives, :id, :name, include_blank: true %></br>
   </div>
    <ul>
      Select the course(s) that this question can be used for:

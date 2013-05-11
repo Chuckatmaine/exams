@@ -17,10 +17,12 @@ class Report < ActiveRecord::Base
     len = scores.count
     submits = self.exam.user_submits.order("grade asc").all
     submits.each do |submit|
-      calc_grade(submit)
+      unless submit.grade > 0
+        calc_grade(submit)
+      end
     end
+    self.take_count = len
     self.qcount = self.exam.exam_questions.count
-  #logger.debug "\n\n *** \n\n User Submits " + submits.inspect + " ********* \n"
     total = scores.sum  
     self.exam_mean = total / len
     high = scores.last 
@@ -38,23 +40,25 @@ class Report < ActiveRecord::Base
     self.variance = sumofdif / scores.count
     self.sd = Math.sqrt(self.variance)
     
- # logger.debug "\n\n *** \n\n scores " + scores.inspect + " ********* \n"
    self.exam_median = scores.count % 2 == 1 ?  scores[len/2] : (scores[len/2 - 1] + scores[len/2]) / 2 
-   self.mean_p = self.report_questions.sum(:pvalue) / self.report_questions.count
+   mean_p = self.report_questions.sum(:pvalue) / self.qcount
+   self.mean_p = mean_p
    self.save
   end
 
  def calc_grade(submit)
+   logger.debug "\n\n *** \n\n Question " + submit.inspect + " ********* \n"
     grade = 0
     submit.exam.exam_questions.each do |tq|
     unless report_question = ReportQuestion.find(:first, :conditions =>{:report_id => self, :question_id => tq.question_id})
         report_question = ReportQuestion.new
         report_question.question = tq.question  
         report_question.report = self
+   puts report_question
+   logger.debug "\n\n *** \n\n Report Question " + report_question.inspect + " ********* \n"
         report_question.save!
         self.save
     end
-   logger.debug "\n\n *** \n\n Question " + tq.inspect + " ********* \n"
     #tq.correct = 0
   # logger.debug "\n\n *** \n\n Question " + tq.inspect + " ********* \n"
     @uacount = submit.question_answers.where(:question_id => tq.question).count # how many user_answers for this question
@@ -76,21 +80,23 @@ class Report < ActiveRecord::Base
       end
       ua =  UserAnswer.where(:question_answer_id => qa).first
     rqa.count = UserAnswer.where(:question_answer_id => qa).count
-    logger.debug "\n\n *** \n\n User Answer " + ua.inspect + " ********* \n"
+    logger.debug "\n\n ** \n\n User Answer " + ua.inspect + " ********* \n"
         rqa.save!  
     end # end answers
     if @count == @correct && @count == @uacount # must have correct matching count and no extra answers
       grade = grade + 1
       report_question.increment(:correct)   
       #report_question.correct = grade
-#    logger.debug "\n\n *** \n\n grade " + report_question.inspect + " ********* \n"
+    logger.debug "\n\n *** \n\n grade " + report_question.inspect + "  " + grade.inspect + " ********* \n"
     else
       report_question.increment(:incorrect)   
     end
     answered = report_question.correct.to_f + report_question.incorrect.to_f
     report_question.pvalue = report_question.correct.to_f / answered
     report_question.save! 
+   logger.debug "\n\n *** \n\n Report_Question " + report_question.inspect + " ********* \n"
     end #end questions
+    logger.debug "\n\n *** \n\n grade2 "  + grade.inspect + " ********* \n"
     submit.grade = ((grade.to_f / submit.exam.question_count.to_f) * 100)
     submit.save
     return(submit.grade)

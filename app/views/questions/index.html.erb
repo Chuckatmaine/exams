@@ -4,7 +4,7 @@
   <tr>
     <th><u>Question Text</u></th>
     <th><u>Learning Levels</u></th>
-    <th><u>Learning Objectives</u></th>
+    <th><u>Learning Objective</u></th>
     <th><u>Content Areas</u></th>
     <th><u>Author</u></th>
     <th><u>Available</u></th>
@@ -28,13 +28,13 @@
     <% end %>
   <tr>
     <td><%= question.name %></td>
-    <td><%= @levellist %></td>
-    <td><%= question.learning_objective %></td>
-    <td><%= @calist %></td>
-    <td><%= question.creator.username %></td>
-    <td><%= question.available %></td>
-    <td><%= question.locked %></td>
-    <td><%= question.department.name %></td>
+    <td><center><%= @levellist %></td></center>
+    <td><center><%= question.objective.name %></td></center>
+    <td><center><%= @calist %></td></center>
+    <td><center><%= question.creator.username %></td></center>
+    <td><center><%= question.available %></td></center>
+    <td><center><%= question.locked %></td></center>
+    <td><center><%= question.department.name %></td></center>
     <td><%= @courselist %></td>
    <td><%= link_to 'Show', question %></td>
     <td><%= link_to 'Edit', edit_question_path(question) %></td>

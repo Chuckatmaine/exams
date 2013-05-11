@@ -21,7 +21,7 @@
    <% @exam.exam_questions.each do |tq| %>
     Creator: <%= tq.question.creator.username %>
      <br> 
-     Learning Objective: <%= tq.question.learning_objective %>
+     Learning Objective: <%= tq.question.objective.name %>
      <br>
       Question: <%= tq.question.name %> 
      <br>
@@ -51,5 +51,5 @@
     <% end %>
     </ul>
 <% end %>
-<%= link_to 'Edit', edit_exam_path(@exam) %> |
+<%= link_to 'Edit', edit_exam_path(@exam) %> 
 <%= link_to 'Back', exams_path %>
