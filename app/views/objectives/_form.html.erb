@@ -1,0 +1,27 @@
+<%= form_for(@objective) do |f| %>
+  <% if @objective.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@objective.errors.count, "error") %> prohibited this objective from being saved:</h2>
+
+      <ul>
+      <% @objective.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label "Learning Objective" %><br />
+    <%= f.text_area :name, :rows => 4, :cols => 60 %>
+  </div>
+  <div class="field">
+  <%= f.label :creator_id %> : <%= current_user.username %><br />
+  </div>
+  <div class="field">
+    <%= f.label :department_id %> : <%= current_user.department.name %><br />
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

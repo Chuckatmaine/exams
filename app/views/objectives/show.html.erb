@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+<b>Learning Objective:</b></br>
+  <%= @objective.name %>
+</p>
+
+<p>
+  <b>Creator:</b>
+  <%= @objective.creator.username %>
+</p>
+
+<p>
+  <b>Department:</b>
+  <%= @objective.department.name %>
+</p>
+
+<p>
+  <b>Locked:</b>
+  <%= @objective.locked %>
+</p>
+
+
+<%= link_to 'Edit', edit_objective_path(@objective) %> |
+<%= link_to 'Back', objectives_path %>
