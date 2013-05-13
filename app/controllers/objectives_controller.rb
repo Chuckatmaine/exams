@@ -1,4 +1,5 @@
 class ObjectivesController < ApplicationController
+  before_filter :require_unlocked, :only => [:edit, :destroy]
   # GET /objectives
   # GET /objectives.json
   def index
@@ -79,6 +80,14 @@ class ObjectivesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to objectives_url }
       format.json { head :no_content }
+    end
+  end
+  def require_unlocked
+    @objective = Objective.find(params[:id])
+    if @objective.locked 
+      flash[:notice] = "Objective " + @objective.name + " has been administered and is therefore locked. It can no longer be edited or deleted."
+      redirect_to :back 
+      return(0)
     end
   end
 end

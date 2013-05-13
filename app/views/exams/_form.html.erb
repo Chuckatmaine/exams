@@ -23,20 +23,20 @@
   <% end %>
   </ul>
    <ul>
-    Select all content areas appropriate for this exam:
+    Select all Content Areas appropriate for this exam:
   <% @content_areas.each do |ca| %>
       <li> <%= check_box_tag "exam[content_area_ids][]", ca.id, @exam.content_areas.include?(ca) %> <%=ca.name%> </li>
   <% end %>
   </ul>
  <div class="field">
-    <%= f.label "Number of questions to include in this exam" %><br />
+    <%= f.label "Number of Questions to include in this exam" %><br />
     <%= f.number_field :question_count %>
   </div>
-<div class="field">
+<!--  <div class="field">
     <%= f.check_box :retake %>
     <%= f.label "Allow students to take this exam more than once" %>
   </div>
-
+  -->
 <div class="field">
   <%= f.check_box :available %>
     <%= f.label "Available - Enables exam between start and end dates/times" %>

@@ -14,8 +14,8 @@
 <% @objectives.each do |objective| %>
   <tr>
     <td><%= objective.name %></td>
-    <td><%= objective.creator_id %></td>
-    <td><%= objective.department_id %></td>
+    <td><%= objective.creator.username %></td>
+    <td><%= objective.department.name %></td>
     <td><%= objective.locked %></td>
     <td><%= link_to 'Show', objective %></td>
     <td><%= link_to 'Edit', edit_objective_path(objective) %></td>

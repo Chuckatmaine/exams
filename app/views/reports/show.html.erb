@@ -17,6 +17,10 @@
   <b> - </b>
   <%= @report.department.name %>
 </p>
+<p>
+  <b>Number of students that have taken this exam:</b> [
+  <%= @report.take_count %> ]
+</p>
 
 <p>
   <b>Exam mean:</b>
@@ -49,12 +53,12 @@
 </p>
 
 <p>
-  <b>Sd:</b>
+  <b>Standard Deviation:</b>
   <%= @report.sd.round(2)  %>
 </p>
 
 <p>
-  <b>Sem:</b>
+  <b>Standard Error of the Mean (SEM):</b>
   <%= @report.sem.round(2)  %>
 </p>
 
@@ -62,7 +66,7 @@
   <b>Mean PValue:</b>
   <%= (@report.mean_p.round(2) * 100).to_i  %>
 </p>
-<b> Questions for this exam </b>
+<b> Questions for this exam: </b>
 <p>
 <table>
   <tr>

@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   has_many :courses, :foreign_key => 'creator_id'
   has_many :categories, :foreign_key => 'creator_id'
   has_many :user_submits
+  has_many :client_needs, :foreign_key => 'creator_id' 
   belongs_to :department
 
   # Setup accessible (or protected) attributes for your model

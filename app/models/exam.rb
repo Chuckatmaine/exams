@@ -73,6 +73,8 @@ class Exam < ActiveRecord::Base
   def calc_grade(submit)
     grade = 0
     self.exam_questions.each do |tq|
+    tq.question.objective.locked = 1  
+    tq.question.objective.save
   # logger.debug "\n\n *** \n\n Question " + tq.inspect + " ********* \n"
     @uacount = submit.question_answers.where(:question_id => tq.question).count # how many user_answers for this question
     @correct = 0
