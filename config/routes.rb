@@ -1,4 +1,10 @@
 Exams::Application.routes.draw do
+  resources :subcategories
+
+
+  resources :client_needs
+
+
   resources :objectives
 
 
